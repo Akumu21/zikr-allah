@@ -2,7 +2,8 @@
   "name": "ذكر ودعاء | تطبيق إسلامي",
   "short_name": "ذكر ودعاء",
   "description": "تطبيق إسلامي شامل للأدعية والقبلة وعداد الذكر",
-  "start_url": "/",
+  "start_url": "/zikr-allah/",
+  "scope": "/zikr-allah/",
   "display": "standalone",
   "background_color": "#080c10",
   "theme_color": "#0d1117",
@@ -14,21 +15,26 @@
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["lifestyle", "religion"],
-  "screenshots": [
-    {
-      "src": "screenshot1.png",
-      "sizes": "390x844",
-      "type": "image/png"
-    }
-  ]
+  "categories": ["lifestyle", "religion"]
 }
