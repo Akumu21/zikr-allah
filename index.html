@@ -351,10 +351,11 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
   <header class="header">
     <button class="header-btn" onclick="toggleMode()" id="mode-btn">🌙</button>
     <div class="header-center">
-      <div class="header-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-      <div class="header-subtitle">ذكر ودعاء وقبلة</div>
+      <div class="header-bismillah" id="app-title">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+      <div class="header-subtitle" id="app-sub">ذكر ودعاء وقبلة</div>
     </div>
     <button class="header-btn" id="notif-btn" onclick="requestNotifPermission()" title="تفعيل الإشعارات">🔔</button>
+    <button class="header-btn" onclick="openSettings()" title="Settings">⚙️</button>
   </header>
 
   <!-- Content -->
@@ -363,12 +364,12 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
     <!-- PRAYER TIMES -->
     <div class="tab active" id="tab-prayer">
       <div class="sec-head">
-        <div class="sec-title">مواقيت الصلاة</div>
+        <div class="sec-title" id="prayer-title">مواقيت الصلاة</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div class="next-prayer-banner" id="next-banner">
         <div>
-          <div class="npb-label">الصلاة القادمة</div>
+          <div class="npb-label" id="next-prayer-label">الصلاة القادمة</div>
           <div class="npb-name" id="next-name">---</div>
         </div>
         <div class="npb-time" id="next-time">--:--</div>
@@ -376,29 +377,29 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
       <div class="prayer-date" id="prayer-date"></div>
       <div class="prayer-location" id="prayer-loc">📍 اضغط لتحديد موقعك</div>
       <div class="prayer-grid" id="prayer-grid">
-        <div class="prayer-item"><div class="p-name">الفجر</div><div class="p-time" id="pt-fajr">--:--</div></div>
-        <div class="prayer-item"><div class="p-name">الشروق</div><div class="p-time" id="pt-sunrise">--:--</div></div>
-        <div class="prayer-item"><div class="p-name">الظهر</div><div class="p-time" id="pt-dhuhr">--:--</div></div>
-        <div class="prayer-item"><div class="p-name">العصر</div><div class="p-time" id="pt-asr">--:--</div></div>
-        <div class="prayer-item"><div class="p-name">المغرب</div><div class="p-time" id="pt-maghrib">--:--</div></div>
-        <div class="prayer-item"><div class="p-name">العشاء</div><div class="p-time" id="pt-isha">--:--</div></div>
+        <div class="prayer-item"><div class="p-name" id="pn-fajr">الفجر</div><div class="p-time" id="pt-fajr">--:--</div></div>
+        <div class="prayer-item"><div class="p-name" id="pn-sunrise">الشروق</div><div class="p-time" id="pt-sunrise">--:--</div></div>
+        <div class="prayer-item"><div class="p-name" id="pn-dhuhr">الظهر</div><div class="p-time" id="pt-dhuhr">--:--</div></div>
+        <div class="prayer-item"><div class="p-name" id="pn-asr">العصر</div><div class="p-time" id="pt-asr">--:--</div></div>
+        <div class="prayer-item"><div class="p-name" id="pn-maghrib">المغرب</div><div class="p-time" id="pt-maghrib">--:--</div></div>
+        <div class="prayer-item"><div class="p-name" id="pn-isha">العشاء</div><div class="p-time" id="pt-isha">--:--</div></div>
       </div>
-      <button class="prayer-find-btn" onclick="fetchPrayerTimes()">📍 تحديد مواقيت الصلاة</button>
+      <button class="prayer-find-btn" id="find-prayer-btn" onclick="fetchPrayerTimes()">📍 تحديد مواقيت الصلاة</button>
     </div>
 
     <!-- QIBLA -->
     <div class="tab" id="tab-qibla">
       <div class="sec-head">
-        <div class="sec-title">اتجاه القبلة</div>
+        <div class="sec-title" id="qibla-title">اتجاه القبلة</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div class="qibla-wrap">
         <div class="compass-out">
           <div class="compass-in">
-            <span class="dir dir-n">ش</span>
-            <span class="dir dir-s">ج</span>
-            <span class="dir dir-e">ق</span>
-            <span class="dir dir-w">غ</span>
+            <span class="dir dir-n" id="dir-n">ش</span>
+            <span class="dir dir-s" id="dir-s">ج</span>
+            <span class="dir dir-e" id="dir-e">ق</span>
+            <span class="dir dir-w" id="dir-w">غ</span>
             <div class="needle-g" id="needle-g">
               <div class="needle-n"></div>
               <div class="needle-s"></div>
@@ -409,10 +410,10 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
         </div>
         <div class="card qibla-info-card">
           <div class="qibla-deg" id="qibla-deg">---°</div>
-          <div class="qibla-sub">اتجاه القبلة من موقعك</div>
+          <div class="qibla-sub" id="qibla-from-label">اتجاه القبلة من موقعك</div>
           <div class="qibla-coords" id="qibla-coords">اضغط على الزر لتحديد الموقع</div>
         </div>
-        <button class="find-btn" onclick="findQibla()">📍 تحديد اتجاه القبلة</button>
+        <button class="find-btn" id="find-qibla-btn" onclick="findQibla()">📍 تحديد اتجاه القبلة</button>
         <div class="qibla-status" id="qibla-status"></div>
       </div>
     </div>
@@ -420,7 +421,7 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
     <!-- DUA -->
     <div class="tab" id="tab-dua">
       <div class="sec-head">
-        <div class="sec-title">الأدعية المأثورة</div>
+        <div class="sec-title" id="dua-title">الأدعية المأثورة</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div id="dua-cat-cards">
@@ -448,7 +449,7 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
     <!-- DHIKR -->
     <div class="tab" id="tab-dhikr">
       <div class="sec-head">
-        <div class="sec-title">عداد الذكر</div>
+        <div class="sec-title" id="dhikr-title">عداد الذكر</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div class="dhikr-tabs">
@@ -474,18 +475,18 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
           <div class="c-of" id="c-of">من 33</div>
         </div>
       </div>
-      <button class="tap-btn" onclick="tapDhikr()">اضغط للذكر</button>
+      <button class="tap-btn" id="tap-dhikr-btn" onclick="tapDhikr()">اضغط للذكر</button>
       <div class="dhikr-acts">
-        <button class="act-btn" onclick="undoDhikr()">↩ تراجع</button>
-        <button class="act-btn" onclick="resetDhikr()">↺ إعادة</button>
+        <button class="act-btn" id="undo-btn" onclick="undoDhikr()">↩ تراجع</button>
+        <button class="act-btn" id="reset-btn" onclick="resetDhikr()">↺ إعادة</button>
       </div>
-      <div class="total-box">مجموع الذكر: <span id="total-num">0</span></div>
+      <div class="total-box"><span id="total-label">مجموع الذكر:</span> <span id="total-num">0</span></div>
     </div>
 
     <!-- 99 NAMES -->
     <div class="tab" id="tab-names">
       <div class="sec-head">
-        <div class="sec-title">أسماء الله الحسنى</div>
+        <div class="sec-title" id="names-title">أسماء الله الحسنى</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div class="names-grid" id="names-grid"></div>
@@ -496,24 +497,66 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
   <!-- Bottom Nav -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="showTab('prayer',this)">
-      <img src="prayer-icon.png" class="ni" style="width:26px;height:26px;object-fit:contain;filter:opacity(0.5);" onerror="this.style.display='none';this.nextSibling.style.display='inline'"><span class="ni" style="display:none">🛐</span><span>الصلاة</span>
+      <img src="prayer-icon.png" class="ni" style="width:26px;height:26px;object-fit:contain;filter:opacity(0.5);" onerror="this.style.display='none';this.nextSibling.style.display='inline'"><span class="ni" style="display:none">🛐</span><span id="nav-prayer">الصلاة</span>
     </button>
     <button class="nav-item" onclick="showTab('qibla',this)">
-      <span class="ni">🕋</span><span>القبلة</span>
+      <span class="ni">🕋</span><span id="nav-qibla">القبلة</span>
     </button>
     <button class="nav-item" onclick="showTab('dua',this)">
-      <span class="ni">🤲</span><span>الأدعية</span>
+      <span class="ni">🤲</span><span id="nav-dua">الأدعية</span>
     </button>
     <button class="nav-item" onclick="showTab('dhikr',this)">
-      <span class="ni">📿</span><span>الذكر</span>
+      <span class="ni">📿</span><span id="nav-dhikr">الذكر</span>
     </button>
     <button class="nav-item" onclick="showTab('names',this)">
-      <span class="ni">✨</span><span>الأسماء</span>
+      <span class="ni">✨</span><span id="nav-names">الأسماء</span>
     </button>
   </nav>
 
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- SETTINGS PANEL -->
+<div id="settings-panel" style="display:none; position:fixed; inset:0; z-index:8888; background:rgba(0,0,0,0.7);" onclick="if(event.target===this)closeSettings()">
+  <div id="settings-box" style="position:absolute; bottom:0; left:0; right:0; background:var(--dark2); border-radius:24px 24px 0 0; padding:24px 20px 40px; max-height:85vh; overflow-y:auto;">
+    <div style="text-align:center; font-family:'Amiri',serif; font-size:1.3rem; color:var(--gold); margin-bottom:20px;" id="settings-title-el">⚙️ الإعدادات</div>
+
+    <!-- Theme -->
+    <div style="margin-bottom:16px;">
+      <div style="color:var(--text-muted); font-size:0.9rem; margin-bottom:8px;" id="st-theme-label">السمة</div>
+      <div style="display:flex; gap:10px;">
+        <button id="st-dark" onclick="stSelectTheme('dark')" style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--gold); background:var(--dark3); color:var(--text); font-family:'Amiri',serif; cursor:pointer;" id="st-btn-dark">🌙 ليلي</button>
+        <button id="st-light" onclick="stSelectTheme('light')" style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--border); background:var(--dark3); color:var(--text); font-family:'Amiri',serif; cursor:pointer;">☀️ نهاري</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-top:10px; padding:10px; background:var(--dark3); border-radius:10px;">
+        <span style="font-size:0.9rem; color:var(--text);" id="st-auto-label">تلقائي حسب الوقت</span>
+        <label class="ob-toggle"><input type="checkbox" id="st-auto-cb" onchange="stToggleAuto(this)"><span class="ob-slider-sw"></span></label>
+      </div>
+    </div>
+
+    <!-- Font -->
+    <div style="margin-bottom:16px;">
+      <div style="color:var(--text-muted); font-size:0.9rem; margin-bottom:8px;" id="st-font-label">حجم النص</div>
+      <div style="background:var(--dark3); border-radius:12px; padding:14px;">
+        <div style="font-family:'Scheherazade New',serif; font-size:2rem; color:var(--text); text-align:center; margin-bottom:8px;" id="st-font-preview">لَا إِلَهَ إِلَّا اللَّهُ</div>
+        <input type="range" min="1.4" max="2.8" step="0.1" value="2.0" id="st-ar-sl" oninput="stFontPreview()" style="width:100%; accent-color:var(--gold);">
+        <input type="range" min="0.8" max="1.4" step="0.05" value="1.0" id="st-nm-sl" oninput="stFontPreview()" style="width:100%; accent-color:var(--gold); margin-top:8px;">
+      </div>
+    </div>
+
+    <!-- Language -->
+    <div style="margin-bottom:20px;">
+      <div style="color:var(--text-muted); font-size:0.9rem; margin-bottom:8px;" id="st-lang-label">اللغة</div>
+      <div style="display:flex; gap:10px;">
+        <button id="st-lang-ar" onclick="stSelectLang('ar')" style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--gold); background:var(--dark3); color:var(--text); font-family:'Amiri',serif; cursor:pointer;">🇸🇦 عربي</button>
+        <button id="st-lang-tr" onclick="stSelectLang('tr')" style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--border); background:var(--dark3); color:var(--text); font-family:'Amiri',serif; cursor:pointer;">🇹🇷 Türkçe</button>
+        <button id="st-lang-en" onclick="stSelectLang('en')" style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--border); background:var(--dark3); color:var(--text); font-family:'Amiri',serif; cursor:pointer;">🇬🇧 English</button>
+      </div>
+    </div>
+
+    <button onclick="saveSettings()" style="width:100%; padding:14px; background:linear-gradient(135deg,var(--green),var(--gold-dark)); color:#fff; border:none; border-radius:14px; font-family:'Amiri',serif; font-size:1.1rem; cursor:pointer;" id="st-save-btn">حفظ</button>
+  </div>
+</div>
 
 <!-- ONBOARDING -->
 <div id="onboarding" style="display:none">
@@ -565,6 +608,308 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 </div>
 
 <script>
+// ===== SETTINGS PANEL =====
+let stTheme = 'dark';
+let stLang = 'ar';
+
+function openSettings() {
+  stTheme = localStorage.getItem('ob-theme') || 'dark';
+  stLang = localStorage.getItem('ob-lang') || 'ar';
+  const arSize = localStorage.getItem('ob-ar-size') || '2.0';
+  const nmSize = localStorage.getItem('ob-nm-size') || '1.0';
+  const auto = localStorage.getItem('ob-auto-theme') === 'true';
+
+  document.getElementById('st-ar-sl').value = arSize;
+  document.getElementById('st-nm-sl').value = nmSize;
+  document.getElementById('st-auto-cb').checked = auto;
+  document.getElementById('st-font-preview').style.fontSize = arSize + 'rem';
+
+  stSelectTheme(stTheme, true);
+  stSelectLang(stLang, true);
+
+  const t = window._t || i18n.ar;
+  document.getElementById('settings-title-el').textContent = '⚙️ ' + t.settingsTitle;
+  document.getElementById('st-theme-label').textContent = t.settingsTheme;
+  document.getElementById('st-auto-label').textContent = t.settingsAuto;
+  document.getElementById('st-font-label').textContent = t.settingsFont;
+  document.getElementById('st-lang-label').textContent = t.settingsLang;
+  document.getElementById('st-save-btn').textContent = t.settingsSave;
+
+  document.getElementById('settings-panel').style.display = 'block';
+}
+
+function closeSettings() {
+  document.getElementById('settings-panel').style.display = 'none';
+}
+
+function stSelectTheme(t, silent) {
+  stTheme = t;
+  ['dark','light'].forEach(k => {
+    const btn = document.getElementById('st-' + k);
+    if (btn) btn.style.borderColor = k === t ? 'var(--gold)' : 'var(--border)';
+  });
+}
+
+function stToggleAuto(cb) {
+  document.getElementById('st-dark').style.opacity = cb.checked ? '0.4' : '1';
+  document.getElementById('st-light').style.opacity = cb.checked ? '0.4' : '1';
+}
+
+function stFontPreview() {
+  const ar = document.getElementById('st-ar-sl').value;
+  document.getElementById('st-font-preview').style.fontSize = ar + 'rem';
+}
+
+function stSelectLang(l, silent) {
+  stLang = l;
+  ['ar','tr','en'].forEach(k => {
+    const btn = document.getElementById('st-lang-' + k);
+    if (btn) btn.style.borderColor = k === l ? 'var(--gold)' : 'var(--border)';
+  });
+}
+
+function saveSettings() {
+  const arSize = document.getElementById('st-ar-sl').value;
+  const nmSize = document.getElementById('st-nm-sl').value;
+  const auto = document.getElementById('st-auto-cb').checked;
+  localStorage.setItem('ob-theme', stTheme);
+  localStorage.setItem('ob-lang', stLang);
+  localStorage.setItem('ob-ar-size', arSize);
+  localStorage.setItem('ob-nm-size', nmSize);
+  localStorage.setItem('ob-auto-theme', auto);
+  closeSettings();
+  applySettings();
+}
+
+// ===== LANGUAGE SYSTEM =====
+const i18n = {
+  ar: {
+    appTitle: 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ',
+    appSub: 'ذكر ودعاء وقبلة',
+    prayerTitle: 'مواقيت الصلاة',
+    qiblaTitle: 'اتجاه القبلة',
+    duaTitle: 'الأدعية المأثورة',
+    dhikrTitle: 'عداد الذكر',
+    namesTitle: 'أسماء الله الحسنى',
+    navPrayer: 'الصلاة',
+    navQibla: 'القبلة',
+    navDua: 'الأدعية',
+    navDhikr: 'الذكر',
+    navNames: 'الأسماء',
+    findPrayer: '📍 تحديد مواقيت الصلاة',
+    findQibla: '📍 تحديد اتجاه القبلة',
+    tapDhikr: 'اضغط للذكر',
+    undo: '↩ تراجع',
+    reset: '↺ إعادة',
+    totalDhikr: 'مجموع الذكر:',
+    nextPrayer: 'الصلاة القادمة',
+    locating: '⏳ جارٍ تحديد الموقع...',
+    locError: '⚠️ يرجى السماح بالوصول للموقع من الإعدادات',
+    locError2: '⚠️ تعذر تحديد الموقع، حاول مجدداً',
+    locError3: '⚠️ انتهت مهلة تحديد الموقع',
+    locFail: '⚠️ تعذر جلب المواقيت',
+    qiblaLocating: '⏳ جارٍ تحديد موقعك...',
+    qiblaSuccess: '✅ حرّك هاتفك ببطء لضبط البوصلة',
+    sensorError: '⚠️ يرجى السماح بالوصول للمستشعر',
+    qiblaFrom: 'اتجاه القبلة من موقعك',
+    lat: 'خط العرض', lng: 'خط الطول',
+    backBtn: '← رجوع',
+    settingsTitle: 'الإعدادات',
+    settingsTheme: 'السمة',
+    settingsDark: '🌙 ليلي',
+    settingsLight: '☀️ نهاري',
+    settingsAuto: 'تلقائي حسب الوقت',
+    settingsFont: 'حجم النص',
+    settingsLang: 'اللغة',
+    settingsSave: 'حفظ',
+    prayerNames: ['الفجر','الشروق','الظهر','العصر','المغرب','العشاء'],
+    qiblaPrompt: 'اضغط على الزر لتحديد الموقع',
+    dirs: ['ش','ج','ق','غ'],
+    locPrompt: '📍 اضغط لتحديد موقعك',
+    dir: 'rtl', lang: 'ar'
+  },
+  tr: {
+    appTitle: 'Bismillahirrahmanirrahim',
+    appSub: 'Zikir, Dua ve Kıble',
+    prayerTitle: 'Namaz Vakitleri',
+    qiblaTitle: 'Kıble Yönü',
+    duaTitle: 'Dualar',
+    dhikrTitle: 'Zikir Sayacı',
+    namesTitle: "Allah'ın 99 İsmi",
+    navPrayer: 'Namaz',
+    navQibla: 'Kıble',
+    navDua: 'Dua',
+    navDhikr: 'Zikir',
+    navNames: 'Esma',
+    findPrayer: '📍 Namaz Vakitlerini Bul',
+    findQibla: '📍 Kıble Yönünü Bul',
+    tapDhikr: 'Zikir için dokun',
+    undo: '↩ Geri Al',
+    reset: '↺ Sıfırla',
+    totalDhikr: 'Toplam Zikir:',
+    nextPrayer: 'Sıradaki Namaz',
+    locating: '⏳ Konum belirleniyor...',
+    locError: '⚠️ Lütfen konum iznini ayarlardan verin',
+    locError2: '⚠️ Konum tespit edilemedi, tekrar deneyin',
+    locError3: '⚠️ Konum isteği zaman aşımına uğradı',
+    locFail: '⚠️ Vakitler alınamadı',
+    qiblaLocating: '⏳ Konumunuz belirleniyor...',
+    qiblaSuccess: '✅ Kıbleye yönelmek için telefonu döndürün',
+    sensorError: '⚠️ Lütfen sensör iznini ayarlardan verin',
+    qiblaFrom: 'Konumunuzdan Kıble Yönü',
+    lat: 'Enlem', lng: 'Boylam',
+    backBtn: '← Geri',
+    settingsTitle: 'Ayarlar',
+    settingsTheme: 'Tema',
+    settingsDark: '🌙 Gece',
+    settingsLight: '☀️ Gündüz',
+    settingsAuto: 'Otomatik (vakite göre)',
+    settingsFont: 'Yazı Boyutu',
+    settingsLang: 'Dil',
+    settingsSave: 'Kaydet',
+    prayerNames: ['Sabah','Güneş','Öğle','İkindi','Akşam','Yatsı'],
+    qiblaPrompt: 'Konumu belirlemek için butona basın',
+    dirs: ['K','G','D','B'],
+    locPrompt: '📍 Konumunuzu belirleyin',
+    dir: 'ltr', lang: 'tr'
+  },
+  en: {
+    appTitle: 'In the Name of Allah',
+    appSub: 'Dhikr, Dua & Qibla',
+    prayerTitle: 'Prayer Times',
+    qiblaTitle: 'Qibla Direction',
+    duaTitle: 'Islamic Supplications',
+    dhikrTitle: 'Dhikr Counter',
+    namesTitle: '99 Names of Allah',
+    navPrayer: 'Prayer',
+    navQibla: 'Qibla',
+    navDua: 'Dua',
+    navDhikr: 'Dhikr',
+    navNames: 'Names',
+    findPrayer: '📍 Find Prayer Times',
+    findQibla: '📍 Find Qibla Direction',
+    tapDhikr: 'Tap for Dhikr',
+    undo: '↩ Undo',
+    reset: '↺ Reset',
+    totalDhikr: 'Total Dhikr:',
+    nextPrayer: 'Next Prayer',
+    locating: '⏳ Locating...',
+    locError: '⚠️ Please allow location access in settings',
+    locError2: '⚠️ Location unavailable, try again',
+    locError3: '⚠️ Location request timed out',
+    locFail: '⚠️ Could not fetch prayer times',
+    qiblaLocating: '⏳ Locating you...',
+    qiblaSuccess: '✅ Slowly rotate your phone to align with Qibla',
+    sensorError: '⚠️ Please allow sensor access in settings',
+    qiblaFrom: 'Qibla Direction from Your Location',
+    lat: 'Lat', lng: 'Lng',
+    backBtn: '← Back',
+    settingsTitle: 'Settings',
+    settingsTheme: 'Theme',
+    settingsDark: '🌙 Dark',
+    settingsLight: '☀️ Light',
+    settingsAuto: 'Auto (time-based)',
+    settingsFont: 'Font Size',
+    settingsLang: 'Language',
+    settingsSave: 'Save',
+    prayerNames: ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'],
+    qiblaPrompt: 'Press the button to set location',
+    dirs: ['N','S','E','W'],
+    locPrompt: '📍 Tap to set your location',
+    dir: 'ltr', lang: 'en'
+  }
+};
+
+function applyLang(lang) {
+  const t = i18n[lang] || i18n['ar'];
+  document.documentElement.lang = t.lang;
+  document.documentElement.dir = t.dir;
+  // Header
+  const appTitle = document.getElementById('app-title');
+  const appSub = document.getElementById('app-sub');
+  if (appTitle) appTitle.textContent = t.appTitle;
+  if (appSub) appSub.textContent = t.appSub;
+  // Section titles
+  const titles = {
+    'prayer-title': t.prayerTitle,
+    'qibla-title': t.qiblaTitle,
+    'dua-title': t.duaTitle,
+    'dhikr-title': t.dhikrTitle,
+    'names-title': t.namesTitle
+  };
+  Object.entries(titles).forEach(([id, txt]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+  // Nav
+  const navIds = {
+    'nav-prayer': t.navPrayer,
+    'nav-qibla': t.navQibla,
+    'nav-dua': t.navDua,
+    'nav-dhikr': t.navDhikr,
+    'nav-names': t.navNames
+  };
+  Object.entries(navIds).forEach(([id, txt]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+  // Buttons
+  const btnIds = {
+    'find-prayer-btn': t.findPrayer,
+    'find-qibla-btn': t.findQibla,
+    'tap-dhikr-btn': t.tapDhikr,
+    'undo-btn': t.undo,
+    'reset-btn': t.reset,
+    'dua-back-btn-el': t.backBtn
+  };
+  Object.entries(btnIds).forEach(([id, txt]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+  // Other
+  const otherIds = {
+    'total-label': t.totalDhikr,
+    'next-prayer-label': t.nextPrayer,
+    'qibla-from-label': t.qiblaFrom
+  };
+  Object.entries(otherIds).forEach(([id, txt]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+  // Compass directions
+  if (t.dirs) {
+    ['n','s','e','w'].forEach((d,i) => {
+      const el = document.getElementById('dir-' + d);
+      if (el) el.textContent = t.dirs[i];
+    });
+  }
+  // Loc prompt
+  const locEl = document.getElementById('prayer-loc');
+  if (locEl && !locEl.textContent.includes('⏳') && !locEl.textContent.includes('⚠️') && !locEl.textContent.includes('°')) {
+    locEl.textContent = t.locPrompt;
+  }
+  // Prayer names
+  const pids = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
+  pids.forEach((id,i) => {
+    const el = document.getElementById('pn-' + id);
+    if (el && t.prayerNames) el.textContent = t.prayerNames[i];
+  });
+  // Qibla prompt
+  const qcoords = document.getElementById('qibla-coords');
+  if (qcoords && qcoords.textContent.indexOf('°') === -1) {
+    qcoords.textContent = t.qiblaPrompt;
+  }
+  // Date locale
+  const dateEl = document.getElementById('prayer-date');
+  if (dateEl) {
+    const today = new Date();
+    const locale = lang === 'ar' ? 'ar-SA' : lang === 'tr' ? 'tr-TR' : 'en-US';
+    dateEl.textContent = today.toLocaleDateString(locale, {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  }
+  window._lang = lang;
+  window._t = t;
+}
+
 // ===== ONBOARDING =====
 let obStep = 1;
 let obTheme = 'dark';
@@ -640,6 +985,7 @@ function applySettings() {
   const auto = localStorage.getItem('ob-auto-theme') === 'true';
   const arSize = localStorage.getItem('ob-ar-size') || '2.0';
   const nmSize = localStorage.getItem('ob-nm-size') || '1.0';
+  const lang = localStorage.getItem('ob-lang') || 'ar';
 
   if (auto) {
     const h = new Date().getHours();
@@ -654,6 +1000,7 @@ function applySettings() {
   document.getElementById('mode-btn').textContent = isLight ? '☀️' : '🌙';
   document.documentElement.style.setProperty('--arabic-font-size', arSize + 'rem');
   document.documentElement.style.setProperty('--normal-font-size', nmSize + 'rem');
+  applyLang(lang);
 }
 
 // ===== DARK/LIGHT MODE =====
@@ -683,8 +1030,9 @@ function toast(msg) {
 // ===== PRAYER TIMES =====
 async function fetchPrayerTimes() {
   const loc = document.getElementById('prayer-loc');
-  loc.textContent = '⏳ جارٍ تحديد الموقع...';
-  if (!navigator.geolocation) { loc.textContent = 'المتصفح لا يدعم تحديد الموقع'; return; }
+  const t = window._t || i18n.ar;
+  loc.textContent = t.locating;
+  if (!navigator.geolocation) { loc.textContent = t.locError; return; }
   navigator.geolocation.getCurrentPosition(async pos => {
     const { latitude: lat, longitude: lng } = pos.coords;
     try {
@@ -711,13 +1059,14 @@ async function fetchPrayerTimes() {
       // Highlight active
       highlightPrayer(t);
     } catch(e) {
-      loc.textContent = '⚠️ تعذر جلب المواقيت';
+      loc.textContent = (window._t||i18n.ar).locFail;
     }
   }, err => {
-    let msg = '⚠️ تعذر الوصول للموقع';
-    if (err.code === 1) msg = '⚠️ يرجى السماح بالوصول للموقع من الإعدادات';
-    else if (err.code === 2) msg = '⚠️ تعذر تحديد الموقع، حاول مجدداً';
-    else if (err.code === 3) msg = '⚠️ انتهت مهلة تحديد الموقع';
+    const _t = window._t || i18n.ar;
+    let msg = _t.locError;
+    if (err.code === 1) msg = _t.locError;
+    else if (err.code === 2) msg = _t.locError2;
+    else if (err.code === 3) msg = _t.locError3;
     loc.textContent = msg;
   }, { timeout: 10000, enableHighAccuracy: true });
 }
@@ -763,7 +1112,9 @@ function highlightPrayer(t) {
 
 // Set today's date
 const today = new Date();
-document.getElementById('prayer-date').textContent = today.toLocaleDateString('ar-SA', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const _initLang = localStorage.getItem('ob-lang') || 'ar';
+const _initLocale = _initLang === 'ar' ? 'ar-SA' : _initLang === 'tr' ? 'tr-TR' : 'en-US';
+document.getElementById('prayer-date').textContent = today.toLocaleDateString(_initLocale, {weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
 // ===== QIBLA =====
 let qiblaAngle = 0;
@@ -784,7 +1135,7 @@ function startCompass() {
     // iOS 13+
     DeviceOrientationEvent.requestPermission().then(state => {
       if (state === 'granted') listenCompass();
-      else document.getElementById('qibla-status').textContent = '⚠️ يرجى السماح بالوصول للمستشعر';
+      else document.getElementById('qibla-status').textContent = (window._t||i18n.ar).sensorError;
     }).catch(() => listenCompass());
   } else {
     listenCompass();
@@ -812,18 +1163,19 @@ function handleOrientation(e) {
 
 function findQibla() {
   const s = document.getElementById('qibla-status');
-  s.textContent = '⏳ جارٍ تحديد موقعك...';
+  const _t = window._t || i18n.ar;
+  s.textContent = _t.qiblaLocating;
   navigator.geolocation.getCurrentPosition(pos => {
     const {latitude:lat, longitude:lng} = pos.coords;
     qiblaAngle = calcQibla(lat, lng);
     document.getElementById('qibla-deg').textContent = Math.round(qiblaAngle)+'°';
-    document.getElementById('qibla-coords').textContent = `خط العرض: ${lat.toFixed(2)}° | خط الطول: ${lng.toFixed(2)}°`;
+    document.getElementById('qibla-coords').textContent = `${_t.lat}: ${lat.toFixed(2)}° | ${_t.lng}: ${lng.toFixed(2)}°`;
     document.getElementById('needle-g').style.transform = `rotate(${qiblaAngle}deg)`;
-    s.textContent = '✅ حرّك هاتفك ببطء لضبط البوصلة';
+    s.textContent = _t.qiblaSuccess;
     startCompass();
   }, err => {
-    let msg = '⚠️ تعذر الوصول للموقع';
-    if (err.code === 1) msg = '⚠️ يرجى السماح بالوصول للموقع من الإعدادات';
+    let msg = _t.locError;
+    if (err.code === 1) msg = _t.locError;
     s.textContent = msg;
   }, { timeout: 10000, enableHighAccuracy: true });
 }
