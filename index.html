@@ -340,7 +340,53 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 
 /* Scrollable categories */
 .dua-cats { overflow-x:auto; flex-wrap:nowrap; justify-content:flex-start; padding-bottom:4px; scrollbar-width:none; }
-.nav-item.active img { filter:opacity(1) !important; }
+.nav-float-space { flex:1; }
+
+/* Floating Dhikr Button */
+.float-dhikr-btn {
+  position: fixed;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c9a84c, #8a6a1f);
+  border: 3px solid rgba(255,255,255,0.15);
+  box-shadow:
+    0 0 0 4px rgba(201,168,76,0.2),
+    0 8px 24px rgba(201,168,76,0.5),
+    0 2px 8px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.float-dhikr-btn:active {
+  transform: translateX(-50%) scale(0.92);
+  box-shadow: 0 4px 12px rgba(201,168,76,0.4);
+}
+.float-dhikr-btn.active {
+  background: linear-gradient(135deg, #e8c97a, #c9a84c);
+  box-shadow:
+    0 0 0 6px rgba(201,168,76,0.3),
+    0 10px 30px rgba(201,168,76,0.6),
+    0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Pulse animasyonu */
+@keyframes float-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(201,168,76,0.2), 0 8px 24px rgba(201,168,76,0.5), 0 2px 8px rgba(0,0,0,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(201,168,76,0.1), 0 8px 24px rgba(201,168,76,0.6), 0 2px 8px rgba(0,0,0,0.4); }
+}
+.float-dhikr-btn { animation: float-pulse 2.5s ease-in-out infinite; }
+.float-dhikr-btn:active { animation: none; }
+
+
 </style>
 </head>
 <body>
@@ -502,16 +548,21 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
     <button class="nav-item" onclick="showTab('qibla',this)">
       <span class="ni">🕋</span><span id="nav-qibla">القبلة</span>
     </button>
+    <!-- Floating buton için boşluk -->
+    <div class="nav-float-space"></div>
     <button class="nav-item" onclick="showTab('dua',this)">
       <span class="ni">🤲</span><span id="nav-dua">الأدعية</span>
-    </button>
-    <button class="nav-item" onclick="showTab('dhikr',this)">
-      <span class="ni">📿</span><span id="nav-dhikr">الذكر</span>
     </button>
     <button class="nav-item" onclick="showTab('names',this)">
       <span class="ni">✨</span><span id="nav-names">الأسماء</span>
     </button>
   </nav>
+
+  <!-- Floating Zikir Butonu -->
+  <button class="float-dhikr-btn" id="float-dhikr" onclick="showTab('dhikr', document.getElementById('float-dhikr'))">
+    <span style="font-size:1.8rem">📿</span>
+    <span id="nav-dhikr" style="font-size:0.6rem; color:#fff; font-family:'Scheherazade New',serif;">الذكر</span>
+  </button>
 
 </div>
 <div class="toast" id="toast"></div>
@@ -1015,8 +1066,13 @@ function toggleMode() {
 function showTab(id, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('float-dhikr').classList.remove('active');
   document.getElementById('tab-' + id).classList.add('active');
-  btn.classList.add('active');
+  if (id === 'dhikr') {
+    document.getElementById('float-dhikr').classList.add('active');
+  } else if (btn && btn.classList && btn.classList.contains('nav-item')) {
+    btn.classList.add('active');
+  }
   document.getElementById('main-content').scrollTop = 0;
 }
 
