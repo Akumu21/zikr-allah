@@ -1,46 +1,60 @@
-const CACHE_NAME = 'dhikr-dua-v2';
-const ASSETS = [
-  '/zikr-allah/',
-  '/zikr-allah/index.html',
-  '/zikr-allah/manifest.json',
-  '/zikr-allah/icon-192.png',
-  '/zikr-allah/icon-512.png'
-];
+// Service Worker - Namaz Vakti Bildirimi
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => e.waitUntil(clients.claim()));
 
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
-      .catch(() => {})
-  );
-  self.skipWaiting();
+// Bildirim tıklanınca uygulamayı aç
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(clients.openWindow('/'));
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
+// Alarm mesajı gelince
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SCHEDULE_PRAYER') {
+    const { prayers, ezanNum, notifOn } = e.data;
+    schedulePrayers(prayers, ezanNum, notifOn);
+  }
 });
 
-self.addEventListener('fetch', e => {
-  // Sadece kendi domain'imizden gelen istekleri handle et
-  if (!e.request.url.startsWith(self.location.origin)) return;
+const timers = [];
 
-  e.respondWith(
-    fetch(e.request)
-      .then(response => {
-        // Geçerli response'u cache'e kaydet
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
-        return response;
-      })
-      .catch(() => {
-        // Network yoksa cache'den sun
-        return caches.match(e.request)
-          || caches.match('/zikr-allah/index.html');
-      })
-  );
-});
+function schedulePrayers(prayers, ezanNum, notifOn) {
+  timers.forEach(t => clearTimeout(t));
+  timers.length = 0;
+
+  const now = Date.now();
+
+  prayers.forEach(p => {
+    const diff = p.time - now;
+    const diff20 = p.time - now - 20 * 60 * 1000;
+
+    // 20 dk önce bildirim
+    if (diff20 > 0 && notifOn) {
+      timers.push(setTimeout(() => {
+        self.registration.showNotification(`⏰ ${p.name}`, {
+          body: `${p.name} vakti 20 dakika sonra - ${p.timeStr}`,
+          icon: '/icon-192.png',
+          badge: '/icon-192.png',
+          vibrate: [200, 100, 200],
+          tag: `prayer-before-${p.key}`
+        });
+      }, diff20));
+    }
+
+    // Tam vakitte bildirim
+    if (diff > 0 && diff < 24 * 60 * 60 * 1000) {
+      timers.push(setTimeout(() => {
+        if (notifOn) {
+          self.registration.showNotification(`🕌 ${p.name} Vakti`, {
+            body: `${p.name} namazı vakti geldi - ${p.timeStr}`,
+            icon: '/icon-192.png',
+            badge: '/icon-192.png',
+            vibrate: [300, 100, 300, 100, 300],
+            tag: `prayer-${p.key}`,
+            renotify: true
+          });
+        }
+      }, diff));
+    }
+  });
+}

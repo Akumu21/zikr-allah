@@ -728,6 +728,50 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 </div>
 
 <script>
+// ===== SERVICE WORKER =====
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    const reg = await navigator.serviceWorker.register('sw.js');
+    console.log('SW registered');
+    window._swReg = reg;
+  } catch(e) {
+    console.log('SW failed:', e);
+  }
+}
+registerSW();
+
+function sendPrayerScheduleToSW(times) {
+  if (!('serviceWorker' in navigator) || !window._swReg) return;
+  const _t = window._t || i18n.ar;
+  const prayerList = [
+    { key: 'Fajr',    name: _t.prayerNames ? _t.prayerNames[0] : 'الفجر' },
+    { key: 'Dhuhr',   name: _t.prayerNames ? _t.prayerNames[2] : 'الظهر' },
+    { key: 'Asr',     name: _t.prayerNames ? _t.prayerNames[3] : 'العصر' },
+    { key: 'Maghrib', name: _t.prayerNames ? _t.prayerNames[4] : 'المغرب' },
+    { key: 'Isha',    name: _t.prayerNames ? _t.prayerNames[5] : 'العشاء' },
+  ];
+
+  const now = new Date();
+  const prayers = prayerList.map(p => {
+    const timeStr = times[p.key];
+    if (!timeStr) return null;
+    const [h, m] = timeStr.split(':').map(Number);
+    const prayerDate = new Date();
+    prayerDate.setHours(h, m, 0, 0);
+    return { key: p.key, name: p.name, timeStr, time: prayerDate.getTime() };
+  }).filter(Boolean);
+
+  navigator.serviceWorker.ready.then(reg => {
+    reg.active.postMessage({
+      type: 'SCHEDULE_PRAYER',
+      prayers,
+      ezanNum: parseInt(localStorage.getItem('ezan-num') || '1'),
+      notifOn: localStorage.getItem('notif-on') !== 'false'
+    });
+  });
+}
+
 // ===== EZAN & BİLDİRİM =====
 let ezanAudio = null;
 let ezanNum = parseInt(localStorage.getItem('ezan-num') || '1');
@@ -765,7 +809,40 @@ function stToggleEzan(cb) {
 
 function stToggleNotif(cb) {
   notifOn = cb.checked;
-  if (cb.checked) requestNotifPermissionSilent();
+  if (cb.checked) {
+    if (!('Notification' in window)) {
+      toast('❌ Bu tarayıcı bildirimleri desteklemiyor');
+      cb.checked = false;
+      notifOn = false;
+      return;
+    }
+    if (Notification.permission === 'denied') {
+      toast('⚠️ Bildirim izni engellendi. Tarayıcı ayarlarından açın.');
+      cb.checked = false;
+      notifOn = false;
+      return;
+    }
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission().then(perm => {
+        if (perm === 'granted') {
+          toast('✅ Bildirimler açıldı!');
+          // Test bildirimi gönder
+          new Notification('🕌 Bildirimler Açık', {
+            body: 'Namaz vakitlerinde bildirim alacaksınız.',
+            icon: 'icon-192.png'
+          });
+        } else {
+          toast('❌ Bildirim izni verilmedi');
+          cb.checked = false;
+          notifOn = false;
+        }
+      });
+    } else {
+      toast('✅ Bildirimler açıldı!');
+    }
+  } else {
+    toast('🔕 Bildirimler kapatıldı');
+  }
 }
 
 async function requestNotifPermissionSilent() {
@@ -915,7 +992,11 @@ function openSettings() {
 
   // Ezan ayarları
   document.getElementById('st-ezan-cb').checked = ezanOn;
-  document.getElementById('st-notif-cb').checked = notifOn;
+  // Bildirim durumu
+  const notifGranted = 'Notification' in window && Notification.permission === 'granted';
+  const notifCb = document.getElementById('st-notif-cb');
+  notifCb.checked = notifOn && notifGranted;
+  if (!notifGranted) notifOn = false;
   stSelectEzanUI(ezanNum);
 
   document.getElementById('settings-panel').style.display = 'block';
@@ -1412,6 +1493,7 @@ async function fetchPrayerTimes() {
       document.getElementById('pt-isha').textContent = t.Isha;
       window._prayerTimes = t;
       schedulePrayerAlarms(t);
+      sendPrayerScheduleToSW(t);
       startPrayerCountdown(t);
       // Konum adını göster
       const timezone = data.data.meta.timezone;
