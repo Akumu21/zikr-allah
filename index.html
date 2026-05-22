@@ -262,18 +262,10 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 .dcat-icon { font-size:1.6rem; line-height:1; }
 .dcat-name { font-family:'Amiri',serif; font-size:1rem; color:#fff; font-weight:700; text-shadow:0 1px 4px rgba(0,0,0,0.8); }
 
-.cat-morning  { background-image:url('morning.png'); }
-.cat-evening  { background-image:url('evening.png'); }
-.cat-night    { background-image:url('night.png'); }
-.cat-food     { background-image:url('food.png'); }
-.cat-mosque   { background-image:url('mosque.png'); }
-.cat-travel   { background-image:url('travel.png'); }
-.cat-wudu     { background-image:url('wudu.png'); }
-.cat-sick     { background-image:url('sick.png'); }
-.cat-marriage { background-image:url('marriage.png'); }
-.cat-toilet   { background-image:url('toilet.png'); }
-.cat-quran    { background-image:url('quran.png'); }
-.cat-all      { background-image:url('all.png'); }
+.cat-morning,.cat-evening,.cat-night,.cat-food,.cat-mosque,.cat-travel,
+.cat-wudu,.cat-sick,.cat-marriage,.cat-toilet,.cat-quran,.cat-all {
+  background-color: var(--dark2);
+}
 
 .dua-cat-card::after {
   content:''; position:absolute; inset:0;
@@ -297,6 +289,23 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 .dua-arabic { font-family:'Amiri',serif; font-size:1.35rem; line-height:2; color:var(--text); text-align:center; margin-bottom:8px; }
 .dua-tr { font-size:0.72rem; color:var(--text-muted); font-style:italic; text-align:center; direction:ltr; margin-bottom:8px; line-height:1.5; }
 .dua-mean { background:rgba(26,94,56,0.1); border:1px solid rgba(39,136,90,0.15); border-radius:8px; padding:7px 10px; font-size:0.78rem; color:#6dbf94; line-height:1.6; }
+
+/* ===== DHIKR STATS ===== */
+.dhikr-stats-bar { display:flex; gap:10px; margin-bottom:12px; }
+.stat-box { flex:1; background:var(--dark2); border:1px solid var(--border); border-radius:14px; padding:10px; text-align:center; }
+.stat-box.stat-main { border-color:var(--gold-dark); }
+.stat-val { font-family:'Amiri',serif; font-size:1.4rem; color:var(--gold); font-weight:bold; }
+.stat-lbl { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+.daily-goal-bar { background:var(--dark2); border:1px solid var(--border); border-radius:14px; padding:12px; margin-bottom:12px; }
+.goal-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.goal-label { font-size:0.85rem; color:var(--text); }
+.goal-nums { font-size:0.85rem; color:var(--gold); font-family:'Amiri',serif; }
+.goal-track { height:8px; background:var(--dark3); border-radius:4px; overflow:hidden; }
+.goal-fill { height:100%; background:linear-gradient(90deg,var(--green),var(--gold)); border-radius:4px; transition:width 0.4s ease; }
+@keyframes num-pop { 0%{transform:scale(1)} 40%{transform:scale(1.35)} 100%{transform:scale(1)} }
+.c-num.pop { animation:num-pop 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes complete-flash { 0%,100%{box-shadow:0 0 0 0 transparent} 50%{box-shadow:0 0 0 12px rgba(201,168,76,0.3)} }
+.counter-c.complete { animation:complete-flash 0.6s ease; }
 
 /* ===== DHIKR ===== */
 .dhikr-tabs { display:flex; gap:8px; margin-bottom:14px; }
@@ -472,18 +481,18 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
       </div>
       <div id="dua-cat-cards">
         <div class="dua-cat-grid">
-          <div class="dua-cat-card cat-morning" onclick="openDuaCat('morning')"></div>
-          <div class="dua-cat-card cat-evening" onclick="openDuaCat('evening')"></div>
-          <div class="dua-cat-card cat-night" onclick="openDuaCat('night')"></div>
-          <div class="dua-cat-card cat-food" onclick="openDuaCat('food')"></div>
-          <div class="dua-cat-card cat-mosque" onclick="openDuaCat('mosque')"></div>
-          <div class="dua-cat-card cat-travel" onclick="openDuaCat('travel')"></div>
-          <div class="dua-cat-card cat-wudu" onclick="openDuaCat('wudu')"></div>
-          <div class="dua-cat-card cat-sick" onclick="openDuaCat('sick')"></div>
-          <div class="dua-cat-card cat-marriage" onclick="openDuaCat('marriage')"></div>
-          <div class="dua-cat-card cat-toilet" onclick="openDuaCat('toilet')"></div>
-          <div class="dua-cat-card cat-quran" onclick="openDuaCat('quran')"></div>
-          <div class="dua-cat-card cat-all" onclick="openDuaCat('all')"></div>
+          <div class="dua-cat-card cat-morning" data-bg="morning.webp" onclick="openDuaCat('morning')"></div>
+          <div class="dua-cat-card cat-evening" data-bg="evening.webp" onclick="openDuaCat('evening')"></div>
+          <div class="dua-cat-card cat-night" data-bg="night.webp" onclick="openDuaCat('night')"></div>
+          <div class="dua-cat-card cat-food" data-bg="food.webp" onclick="openDuaCat('food')"></div>
+          <div class="dua-cat-card cat-mosque" data-bg="mosque.webp" onclick="openDuaCat('mosque')"></div>
+          <div class="dua-cat-card cat-travel" data-bg="travel.webp" onclick="openDuaCat('travel')"></div>
+          <div class="dua-cat-card cat-wudu" data-bg="wudu.webp" onclick="openDuaCat('wudu')"></div>
+          <div class="dua-cat-card cat-sick" data-bg="sick.webp" onclick="openDuaCat('sick')"></div>
+          <div class="dua-cat-card cat-marriage" data-bg="marriage.webp" onclick="openDuaCat('marriage')"></div>
+          <div class="dua-cat-card cat-toilet" data-bg="toilet.webp" onclick="openDuaCat('toilet')"></div>
+          <div class="dua-cat-card cat-quran" data-bg="quran.webp" onclick="openDuaCat('quran')"></div>
+          <div class="dua-cat-card cat-all" data-bg="all.webp" onclick="openDuaCat('all')"></div>
         </div>
       </div>
       <div id="dua-list-wrap" style="display:none">
@@ -498,6 +507,35 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
         <div class="sec-title" id="dhikr-title">عداد الذكر</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
+
+      <!-- Streak & Stats Bar -->
+      <div class="dhikr-stats-bar">
+        <div class="stat-box">
+          <div class="stat-val" id="streak-val">0</div>
+          <div class="stat-lbl">🔥 Streak</div>
+        </div>
+        <div class="stat-box stat-main">
+          <div class="stat-val" id="today-total-val">0</div>
+          <div class="stat-lbl">📊 Bugün</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="best-streak-val">0</div>
+          <div class="stat-lbl">🏆 En İyi</div>
+        </div>
+      </div>
+
+      <!-- Günlük Hedef -->
+      <div class="daily-goal-bar">
+        <div class="goal-row">
+          <span class="goal-label" id="goal-label">🎯 Günlük Hedef</span>
+          <span class="goal-nums"><span id="goal-done">0</span> / <span id="goal-target">100</span></span>
+        </div>
+        <div class="goal-track">
+          <div class="goal-fill" id="goal-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Zikir Seçimi -->
       <div class="dhikr-tabs">
         <div class="dhikr-tab active" onclick="switchDhikrTab('general',this)">عام</div>
         <div class="dhikr-tab" onclick="switchDhikrTab('morning',this)">أذكار الصباح</div>
@@ -505,6 +543,8 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
       </div>
       <div class="dhikr-grid" id="dhikr-grid"></div>
       <div class="dhikr-text" id="dhikr-text">سُبْحَانَ اللَّهِ</div>
+
+      <!-- Sayaç -->
       <div class="counter-area">
         <div class="counter-c" id="counter-c">
           <svg class="c-svg" viewBox="0 0 158 158">
@@ -521,10 +561,12 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
           <div class="c-of" id="c-of">من 33</div>
         </div>
       </div>
+
       <button class="tap-btn" id="tap-dhikr-btn" onclick="tapDhikr()">اضغط للذكر</button>
       <div class="dhikr-acts">
         <button class="act-btn" id="undo-btn" onclick="undoDhikr()">↩ تراجع</button>
         <button class="act-btn" id="reset-btn" onclick="resetDhikr()">↺ إعادة</button>
+        <button class="act-btn" onclick="toggleDhikrSound()">🔊 <span id="sound-label">Ses</span></button>
       </div>
       <div class="total-box"><span id="total-label">مجموع الذكر:</span> <span id="total-num">0</span></div>
     </div>
@@ -961,6 +1003,43 @@ function applyLang(lang) {
   window._t = t;
 }
 
+// ===== LAZY LOADING =====
+function initLazyCards() {
+  const cards = document.querySelectorAll('.dua-cat-card[data-bg]');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const bg = card.dataset.bg;
+          const img = new Image();
+          img.onload = () => {
+            card.style.backgroundImage = `url(${bg})`;
+            card.style.backgroundSize = 'cover';
+            card.style.backgroundPosition = 'center';
+          };
+          img.onerror = () => {
+            const fallback = bg.replace('.webp', '.png');
+            card.style.backgroundImage = `url(${fallback})`;
+            card.style.backgroundSize = 'cover';
+            card.style.backgroundPosition = 'center';
+          };
+          img.src = bg;
+          observer.unobserve(card);
+        }
+      });
+    }, { rootMargin: '400px', threshold: 0 });
+    cards.forEach(card => observer.observe(card));
+  } else {
+    cards.forEach(card => {
+      const bg = card.dataset.bg;
+      card.style.backgroundImage = `url(${bg.replace('.webp','.png')})`;
+      card.style.backgroundSize = 'cover';
+      card.style.backgroundPosition = 'center';
+    });
+  }
+}
+
 // ===== ONBOARDING =====
 let obStep = 1;
 let obTheme = 'dark';
@@ -1073,6 +1152,7 @@ function showTab(id, btn) {
   } else if (btn && btn.classList && btn.classList.contains('nav-item')) {
     btn.classList.add('active');
   }
+  if (id === 'dua') setTimeout(initLazyCards, 100);
   document.getElementById('main-content').scrollTop = 0;
 }
 
@@ -1324,7 +1404,107 @@ const dhikrSets = {
 };
 
 let curDhikrTab = 'general', selDhikr = 0, dhikrCount = 0, totalCount = 0;
+let dhikrSoundOn = true;
 const CIRC = 471.24;
+
+// ===== STREAK & STATS =====
+function getDhikrStats() {
+  const today = new Date().toDateString();
+  const stats = JSON.parse(localStorage.getItem('dhikr-stats') || '{}');
+  if (!stats.lastDate) stats.lastDate = '';
+  if (!stats.streak) stats.streak = 0;
+  if (!stats.bestStreak) stats.bestStreak = 0;
+  if (!stats.todayTotal) stats.todayTotal = 0;
+  if (!stats.dailyGoal) stats.dailyGoal = 100;
+  if (stats.lastDate !== today) {
+    const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+    if (stats.lastDate === yesterday.toDateString()) {
+      stats.streak++;
+    } else if (stats.lastDate !== today) {
+      stats.streak = stats.lastDate ? 0 : stats.streak;
+    }
+    stats.todayTotal = 0;
+    stats.lastDate = today;
+    if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+  }
+  return stats;
+}
+
+function saveDhikrStats(stats) {
+  localStorage.setItem('dhikr-stats', JSON.stringify(stats));
+}
+
+function updateStatsUI() {
+  const stats = getDhikrStats();
+  document.getElementById('streak-val').textContent = stats.streak;
+  document.getElementById('today-total-val').textContent = stats.todayTotal;
+  document.getElementById('best-streak-val').textContent = stats.bestStreak;
+  document.getElementById('goal-done').textContent = stats.todayTotal;
+  document.getElementById('goal-target').textContent = stats.dailyGoal;
+  const pct = Math.min((stats.todayTotal / stats.dailyGoal) * 100, 100);
+  document.getElementById('goal-fill').style.width = pct + '%';
+}
+
+// ===== SES =====
+let audioCtx = null;
+function getDhikrAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playDhikrClick() {
+  if (!dhikrSoundOn) return;
+  try {
+    const ctx = getDhikrAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+    osc.start(); osc.stop(ctx.currentTime + 0.12);
+  } catch(e) {}
+}
+
+function playDhikrComplete() {
+  if (!dhikrSoundOn) return;
+  try {
+    const ctx = getDhikrAudioCtx();
+    [523, 659, 784].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + i*0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i*0.1 + 0.3);
+      osc.start(ctx.currentTime + i*0.1);
+      osc.stop(ctx.currentTime + i*0.1 + 0.3);
+    });
+  } catch(e) {}
+}
+
+function toggleDhikrSound() {
+  dhikrSoundOn = !dhikrSoundOn;
+  document.getElementById('sound-label').textContent = dhikrSoundOn ? 'Ses' : 'Sessiz';
+  toast(dhikrSoundOn ? '🔊 Ses açık' : '🔇 Ses kapalı');
+}
+
+// ===== TİTREŞİM =====
+function vibrateDhikr(complete) {
+  if (!navigator.vibrate) return;
+  if (complete) navigator.vibrate([50, 30, 50, 30, 100]);
+  else navigator.vibrate(30);
+}
+
+// ===== ANİMASYONLU SAYI =====
+function animateNum(el, newVal) {
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.textContent = newVal;
+  el.classList.add('pop');
+  setTimeout(() => el.classList.remove('pop'), 300);
+}
 
 function switchDhikrTab(tab, btn) {
   curDhikrTab = tab; selDhikr = 0; dhikrCount = 0;
@@ -1350,7 +1530,7 @@ function selDhikrItem(i) {
 function updateDhikrUI() {
   const d = dhikrSets[curDhikrTab][selDhikr];
   document.getElementById('dhikr-text').textContent = d.text;
-  document.getElementById('c-num').textContent = dhikrCount;
+  animateNum(document.getElementById('c-num'), dhikrCount);
   document.getElementById('c-of').textContent = `من ${d.target}`;
   const pct = Math.min(dhikrCount/d.target, 1);
   document.getElementById('c-fill').style.strokeDashoffset = CIRC * (1-pct);
@@ -1360,16 +1540,53 @@ function tapDhikr() {
   const d = dhikrSets[curDhikrTab][selDhikr];
   dhikrCount++; totalCount++;
   document.getElementById('total-num').textContent = totalCount;
-  const c = document.getElementById('counter-c');
-  c.classList.add('flash'); setTimeout(()=>c.classList.remove('flash'), 250);
-  if (dhikrCount === d.target) toast('🌟 أحسنت! أتممت ' + d.target + ' مرة');
+
+  // Stats güncelle
+  const stats = getDhikrStats();
+  stats.todayTotal++;
+  if (stats.todayTotal === 1 && stats.streak === 0) stats.streak = 1;
+  if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+  saveDhikrStats(stats);
+  updateStatsUI();
+
+  // Tamamlandı mı?
+  const complete = dhikrCount === d.target;
+  if (complete) {
+    playDhikrComplete();
+    vibrateDhikr(true);
+    const c = document.getElementById('counter-c');
+    c.classList.add('complete');
+    setTimeout(() => c.classList.remove('complete'), 600);
+    toast('🌟 أحسنت! أتممت ' + d.target + ' مرة');
+  } else {
+    playDhikrClick();
+    vibrateDhikr(false);
+    const c = document.getElementById('counter-c');
+    c.classList.add('flash'); setTimeout(()=>c.classList.remove('flash'), 250);
+  }
+
+  // Hedef tamamlandı mı?
+  if (stats.todayTotal === stats.dailyGoal) {
+    setTimeout(() => toast('🏆 Günlük hedefe ulaştın!'), 600);
+  }
+
   if (dhikrCount > d.target) dhikrCount = 1;
   updateDhikrUI();
 }
-function resetDhikr() { dhikrCount = 0; updateDhikrUI(); }
-function undoDhikr() { if(dhikrCount>0){dhikrCount--;totalCount=Math.max(0,totalCount-1);} document.getElementById('total-num').textContent=totalCount; updateDhikrUI(); }
 
-renderDhikrGrid(); updateDhikrUI();
+function resetDhikr() { dhikrCount = 0; updateDhikrUI(); }
+
+function undoDhikr() {
+  if (dhikrCount > 0) { dhikrCount--; totalCount = Math.max(0, totalCount-1); }
+  document.getElementById('total-num').textContent = totalCount;
+  const stats = getDhikrStats();
+  stats.todayTotal = Math.max(0, stats.todayTotal-1);
+  saveDhikrStats(stats);
+  updateStatsUI();
+  updateDhikrUI();
+}
+
+renderDhikrGrid(); updateDhikrUI(); updateStatsUI();
 
 // ===== 99 NAMES =====
 const names99 = [
