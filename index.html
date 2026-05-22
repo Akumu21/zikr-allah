@@ -898,6 +898,20 @@ function openSettings() {
   document.getElementById('st-font-label').textContent = t.settingsFont;
   document.getElementById('st-lang-label').textContent = t.settingsLang;
   document.getElementById('st-save-btn').textContent = t.settingsSave;
+  document.getElementById('st-ezan-label').textContent = t.settingsEzan || '🔊 Ezan Sesi';
+  document.getElementById('st-ezan-on-label').textContent = t.settingsEzanToggle || 'Ezan Açık/Kapalı';
+  document.getElementById('st-notif-label').textContent = t.settingsNotif || '🔔 Namaz Bildirimi';
+  document.getElementById('st-dark').textContent = t.settingsDark;
+  document.getElementById('st-light').textContent = t.settingsLight;
+  // Ezan buton metinleri
+  [1,2,3,4].forEach(i => {
+    const btn = document.getElementById('st-ezan-' + i);
+    if (btn) {
+      const listenSpan = btn.querySelector('span');
+      if (listenSpan) listenSpan.textContent = (t.ezanListen || '▶ Dinle');
+      btn.childNodes[0].textContent = `🕌 ${t.ezanName || 'Ezan'} ${i}\n`;
+    }
+  });
 
   // Ezan ayarları
   document.getElementById('st-ezan-cb').checked = ezanOn;
@@ -1010,6 +1024,11 @@ const i18n = {
     settingsFont: 'حجم النص',
     settingsLang: 'اللغة',
     settingsSave: 'حفظ',
+    settingsEzan: '🔊 صوت الأذان',
+    settingsEzanToggle: 'تفعيل الأذان',
+    settingsNotif: '🔔 إشعار الصلاة',
+    ezanListen: '▶ استمع',
+    ezanName: 'أذان',
     prayerNames: ['الفجر','الشروق','الظهر','العصر','المغرب','العشاء'],
     qiblaPrompt: 'اضغط على الزر لتحديد الموقع',
     dirs: ['ش','ج','ق','غ'],
@@ -1055,6 +1074,11 @@ const i18n = {
     settingsFont: 'Yazı Boyutu',
     settingsLang: 'Dil',
     settingsSave: 'Kaydet',
+    settingsEzan: '🔊 Ezan Sesi',
+    settingsEzanToggle: 'Ezan Açık/Kapalı',
+    settingsNotif: '🔔 Namaz Bildirimi',
+    ezanListen: '▶ Dinle',
+    ezanName: 'Ezan',
     prayerNames: ['Sabah','Güneş','Öğle','İkindi','Akşam','Yatsı'],
     qiblaPrompt: 'Konumu belirlemek için butona basın',
     dirs: ['K','G','D','B'],
@@ -1100,6 +1124,11 @@ const i18n = {
     settingsFont: 'Font Size',
     settingsLang: 'Language',
     settingsSave: 'Save',
+    settingsEzan: '🔊 Adhan Sound',
+    settingsEzanToggle: 'Adhan On/Off',
+    settingsNotif: '🔔 Prayer Notification',
+    ezanListen: '▶ Listen',
+    ezanName: 'Adhan',
     prayerNames: ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'],
     qiblaPrompt: 'Press the button to set location',
     dirs: ['N','S','E','W'],
