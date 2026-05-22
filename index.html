@@ -735,19 +735,28 @@ let ezanOn = localStorage.getItem('ezan-on') !== 'false';
 let notifOn = localStorage.getItem('notif-on') !== 'false';
 let prayerTimers = [];
 
+let previewAudio = null;
+
 function stSelectEzan(n) {
-  // Önce çalan varsa durdur
-  if (ezanAudio) { ezanAudio.pause(); ezanAudio.currentTime = 0; }
   ezanNum = n;
-  [1,2,3,4].forEach(i => {
-    const btn = document.getElementById('st-ezan-' + i);
-    if (btn) btn.style.borderColor = i === n ? 'var(--gold)' : 'var(--border)';
-  });
-  // Önizleme çal (5 saniye)
-  const audio = new Audio(`ezan${n}.mp3`);
-  audio.volume = 0.7;
-  audio.play().catch(()=>{});
-  setTimeout(() => { audio.pause(); audio.currentTime = 0; }, 5000);
+  stSelectEzanUI(n);
+  // Önce çalan varsa durdur
+  if (previewAudio) {
+    previewAudio.pause();
+    previewAudio.currentTime = 0;
+    previewAudio = null;
+  }
+  // Önizleme çal (30 saniye)
+  previewAudio = new Audio(`ezan${n}.mp3`);
+  previewAudio.volume = 0.8;
+  previewAudio.play().catch(()=>{});
+  setTimeout(() => {
+    if (previewAudio) {
+      previewAudio.pause();
+      previewAudio.currentTime = 0;
+      previewAudio = null;
+    }
+  }, 30000);
 }
 
 function stToggleEzan(cb) {
@@ -906,6 +915,12 @@ function stSelectEzanUI(n) {
 }
 
 function closeSettings() {
+  // Önizleme çalıyorsa durdur
+  if (previewAudio) {
+    previewAudio.pause();
+    previewAudio.currentTime = 0;
+    previewAudio = null;
+  }
   document.getElementById('settings-panel').style.display = 'none';
 }
 
