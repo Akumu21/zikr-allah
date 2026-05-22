@@ -733,8 +733,14 @@ async function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   try {
     const reg = await navigator.serviceWorker.register('sw.js');
-    console.log('SW registered');
     window._swReg = reg;
+    // SW'den ezan mesajı dinle
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data && e.data.type === 'PLAY_EZAN') {
+        playEzan();
+        toast(`🕌 ${e.data.prayer} vakti`);
+      }
+    });
   } catch(e) {
     console.log('SW failed:', e);
   }
@@ -777,7 +783,7 @@ let ezanAudio = null;
 let ezanNum = parseInt(localStorage.getItem('ezan-num') || '1');
 let ezanOn = localStorage.getItem('ezan-on') !== 'false';
 let notifOn = localStorage.getItem('notif-on') !== 'false';
-let prayerTimers = [];
+
 
 let previewAudio = null;
 
@@ -864,11 +870,16 @@ function stopEzan() {
   if (ezanAudio) { ezanAudio.pause(); ezanAudio.currentTime = 0; ezanAudio = null; }
 }
 
-function schedulePrayerAlarms(times) {
-  // Önceki timer'ları temizle
-  prayerTimers.forEach(t => clearTimeout(t));
-  prayerTimers = [];
+let prayerCheckInterval = null;
+let lastLocalNotified = {};
 
+function schedulePrayerAlarms(times) {
+  if (prayerCheckInterval) clearInterval(prayerCheckInterval);
+  prayerCheckInterval = setInterval(() => checkLocalPrayerTimes(times), 30000);
+  checkLocalPrayerTimes(times);
+}
+
+function checkLocalPrayerTimes(times) {
   const _t = window._t || i18n.ar;
   const prayerList = [
     { key: 'Fajr',    name: _t.prayerNames ? _t.prayerNames[0] : 'الفجر' },
@@ -877,44 +888,46 @@ function schedulePrayerAlarms(times) {
     { key: 'Maghrib', name: _t.prayerNames ? _t.prayerNames[4] : 'المغرب' },
     { key: 'Isha',    name: _t.prayerNames ? _t.prayerNames[5] : 'العشاء' },
   ];
-
   const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const today = now.toDateString();
+
   prayerList.forEach(p => {
     const timeStr = times[p.key];
     if (!timeStr) return;
     const [h, m] = timeStr.split(':').map(Number);
-    const prayerDate = new Date();
-    prayerDate.setHours(h, m, 0, 0);
+    const prayerMin = h * 60 + m;
+    const diff = prayerMin - nowMin;
+    const key20 = `${today}-${p.key}-20`;
+    const keyNow = `${today}-${p.key}`;
 
-    // 20 dk önce bildirim
-    const before20 = prayerDate - now - 20 * 60 * 1000;
-    if (before20 > 0) {
-      prayerTimers.push(setTimeout(() => {
-        if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
-          new Notification(`⏰ ${p.name}`, {
-            body: `${p.name} ${timeStr} → 20 dakika kaldı`,
-            icon: 'icon-192.png',
-            silent: false
-          });
-        }
-      }, before20));
+    if (diff >= 19 && diff <= 21 && !lastLocalNotified[key20]) {
+      lastLocalNotified[key20] = true;
+      if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
+        new Notification(`⏰ ${p.name}`, {
+          body: `${p.name} vakti 20 dakika sonra - ${timeStr}`,
+          icon: 'icon-192.png'
+        });
+      }
+      toast(`⏰ ${p.name} 20 dakika sonra`);
     }
 
-    // Tam vakitte ezan + bildirim
-    const diff = prayerDate - now;
-    if (diff > 0 && diff < 24 * 60 * 60 * 1000) {
-      prayerTimers.push(setTimeout(() => {
-        playEzan();
-        if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
-          new Notification(`🕌 ${p.name} Vakti`, {
-            body: `${p.name} namazı vakti geldi - ${timeStr}`,
-            icon: 'icon-192.png',
-            silent: true // Ezan zaten çalıyor
-          });
-        }
-      }, diff));
+    if (diff >= 0 && diff <= 1 && !lastLocalNotified[keyNow]) {
+      lastLocalNotified[keyNow] = true;
+      playEzan();
+      if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
+        new Notification(`🕌 ${p.name} Vakti`, {
+          body: `${p.name} namazı vakti geldi - ${timeStr}`,
+          icon: 'icon-192.png',
+          requireInteraction: true
+        });
+      }
     }
   });
+
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    lastLocalNotified = {};
+  }
 }
 
 // Sayaç - namaz vaktine kalan süre

@@ -1,60 +1,87 @@
 // Service Worker - Namaz Vakti Bildirimi
+// Profesyonel: Tek timer + her dakika kontrol sistemi
+
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(clients.claim()));
 
-// Bildirim tıklanınca uygulamayı aç
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  e.waitUntil(clients.openWindow('/'));
+  e.waitUntil(clients.openWindow('./'));
 });
 
-// Alarm mesajı gelince
+let prayerData = null;
+let checkInterval = null;
+let lastNotified = {};
+
 self.addEventListener('message', e => {
   if (e.data && e.data.type === 'SCHEDULE_PRAYER') {
-    const { prayers, ezanNum, notifOn } = e.data;
-    schedulePrayers(prayers, ezanNum, notifOn);
+    prayerData = e.data;
+    startChecking();
   }
 });
 
-const timers = [];
+function startChecking() {
+  if (checkInterval) clearInterval(checkInterval);
+  // Her 30 saniyede bir kontrol et - timer'a güvenme
+  checkInterval = setInterval(checkPrayerTimes, 30000);
+  checkPrayerTimes(); // Hemen bir kontrol
+}
 
-function schedulePrayers(prayers, ezanNum, notifOn) {
-  timers.forEach(t => clearTimeout(t));
-  timers.length = 0;
-
-  const now = Date.now();
+function checkPrayerTimes() {
+  if (!prayerData) return;
+  const { prayers, notifOn } = prayerData;
+  const now = new Date();
+  const nowTime = now.getHours() * 60 + now.getMinutes();
+  const today = now.toDateString();
 
   prayers.forEach(p => {
-    const diff = p.time - now;
-    const diff20 = p.time - now - 20 * 60 * 1000;
+    const [h, m] = p.timeStr.split(':').map(Number);
+    const prayerMin = h * 60 + m;
+    const diff = prayerMin - nowTime;
+    const notifKey = `${today}-${p.key}`;
+    const notifKey20 = `${today}-${p.key}-20`;
 
-    // 20 dk önce bildirim
-    if (diff20 > 0 && notifOn) {
-      timers.push(setTimeout(() => {
-        self.registration.showNotification(`⏰ ${p.name}`, {
-          body: `${p.name} vakti 20 dakika sonra - ${p.timeStr}`,
+    // 20 dk önce bildirim (19-21 dk arası kabul et)
+    if (diff >= 19 && diff <= 21 && !lastNotified[notifKey20] && notifOn) {
+      lastNotified[notifKey20] = true;
+      self.registration.showNotification(`⏰ ${p.name}`, {
+        body: `${p.name} vakti 20 dakika sonra - ${p.timeStr}`,
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
+        vibrate: [200, 100, 200],
+        tag: `before-${p.key}`,
+        renotify: true
+      });
+    }
+
+    // Tam vakit (0-2 dk arası kabul et - 30sn kontrol için)
+    if (diff >= 0 && diff <= 1 && !lastNotified[notifKey]) {
+      lastNotified[notifKey] = true;
+      if (notifOn) {
+        self.registration.showNotification(`🕌 ${p.name} Vakti`, {
+          body: `${p.name} namazı vakti geldi - ${p.timeStr}`,
           icon: '/icon-192.png',
           badge: '/icon-192.png',
-          vibrate: [200, 100, 200],
-          tag: `prayer-before-${p.key}`
+          vibrate: [300, 100, 300, 100, 300],
+          tag: `prayer-${p.key}`,
+          renotify: true,
+          requireInteraction: true
         });
-      }, diff20));
-    }
-
-    // Tam vakitte bildirim
-    if (diff > 0 && diff < 24 * 60 * 60 * 1000) {
-      timers.push(setTimeout(() => {
-        if (notifOn) {
-          self.registration.showNotification(`🕌 ${p.name} Vakti`, {
-            body: `${p.name} namazı vakti geldi - ${p.timeStr}`,
-            icon: '/icon-192.png',
-            badge: '/icon-192.png',
-            vibrate: [300, 100, 300, 100, 300],
-            tag: `prayer-${p.key}`,
-            renotify: true
+      }
+      // Uygulamaya mesaj gönder - ezan çalsın
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'PLAY_EZAN',
+            prayer: p.name
           });
-        }
-      }, diff));
+        });
+      });
     }
   });
+
+  // Gece yarısı lastNotified temizle
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    lastNotified = {};
+  }
 }
