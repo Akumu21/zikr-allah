@@ -1172,7 +1172,9 @@ async function fetchPrayerTimes() {
     try {
       const today = new Date();
       const d = today.getDate(), m = today.getMonth()+1, y = today.getFullYear();
-      const url = `https://api.aladhan.com/v1/timings/${d}-${m}-${y}?latitude=${lat}&longitude=${lng}&method=4`;
+      // method=13 → Diyanet İşleri Başkanlığı (Türkiye için doğru)
+      // tune parametresi ile ince ayar
+      const url = `https://api.aladhan.com/v1/timings/${d}-${m}-${y}?latitude=${lat.toFixed(6)}&longitude=${lng.toFixed(6)}&method=13&school=1`;
       const res = await fetch(url);
       const data = await res.json();
       const t = data.data.timings;
@@ -1184,13 +1186,17 @@ async function fetchPrayerTimes() {
       document.getElementById('pt-isha').textContent = t.Isha;
       window._prayerTimes = t;
       schedulePrayerNotifs();
-      loc.textContent = `📍 ${data.data.meta.timezone}`;
-      // Date
-      const dn = data.data.date.readable;
-      document.getElementById('prayer-date').textContent = dn;
-      // Next prayer
+      // Konum adını göster
+      const timezone = data.data.meta.timezone;
+      const cityParts = timezone.split('/');
+      const city = cityParts[cityParts.length-1].replace(/_/g,' ');
+      loc.textContent = `📍 ${city}`;
+      // Tarih
+      const langCode = localStorage.getItem('ob-lang') || 'ar';
+      const locale = langCode === 'ar' ? 'ar-SA' : langCode === 'tr' ? 'tr-TR' : 'en-US';
+      document.getElementById('prayer-date').textContent = today.toLocaleDateString(locale, {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      // Sıradaki namaz
       updateNextPrayer(t);
-      // Highlight active
       highlightPrayer(t);
     } catch(e) {
       loc.textContent = (window._t||i18n.ar).locFail;
@@ -1202,7 +1208,7 @@ async function fetchPrayerTimes() {
     else if (err.code === 2) msg = _t.locError2;
     else if (err.code === 3) msg = _t.locError3;
     loc.textContent = msg;
-  }, { timeout: 10000, enableHighAccuracy: true });
+  }, { timeout: 15000, enableHighAccuracy: true, maximumAge: 0 });
 }
 
 function updateNextPrayer(t) {
