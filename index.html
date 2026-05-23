@@ -37,99 +37,7 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html,body { height:100%; overflow:hidden; font-family:'Scheherazade New',serif; }
-body { background:var(--dark); color:var(--text); transition:background 2s ease, color 0.3s; }
-
-/* ===== SPLASH SCREEN ===== */
-#splash {
-  position:fixed; inset:0; z-index:99999;
-  background:linear-gradient(180deg, #080c10 0%, #0d1520 100%);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:20px;
-}
-.splash-logo {
-  width:100px; height:100px;
-  animation: splash-scale 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
-  opacity:0;
-}
-@keyframes splash-scale {
-  0%   { transform:scale(0.3) rotate(-10deg); opacity:0; }
-  60%  { transform:scale(1.1) rotate(2deg);  opacity:1; }
-  100% { transform:scale(1)   rotate(0deg);  opacity:1; }
-}
-.splash-title {
-  font-family:'Amiri',serif; font-size:1.6rem; color:var(--gold);
-  opacity:0; animation: splash-fade 0.8s ease 0.6s forwards;
-  text-align:center; letter-spacing:2px;
-}
-.splash-sub {
-  font-size:0.85rem; color:var(--text-muted);
-  opacity:0; animation: splash-fade 0.8s ease 0.9s forwards;
-}
-.splash-bar {
-  width:120px; height:2px; background:var(--dark2); border-radius:2px; overflow:hidden;
-  opacity:0; animation: splash-fade 0.5s ease 1s forwards;
-}
-.splash-bar-fill {
-  height:100%; width:0%; background:linear-gradient(90deg,var(--green),var(--gold));
-  border-radius:2px; animation: splash-bar-anim 1.2s ease 1s forwards;
-}
-@keyframes splash-bar-anim { 0%{width:0%} 100%{width:100%} }
-@keyframes splash-fade { to{opacity:1} }
-#splash.hide {
-  animation: splash-out 0.5s ease forwards;
-}
-@keyframes splash-out {
-  0%   { opacity:1; transform:scale(1); }
-  100% { opacity:0; transform:scale(1.05); }
-}
-
-/* ===== SKELETON LOADING ===== */
-@keyframes shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position:  400px 0; }
-}
-.skeleton {
-  background: linear-gradient(90deg, var(--dark2) 25%, var(--dark3) 50%, var(--dark2) 75%);
-  background-size: 800px 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
-}
-.dua-cat-card.loading {
-  background: linear-gradient(90deg, var(--dark2) 25%, rgba(255,255,255,0.05) 50%, var(--dark2) 75%) !important;
-  background-size: 800px 100% !important;
-  animation: shimmer 1.5s infinite !important;
-}
-.prayer-item.skeleton-item .p-name { 
-  display:inline-block; width:60px; height:14px; margin-bottom:4px;
-}
-.prayer-item.skeleton-item .p-time {
-  display:inline-block; width:40px; height:18px;
-}
-
-/* ===== SMOOTH PAGE TRANSITIONS ===== */
-.tab {
-  display:none;
-  animation: none;
-}
-.tab.active {
-  display:block;
-  animation: tab-in 0.3s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
-}
-.tab.slide-out {
-  display:block;
-  animation: tab-out 0.2s ease forwards;
-  pointer-events:none;
-}
-@keyframes tab-in {
-  0%   { opacity:0; transform:translateY(12px); }
-  100% { opacity:1; transform:translateY(0); }
-}
-@keyframes tab-out {
-  0%   { opacity:1; transform:translateY(0); }
-  100% { opacity:0; transform:translateY(-8px); }
-}
-
-
+body { background:var(--dark); color:var(--text); transition:background 0.3s,color 0.3s; }
 
 /* Background */
 .bg-layer {
@@ -338,39 +246,51 @@ body { background:var(--dark); color:var(--text); transition:background 2s ease,
 .ob-start { width:100%; padding:14px; background:linear-gradient(135deg,var(--green),var(--gold-dark)); color:#fff; border:none; border-radius:14px; font-family:'Amiri',serif; font-size:1.1rem; cursor:pointer; }
 
 
-.dua-cat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+/* ===== DUA CATEGORY GRID (NEW PREMIUM) ===== */
+.dua-cat-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; margin-bottom:4px;
+}
 .dua-cat-card {
-  border-radius:16px; overflow:hidden; height:120px;
-  display:flex; align-items:flex-end; cursor:pointer;
-  position:relative; transition:transform 0.2s;
-  background-size:cover; background-position:center;
+  border-radius:18px;
+  border:1px solid rgba(201,168,76,0.18);
+  background:var(--dark2);
+  padding:16px 14px 14px;
+  cursor:pointer;
+  display:flex; flex-direction:column; gap:8px;
+  position:relative; overflow:hidden;
+  transition:transform 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color:transparent;
 }
-.dua-cat-card:active { transform:scale(0.97); }
-.dcat-content {
-  position:relative; z-index:2; padding:12px;
-  display:flex; flex-direction:column; gap:2px;
-  width:100%;
+.dua-cat-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(201,168,76,0.35), transparent);
 }
-.dcat-icon { font-size:1.6rem; line-height:1; }
-.dcat-name { font-family:'Amiri',serif; font-size:1rem; color:#fff; font-weight:700; text-shadow:0 1px 4px rgba(0,0,0,0.8); }
-
-.cat-morning,.cat-evening,.cat-night,.cat-food,.cat-mosque,.cat-travel,
-.cat-wudu,.cat-sick,.cat-marriage,.cat-toilet,.cat-quran,.cat-all {
-  background-color: var(--dark2);
+.dua-cat-card:active { transform:scale(0.96); }
+.dua-cat-card:hover { border-color:rgba(201,168,76,0.35); }
+.dcat-emoji {
+  font-size:1.8rem; line-height:1;
+  filter:drop-shadow(0 1px 6px rgba(201,168,76,0.2));
 }
-
-.dua-cat-card::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
-  z-index:1;
+.dcat-name {
+  font-family:'Amiri',serif; font-size:0.95rem;
+  color:var(--text); font-weight:700; line-height:1.3;
+}
+.dcat-desc {
+  font-size:0.68rem; color:var(--text-muted);
+  line-height:1.4; margin-top:1px;
 }
 
 .dua-back-btn {
-  width:100%; padding:10px; margin-bottom:12px;
+  width:100%; padding:11px 14px; margin-bottom:14px;
   background:var(--dark2); border:1px solid var(--border);
-  color:var(--gold); border-radius:10px; font-family:'Amiri',serif;
-  font-size:1rem; cursor:pointer; text-align:right;
+  color:var(--gold); border-radius:12px; font-family:'Amiri',serif;
+  font-size:0.95rem; cursor:pointer;
+  display:flex; align-items:center; gap:8px;
+  transition:border-color 0.2s;
 }
+.dua-back-btn:hover { border-color:rgba(201,168,76,0.35); }
 
 .dua-cats { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:14px; }
 .cat-pill { padding:5px 12px; border-radius:20px; border:1px solid rgba(201,168,76,0.2); background:transparent; color:var(--text-muted); font-family:'Scheherazade New',serif; font-size:0.8rem; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
@@ -492,14 +412,6 @@ body { background:var(--dark); color:var(--text); transition:background 2s ease,
 </head>
 <body>
 <div class="bg-layer"></div>
-
-<!-- SPLASH SCREEN -->
-<div id="splash">
-  <img src="icon-192.png" class="splash-logo" alt="logo">
-  <div class="splash-title">بِسْمِ اللَّهِ</div>
-  <div class="splash-sub">ذكر ودعاء وقبلة</div>
-  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
-</div>
 <div class="app">
 
   <!-- Header -->
@@ -579,23 +491,10 @@ body { background:var(--dark); color:var(--text); transition:background 2s ease,
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div id="dua-cat-cards">
-        <div class="dua-cat-grid">
-          <div class="dua-cat-card cat-morning" data-bg="morning.webp" onclick="openDuaCat('morning')"></div>
-          <div class="dua-cat-card cat-evening" data-bg="evening.webp" onclick="openDuaCat('evening')"></div>
-          <div class="dua-cat-card cat-night" data-bg="night.webp" onclick="openDuaCat('night')"></div>
-          <div class="dua-cat-card cat-food" data-bg="food.webp" onclick="openDuaCat('food')"></div>
-          <div class="dua-cat-card cat-mosque" data-bg="mosque.webp" onclick="openDuaCat('mosque')"></div>
-          <div class="dua-cat-card cat-travel" data-bg="travel.webp" onclick="openDuaCat('travel')"></div>
-          <div class="dua-cat-card cat-wudu" data-bg="wudu.webp" onclick="openDuaCat('wudu')"></div>
-          <div class="dua-cat-card cat-sick" data-bg="sick.webp" onclick="openDuaCat('sick')"></div>
-          <div class="dua-cat-card cat-marriage" data-bg="marriage.webp" onclick="openDuaCat('marriage')"></div>
-          <div class="dua-cat-card cat-toilet" data-bg="toilet.webp" onclick="openDuaCat('toilet')"></div>
-          <div class="dua-cat-card cat-quran" data-bg="quran.webp" onclick="openDuaCat('quran')"></div>
-          <div class="dua-cat-card cat-all" data-bg="all.webp" onclick="openDuaCat('all')"></div>
-        </div>
+        <div class="dua-cat-grid" id="dua-cat-grid"></div>
       </div>
       <div id="dua-list-wrap" style="display:none">
-        <button class="dua-back-btn" onclick="backToCats()">← رجوع</button>
+        <button class="dua-back-btn" id="dua-back-btn-el" onclick="backToCats()">← <span id="dua-back-txt">رجوع</span></button>
         <div id="dua-list"></div>
       </div>
     </div>
@@ -828,213 +727,12 @@ body { background:var(--dark); color:var(--text); transition:background 2s ease,
 </div>
 
 <script>
-// ===== SPLASH SCREEN =====
-function hideSplash() {
-  const splash = document.getElementById('splash');
-  if (!splash) return;
-  splash.classList.add('hide');
-  setTimeout(() => splash.remove(), 500);
-}
-// 2.5 saniye sonra splash'i kaldır
-setTimeout(hideSplash, 2500);
-
-// ===== SKELETON LOADING =====
-function showPrayerSkeleton() {
-  ['fajr','sunrise','dhuhr','asr','maghrib','isha'].forEach(id => {
-    const item = document.getElementById('pt-' + id);
-    if (item) {
-      item.textContent = '--:--';
-      item.classList.add('skeleton');
-    }
-    const name = document.getElementById('pn-' + id);
-    if (name) name.classList.add('skeleton');
-  });
-}
-
-function hidePrayerSkeleton() {
-  ['fajr','sunrise','dhuhr','asr','maghrib','isha'].forEach(id => {
-    const item = document.getElementById('pt-' + id);
-    if (item) item.classList.remove('skeleton');
-    const name = document.getElementById('pn-' + id);
-    if (name) name.classList.remove('skeleton');
-  });
-}
-
-function showDuaSkeleton() {
-  document.querySelectorAll('.dua-cat-card').forEach(card => {
-    card.classList.add('loading');
-  });
-}
-
-function hideDuaSkeleton() {
-  document.querySelectorAll('.dua-cat-card').forEach(card => {
-    card.classList.remove('loading');
-  });
-}
-
-// ===== SMOOTH PAGE TRANSITIONS =====
-let currentTab = 'prayer';
-
-function showTab(id, btn) {
-  if (id === currentTab) return;
-
-  // Eski sekmeyi slide-out yap
-  const oldTab = document.getElementById('tab-' + currentTab);
-  if (oldTab) {
-    oldTab.classList.add('slide-out');
-    setTimeout(() => {
-      oldTab.classList.remove('active', 'slide-out');
-    }, 200);
-  }
-
-  currentTab = id;
-
-  // Nav butonları güncelle
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('float-dhikr').classList.remove('active');
-
-  if (id === 'dhikr') {
-    document.getElementById('float-dhikr').classList.add('active');
-  } else if (btn && btn.classList && btn.classList.contains('nav-item')) {
-    btn.classList.add('active');
-  }
-
-  // Yeni sekmeyi göster (biraz gecikmeli)
-  setTimeout(() => {
-    const newTab = document.getElementById('tab-' + id);
-    if (newTab) newTab.classList.add('active');
-    if (id === 'dua') setTimeout(initLazyCards, 100);
-    document.getElementById('main-content').scrollTop = 0;
-  }, 150);
-}
-
-// ===== DYNAMIC GRADIENT =====
-const timeGradients = [
-  // [saat, gradient]
-  { h: 0,  g: 'linear-gradient(180deg, #050814 0%, #080c10 100%)' }, // Gece
-  { h: 4,  g: 'linear-gradient(180deg, #0a0a1a 0%, #0d0f1e 100%)' }, // Gece sonu
-  { h: 5,  g: 'linear-gradient(180deg, #1a1040 0%, #2d1b4e 50%, #0d0f1e 100%)' }, // Sabah öncesi
-  { h: 6,  g: 'linear-gradient(180deg, #1e3a5f 0%, #2d5986 50%, #1a2a4a 100%)' }, // Fajr - mavi
-  { h: 7,  g: 'linear-gradient(180deg, #1b4080 0%, #2e6db4 50%, #1a3060 100%)' }, // Güneş doğuyor
-  { h: 8,  g: 'linear-gradient(180deg, #0d2137 0%, #1a3a5c 50%, #0d1a2e 100%)' }, // Sabah
-  { h: 11, g: 'linear-gradient(180deg, #0a1628 0%, #0f2040 50%, #080c18 100%)' }, // Öğle öncesi
-  { h: 12, g: 'linear-gradient(180deg, #0a1830 0%, #122040 50%, #080c18 100%)' }, // Öğle - Dhuhr
-  { h: 15, g: 'linear-gradient(180deg, #0a1628 0%, #0f1e38 50%, #080c18 100%)' }, // İkindi
-  { h: 17, g: 'linear-gradient(180deg, #2d1810 0%, #5c2d0a 50%, #1a0d05 100%)' }, // Akşam öncesi - turuncu
-  { h: 18, g: 'linear-gradient(180deg, #3d1a05 0%, #7a3510 50%, #2d1208 100%)' }, // Maghrib - turuncu
-  { h: 19, g: 'linear-gradient(180deg, #1a0d18 0%, #2d1528 50%, #0d0810 100%)' }, // Akşam sonu
-  { h: 20, g: 'linear-gradient(180deg, #05080f 0%, #080c14 50%, #050810 100%)' }, // Yatsı - lacivert
-  { h: 21, g: 'linear-gradient(180deg, #030510 0%, #05080f 100%)' }, // Gece - koyu lacivert
-  { h: 23, g: 'linear-gradient(180deg, #050814 0%, #080c10 100%)' }, // Gece
-];
-
-function getPrayerGradient(prayerTimes) {
-  const now = new Date();
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-
-  if (!prayerTimes) return getCurrentTimeGradient();
-
-  const slots = [
-    { key: 'Fajr',    g: 'linear-gradient(180deg, #1e3a5f 0%, #2d5986 50%, #0d1a2e 100%)' },
-    { key: 'Sunrise', g: 'linear-gradient(180deg, #1b4080 0%, #2e6db4 50%, #1a3060 100%)' },
-    { key: 'Dhuhr',   g: 'linear-gradient(180deg, #0a1830 0%, #122040 50%, #080c18 100%)' },
-    { key: 'Asr',     g: 'linear-gradient(180deg, #0d1e38 0%, #152840 50%, #080c18 100%)' },
-    { key: 'Maghrib', g: 'linear-gradient(180deg, #3d1a05 0%, #7a3510 50%, #2d1208 100%)' },
-    { key: 'Isha',    g: 'linear-gradient(180deg, #03050e 0%, #06091a 50%, #030510 100%)' },
-  ];
-
-  // Hangi vakitteyiz?
-  let currentGradient = slots[slots.length - 1].g;
-  for (let i = 0; i < slots.length; i++) {
-    const timeStr = prayerTimes[slots[i].key];
-    if (!timeStr) continue;
-    const [h, m] = timeStr.split(':').map(Number);
-    const pMin = h * 60 + m;
-    if (nowMin < pMin) {
-      currentGradient = i > 0 ? slots[i-1].g : slots[slots.length-1].g;
-      break;
-    }
-    if (i === slots.length - 1) currentGradient = slots[i].g;
-  }
-  return currentGradient;
-}
-
-function getCurrentTimeGradient() {
-  const h = new Date().getHours();
-  let grad = timeGradients[0].g;
-  for (const t of timeGradients) {
-    if (h >= t.h) grad = t.g;
-  }
-  return grad;
-}
-
-function applyDynamicGradient() {
-  const isLight = document.body.classList.contains('light-mode');
-  if (isLight) return; // Gündüz modunda gradient yok
-  const grad = getPrayerGradient(window._prayerTimes);
-  document.body.style.background = grad;
-}
-
-// Her dakika güncelle
-setInterval(applyDynamicGradient, 60000);
-applyDynamicGradient();
-
-// ===== SERVICE WORKER =====
-async function registerSW() {
-  if (!('serviceWorker' in navigator)) return;
-  try {
-    const reg = await navigator.serviceWorker.register('sw.js');
-    window._swReg = reg;
-    // SW'den ezan mesajı dinle
-    navigator.serviceWorker.addEventListener('message', e => {
-      if (e.data && e.data.type === 'PLAY_EZAN') {
-        playEzan();
-        toast(`🕌 ${e.data.prayer} vakti`);
-      }
-    });
-  } catch(e) {
-    console.log('SW failed:', e);
-  }
-}
-registerSW();
-
-function sendPrayerScheduleToSW(times) {
-  if (!('serviceWorker' in navigator) || !window._swReg) return;
-  const _t = window._t || i18n.ar;
-  const prayerList = [
-    { key: 'Fajr',    name: _t.prayerNames ? _t.prayerNames[0] : 'الفجر' },
-    { key: 'Dhuhr',   name: _t.prayerNames ? _t.prayerNames[2] : 'الظهر' },
-    { key: 'Asr',     name: _t.prayerNames ? _t.prayerNames[3] : 'العصر' },
-    { key: 'Maghrib', name: _t.prayerNames ? _t.prayerNames[4] : 'المغرب' },
-    { key: 'Isha',    name: _t.prayerNames ? _t.prayerNames[5] : 'العشاء' },
-  ];
-
-  const now = new Date();
-  const prayers = prayerList.map(p => {
-    const timeStr = times[p.key];
-    if (!timeStr) return null;
-    const [h, m] = timeStr.split(':').map(Number);
-    const prayerDate = new Date();
-    prayerDate.setHours(h, m, 0, 0);
-    return { key: p.key, name: p.name, timeStr, time: prayerDate.getTime() };
-  }).filter(Boolean);
-
-  navigator.serviceWorker.ready.then(reg => {
-    reg.active.postMessage({
-      type: 'SCHEDULE_PRAYER',
-      prayers,
-      ezanNum: parseInt(localStorage.getItem('ezan-num') || '1'),
-      notifOn: localStorage.getItem('notif-on') !== 'false'
-    });
-  });
-}
-
 // ===== EZAN & BİLDİRİM =====
 let ezanAudio = null;
 let ezanNum = parseInt(localStorage.getItem('ezan-num') || '1');
 let ezanOn = localStorage.getItem('ezan-on') !== 'false';
 let notifOn = localStorage.getItem('notif-on') !== 'false';
-
+let prayerTimers = [];
 
 let previewAudio = null;
 
@@ -1066,40 +764,7 @@ function stToggleEzan(cb) {
 
 function stToggleNotif(cb) {
   notifOn = cb.checked;
-  if (cb.checked) {
-    if (!('Notification' in window)) {
-      toast('❌ Bu tarayıcı bildirimleri desteklemiyor');
-      cb.checked = false;
-      notifOn = false;
-      return;
-    }
-    if (Notification.permission === 'denied') {
-      toast('⚠️ Bildirim izni engellendi. Tarayıcı ayarlarından açın.');
-      cb.checked = false;
-      notifOn = false;
-      return;
-    }
-    if (Notification.permission !== 'granted') {
-      Notification.requestPermission().then(perm => {
-        if (perm === 'granted') {
-          toast('✅ Bildirimler açıldı!');
-          // Test bildirimi gönder
-          new Notification('🕌 Bildirimler Açık', {
-            body: 'Namaz vakitlerinde bildirim alacaksınız.',
-            icon: 'icon-192.png'
-          });
-        } else {
-          toast('❌ Bildirim izni verilmedi');
-          cb.checked = false;
-          notifOn = false;
-        }
-      });
-    } else {
-      toast('✅ Bildirimler açıldı!');
-    }
-  } else {
-    toast('🔕 Bildirimler kapatıldı');
-  }
+  if (cb.checked) requestNotifPermissionSilent();
 }
 
 async function requestNotifPermissionSilent() {
@@ -1121,16 +786,11 @@ function stopEzan() {
   if (ezanAudio) { ezanAudio.pause(); ezanAudio.currentTime = 0; ezanAudio = null; }
 }
 
-let prayerCheckInterval = null;
-let lastLocalNotified = {};
-
 function schedulePrayerAlarms(times) {
-  if (prayerCheckInterval) clearInterval(prayerCheckInterval);
-  prayerCheckInterval = setInterval(() => checkLocalPrayerTimes(times), 30000);
-  checkLocalPrayerTimes(times);
-}
+  // Önceki timer'ları temizle
+  prayerTimers.forEach(t => clearTimeout(t));
+  prayerTimers = [];
 
-function checkLocalPrayerTimes(times) {
   const _t = window._t || i18n.ar;
   const prayerList = [
     { key: 'Fajr',    name: _t.prayerNames ? _t.prayerNames[0] : 'الفجر' },
@@ -1139,46 +799,44 @@ function checkLocalPrayerTimes(times) {
     { key: 'Maghrib', name: _t.prayerNames ? _t.prayerNames[4] : 'المغرب' },
     { key: 'Isha',    name: _t.prayerNames ? _t.prayerNames[5] : 'العشاء' },
   ];
-  const now = new Date();
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  const today = now.toDateString();
 
+  const now = new Date();
   prayerList.forEach(p => {
     const timeStr = times[p.key];
     if (!timeStr) return;
     const [h, m] = timeStr.split(':').map(Number);
-    const prayerMin = h * 60 + m;
-    const diff = prayerMin - nowMin;
-    const key20 = `${today}-${p.key}-20`;
-    const keyNow = `${today}-${p.key}`;
+    const prayerDate = new Date();
+    prayerDate.setHours(h, m, 0, 0);
 
-    if (diff >= 19 && diff <= 21 && !lastLocalNotified[key20]) {
-      lastLocalNotified[key20] = true;
-      if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
-        new Notification(`⏰ ${p.name}`, {
-          body: `${p.name} vakti 20 dakika sonra - ${timeStr}`,
-          icon: 'icon-192.png'
-        });
-      }
-      toast(`⏰ ${p.name} 20 dakika sonra`);
+    // 20 dk önce bildirim
+    const before20 = prayerDate - now - 20 * 60 * 1000;
+    if (before20 > 0) {
+      prayerTimers.push(setTimeout(() => {
+        if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
+          new Notification(`⏰ ${p.name}`, {
+            body: `${p.name} ${timeStr} → 20 dakika kaldı`,
+            icon: 'icon-192.png',
+            silent: false
+          });
+        }
+      }, before20));
     }
 
-    if (diff >= 0 && diff <= 1 && !lastLocalNotified[keyNow]) {
-      lastLocalNotified[keyNow] = true;
-      playEzan();
-      if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
-        new Notification(`🕌 ${p.name} Vakti`, {
-          body: `${p.name} namazı vakti geldi - ${timeStr}`,
-          icon: 'icon-192.png',
-          requireInteraction: true
-        });
-      }
+    // Tam vakitte ezan + bildirim
+    const diff = prayerDate - now;
+    if (diff > 0 && diff < 24 * 60 * 60 * 1000) {
+      prayerTimers.push(setTimeout(() => {
+        playEzan();
+        if (notifOn && 'Notification' in window && Notification.permission === 'granted') {
+          new Notification(`🕌 ${p.name} Vakti`, {
+            body: `${p.name} namazı vakti geldi - ${timeStr}`,
+            icon: 'icon-192.png',
+            silent: true // Ezan zaten çalıyor
+          });
+        }
+      }, diff));
     }
   });
-
-  if (now.getHours() === 0 && now.getMinutes() === 0) {
-    lastLocalNotified = {};
-  }
 }
 
 // Sayaç - namaz vaktine kalan süre
@@ -1256,11 +914,7 @@ function openSettings() {
 
   // Ezan ayarları
   document.getElementById('st-ezan-cb').checked = ezanOn;
-  // Bildirim durumu
-  const notifGranted = 'Notification' in window && Notification.permission === 'granted';
-  const notifCb = document.getElementById('st-notif-cb');
-  notifCb.checked = notifOn && notifGranted;
-  if (!notifGranted) notifOn = false;
+  document.getElementById('st-notif-cb').checked = notifOn;
   stSelectEzanUI(ezanNum);
 
   document.getElementById('settings-panel').style.display = 'block';
@@ -1570,43 +1224,90 @@ function applyLang(lang) {
   }
   window._lang = lang;
   window._t = t;
+  // Re-render dua categories with new language
+  renderDuaCatGrid();
 }
 
-// ===== LAZY LOADING =====
-function initLazyCards() {
-  const cards = document.querySelectorAll('.dua-cat-card[data-bg]');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const card = entry.target;
-          const bg = card.dataset.bg;
-          const img = new Image();
-          img.onload = () => {
-            card.style.backgroundImage = `url(${bg})`;
-            card.style.backgroundSize = 'cover';
-            card.style.backgroundPosition = 'center';
-          };
-          img.onerror = () => {
-            const fallback = bg.replace('.webp', '.png');
-            card.style.backgroundImage = `url(${fallback})`;
-            card.style.backgroundSize = 'cover';
-            card.style.backgroundPosition = 'center';
-          };
-          img.src = bg;
-          observer.unobserve(card);
-        }
-      });
-    }, { rootMargin: '400px', threshold: 0 });
-    cards.forEach(card => observer.observe(card));
-  } else {
-    cards.forEach(card => {
-      const bg = card.dataset.bg;
-      card.style.backgroundImage = `url(${bg.replace('.webp','.png')})`;
-      card.style.backgroundSize = 'cover';
-      card.style.backgroundPosition = 'center';
-    });
+// ===== DUA CATEGORIES (multilingual, no images) =====
+const duaCategories = {
+  morning: {
+    icon:'🌅',
+    title:{ ar:'أذكار الصباح', tr:'Sabah Duaları', en:'Morning Duas' },
+    desc:{ ar:'أدعية وأذكار الصباح', tr:'Sabah okunacak dualar', en:'Morning supplications' }
+  },
+  evening: {
+    icon:'🌇',
+    title:{ ar:'أذكار المساء', tr:'Akşam Duaları', en:'Evening Duas' },
+    desc:{ ar:'أدعية وأذكار المساء', tr:'Akşam okunacak dualar', en:'Evening supplications' }
+  },
+  night: {
+    icon:'🌙',
+    title:{ ar:'دعاء النوم', tr:'Uyku Duaları', en:'Sleep Duas' },
+    desc:{ ar:'أدعية قبل النوم', tr:'Uyumadan önce okunacak', en:'Before sleep prayers' }
+  },
+  food: {
+    icon:'🍽️',
+    title:{ ar:'دعاء الطعام', tr:'Yemek Duaları', en:'Food Duas' },
+    desc:{ ar:'قبل وبعد الطعام', tr:'Yemek öncesi ve sonrası', en:'Before & after meals' }
+  },
+  mosque: {
+    icon:'🕌',
+    title:{ ar:'دعاء المسجد', tr:'Cami Duaları', en:'Mosque Duas' },
+    desc:{ ar:'دخول وخروج المسجد', tr:'Camiye giriş ve çıkış', en:'Entering & leaving mosque' }
+  },
+  travel: {
+    icon:'✈️',
+    title:{ ar:'دعاء السفر', tr:'Yolculuk Duaları', en:'Travel Duas' },
+    desc:{ ar:'أدعية المسافر', tr:'Yolculukta okunacak dualar', en:'Supplications for travel' }
+  },
+  wudu: {
+    icon:'💧',
+    title:{ ar:'دعاء الوضوء', tr:'Abdest Duaları', en:'Wudu Duas' },
+    desc:{ ar:'قبل وبعد الوضوء', tr:'Abdest öncesi ve sonrası', en:'Before & after wudu' }
+  },
+  sick: {
+    icon:'🤲',
+    title:{ ar:'دعاء المريض', tr:'Hasta Duaları', en:'Healing Duas' },
+    desc:{ ar:'أدعية الشفاء والرقية', tr:'Şifa ve dua', en:'Prayers for healing' }
+  },
+  marriage: {
+    icon:'💍',
+    title:{ ar:'دعاء الزواج', tr:'Nikah Duaları', en:'Marriage Duas' },
+    desc:{ ar:'دعاء الزوجين', tr:'Evlilik duaları', en:'Supplications for marriage' }
+  },
+  toilet: {
+    icon:'🚿',
+    title:{ ar:'دعاء الخلاء', tr:'Tuvalet Duaları', en:'Toilet Duas' },
+    desc:{ ar:'دخول وخروج الخلاء', tr:'Tuvalete giriş ve çıkış', en:'Entering & exiting toilet' }
+  },
+  quran: {
+    icon:'📖',
+    title:{ ar:'أدعية قرآنية', tr:'Kur\'an Duaları', en:'Quranic Duas' },
+    desc:{ ar:'آيات وأدعية من القرآن', tr:'Kur\'an\'dan dualar', en:'Prayers from the Quran' }
+  },
+  all: {
+    icon:'✨',
+    title:{ ar:'جميع الأدعية', tr:'Tüm Dualar', en:'All Duas' },
+    desc:{ ar:'كل الأدعية المأثورة', tr:'Bütün dualar', en:'Complete collection' }
   }
+};
+
+function renderDuaCatGrid() {
+  const lang = window._lang || 'ar';
+  const grid = document.getElementById('dua-cat-grid');
+  if (!grid) return;
+  grid.innerHTML = Object.entries(duaCategories).map(([key, cat]) => `
+    <div class="dua-cat-card" onclick="openDuaCat('${key}')">
+      <div class="dcat-emoji">${cat.icon}</div>
+      <div class="dcat-name">${cat.title[lang] || cat.title.ar}</div>
+      <div class="dcat-desc">${cat.desc[lang] || cat.desc.ar}</div>
+    </div>
+  `).join('');
+}
+
+// ===== LAZY LOADING (removed - no images needed) =====
+function initLazyCards() {
+  // No-op: images removed, categories render via renderDuaCatGrid()
 }
 
 // ===== ONBOARDING =====
@@ -1700,12 +1401,6 @@ function applySettings() {
   document.documentElement.style.setProperty('--arabic-font-size', arSize + 'rem');
   document.documentElement.style.setProperty('--normal-font-size', nmSize + 'rem');
   applyLang(lang);
-  // Gradient
-  if (isLight) {
-    document.body.style.background = '';
-  } else {
-    applyDynamicGradient();
-  }
 }
 
 // ===== DARK/LIGHT MODE =====
@@ -1717,6 +1412,20 @@ function toggleMode() {
 }
 
 // ===== TABS =====
+function showTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('float-dhikr').classList.remove('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'dhikr') {
+    document.getElementById('float-dhikr').classList.add('active');
+  } else if (btn && btn.classList && btn.classList.contains('nav-item')) {
+    btn.classList.add('active');
+  }
+  if (id === 'dua') setTimeout(initLazyCards, 100);
+  document.getElementById('main-content').scrollTop = 0;
+}
+
 // ===== TOAST =====
 function toast(msg) {
   const t = document.getElementById('toast');
@@ -1729,7 +1438,6 @@ async function fetchPrayerTimes() {
   const loc = document.getElementById('prayer-loc');
   const t = window._t || i18n.ar;
   loc.textContent = t.locating;
-  showPrayerSkeleton();
   if (!navigator.geolocation) { loc.textContent = t.locError; return; }
   navigator.geolocation.getCurrentPosition(async pos => {
     const { latitude: lat, longitude: lng } = pos.coords;
@@ -1748,12 +1456,9 @@ async function fetchPrayerTimes() {
       document.getElementById('pt-asr').textContent = t.Asr;
       document.getElementById('pt-maghrib').textContent = t.Maghrib;
       document.getElementById('pt-isha').textContent = t.Isha;
-      hidePrayerSkeleton();
       window._prayerTimes = t;
       schedulePrayerAlarms(t);
-      sendPrayerScheduleToSW(t);
       startPrayerCountdown(t);
-      applyDynamicGradient();
       // Konum adını göster
       const timezone = data.data.meta.timezone;
       const cityParts = timezone.split('/');
@@ -1919,7 +1624,14 @@ let curCat = 'all';
 function openDuaCat(cat) {
   curCat = cat;
   document.getElementById('dua-cat-cards').style.display = 'none';
-  document.getElementById('dua-list-wrap').style.display = 'block';
+  const wrap = document.getElementById('dua-list-wrap');
+  wrap.style.display = 'block';
+  wrap.style.animation = 'fadeIn 0.25s ease';
+  // Update back button text
+  const lang = window._lang || 'ar';
+  const backTxts = { ar:'رجوع', tr:'Geri', en:'Back' };
+  const backEl = document.getElementById('dua-back-txt');
+  if (backEl) backEl.textContent = backTxts[lang] || 'رجوع';
   renderDuas();
 }
 
@@ -1930,13 +1642,29 @@ function backToCats() {
 
 function renderDuas() {
   const list = document.getElementById('dua-list');
+  const lang = window._lang || 'ar';
   const filtered = curCat === 'all' ? duas : duas.filter(d => d.cat === curCat);
-  list.innerHTML = filtered.map(d => `
+
+  const meanLabels = { ar:'المعنى', tr:'Anlamı', en:'Meaning' };
+  const meanLabel = meanLabels[lang] || 'المعنى';
+
+  // Cat header
+  const catData = duaCategories[curCat];
+  const catHtml = catData ? `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px 14px;background:var(--dark2);border-radius:14px;border:1px solid var(--border);">
+      <span style="font-size:1.6rem">${catData.icon}</span>
+      <div>
+        <div style="font-family:'Amiri',serif;font-size:1.1rem;color:var(--gold)">${catData.title[lang]||catData.title.ar}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted)">${filtered.length} ${lang==='tr'?'dua':lang==='en'?'prayers':'دعاء'}</div>
+      </div>
+    </div>` : '';
+
+  list.innerHTML = catHtml + filtered.map(d => `
     <div class="dua-card">
       <div class="dua-label">${d.title}</div>
       <div class="dua-arabic">${d.arabic}</div>
       <div class="dua-tr">${d.tr}</div>
-      <div class="dua-mean">المعنى: ${d.mean}</div>
+      <div class="dua-mean">${meanLabel}: ${d.mean}</div>
     </div>
   `).join('');
 }
@@ -1945,7 +1673,7 @@ function filterDua(cat, btn) {
   curCat = cat;
   renderDuas();
 }
-renderDuas();
+renderDuaCatGrid();
 
 // ===== DHIKR =====
 const dhikrSets = {
