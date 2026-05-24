@@ -47,6 +47,25 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
     radial-gradient(ellipse at 85% 85%, rgba(26,94,56,0.06) 0%, transparent 50%);
 }
 .light-mode .bg-layer { background: radial-gradient(ellipse at center, rgba(201,168,76,0.04), transparent); }
+.bg-layer::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at top, rgba(201,168,76,0.065), transparent 38%),
+    linear-gradient(135deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 22px),
+    linear-gradient(45deg, rgba(201,168,76,0.018) 0 1px, transparent 1px 24px);
+  opacity:0.75;
+}
+.bg-layer::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  opacity:0.08;
+  background-image:
+    repeating-radial-gradient(circle at 50% 50%, transparent 0 14px, rgba(201,168,76,0.35) 15px 16px);
+  mask-image: radial-gradient(circle at top, #000, transparent 58%);
+}
 
 /* App shell */
 .app { position:relative; z-index:1; display:flex; flex-direction:column; height:100vh; height:100dvh; max-width:480px; margin:0 auto; }
@@ -56,14 +75,24 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
   flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
   padding:14px 16px 10px; background:rgba(8,12,16,0.95);
   border-bottom:1px solid var(--border); backdrop-filter:blur(12px);
-  position:relative;
+  position:relative; overflow:hidden;
 }
 .light-mode .header { background:rgba(245,240,232,0.95); }
+.header::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201,168,76,0.14), transparent 52%),
+    linear-gradient(90deg, transparent, rgba(201,168,76,0.045), transparent);
+}
 .header::after {
   content:''; position:absolute; bottom:0; left:20%; right:20%; height:1px;
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-.header-center { text-align:center; flex:1; }
+.header-center { text-align:center; flex:1; position:relative; z-index:1; }
+.header-btn { position:relative; z-index:1; }
 .header-bismillah { font-family:'Amiri',serif; font-size:1.1rem; color:var(--gold); line-height:1.4; }
 .header-subtitle { font-size:0.7rem; color:var(--text-muted); }
 .header-btn { background:none; border:none; color:var(--text-muted); font-size:1.3rem; cursor:pointer; padding:6px; border-radius:8px; transition:color 0.2s; }
@@ -92,6 +121,11 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
   background:var(--gold); border-radius:0 0 2px 2px; transform:scaleX(0); transition:transform 0.3s;
 }
 .nav-item.active { color:var(--gold); }
+.nav-item.active {
+  text-shadow:
+    0 0 10px rgba(201,168,76,0.25),
+    0 0 30px rgba(201,168,76,0.12);
+}
 .nav-item.active::before { transform:scaleX(1); }
 .nav-item .ni { font-size:1.3rem; transition:transform 0.25s; }
 .nav-item.active .ni { transform:translateY(-2px); }
@@ -111,7 +145,7 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
   background:var(--dark2); border:1px solid var(--border); border-radius:var(--radius);
   padding:14px; margin-bottom:10px; transition:all 0.25s;
 }
-.card:hover { border-color:rgba(201,168,76,0.3); transform:translateY(-1px); }
+.card:hover { border-color:rgba(201,168,76,0.35); transform:translateY(-1px); }
 
 /* ===== PRAYER TIMES ===== */
 .prayer-date { text-align:center; color:var(--text-muted); font-size:0.8rem; margin-bottom:14px; }
@@ -119,13 +153,41 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 .prayer-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
 .prayer-item {
   background:var(--dark2); border:1px solid var(--border); border-radius:12px;
-  padding:12px; text-align:center; transition:all 0.3s;
+  padding:12px; text-align:center; transition:all 0.3s; position:relative; overflow:hidden;
 }
-.prayer-item.active-prayer { border-color:var(--gold); background:rgba(201,168,76,0.08); }
+.prayer-item::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(201,168,76,0.07), transparent 42%),
+    linear-gradient(145deg, rgba(255,255,255,0.025), transparent 58%);
+  pointer-events:none;
+}
+.prayer-item::after {
+  content:'';
+  position:absolute;
+  top:10px;
+  inset-inline-start:10px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:rgba(201,168,76,0.36);
+  box-shadow:0 0 12px rgba(201,168,76,0.16);
+}
+.prayer-item.active-prayer {
+  border-color:rgba(201,168,76,0.48);
+  background:linear-gradient(145deg, rgba(26,94,56,0.22), rgba(201,168,76,0.08));
+  box-shadow:
+    0 0 10px rgba(201,168,76,0.25),
+    0 0 30px rgba(201,168,76,0.12);
+}
+.prayer-item.active-prayer::after { background:var(--gold-light); }
 .prayer-item.active-prayer .p-name { color:var(--gold); }
-.p-name { font-family:'Amiri',serif; font-size:1rem; color:var(--text); margin-bottom:4px; }
+.p-name { font-family:'Amiri',serif; font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:4px; position:relative; z-index:1; }
 .p-time { font-size:1.1rem; color:var(--gold); font-weight:700; direction:ltr; }
-.p-remaining { font-size:0.7rem; color:var(--green-light); margin-top:2px; }
+.p-time { position:relative; z-index:1; }
+.p-remaining { font-size:0.72rem; color:var(--green-light); margin-top:2px; position:relative; z-index:1; font-weight:600; }
 .prayer-find-btn {
   width:100%; padding:12px; background:linear-gradient(135deg,var(--green),var(--green-light));
   color:#fff; border:none; border-radius:12px; font-family:'Amiri',serif; font-size:1rem;
@@ -368,18 +430,25 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 
 body {
   background:
-    linear-gradient(180deg, rgba(201,168,76,0.05), transparent 180px),
+    radial-gradient(circle at top, rgba(201,168,76,0.05), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(26,94,56,0.09), transparent 32%),
+    linear-gradient(180deg, rgba(201,168,76,0.04), transparent 220px),
     var(--dark);
 }
 
 .app {
   width: min(100%, 520px);
-  box-shadow: 0 0 0 1px rgba(201,168,76,0.05), var(--shadow-soft);
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.10),
+    0 0 10px rgba(201,168,76,0.08),
+    var(--shadow-soft);
 }
 
 .header,
 .bottom-nav {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  box-shadow:
+    0 0 10px rgba(201,168,76,0.10),
+    0 10px 30px rgba(0,0,0,0.20);
 }
 
 .header-btn,
@@ -426,6 +495,15 @@ button:focus-visible,
 .settings-card,
 .dua-cat-card {
   box-shadow: var(--shadow-card);
+}
+
+.prayer-item:hover,
+.dua-cat-card:hover,
+.dhikr-chip:hover,
+.name-card:hover,
+.stat-box:hover,
+.daily-goal-bar:hover {
+  border-color: rgba(201,168,76,0.35);
 }
 
 .prayer-item,
@@ -566,6 +644,9 @@ button:focus-visible,
 .nav-item.active .lucide {
   opacity: 1;
   transform: translateY(-2px);
+  filter:
+    drop-shadow(0 0 10px rgba(201,168,76,0.25))
+    drop-shadow(0 0 22px rgba(201,168,76,0.12));
 }
 
 .float-dhikr-btn .lucide {
@@ -723,6 +804,7 @@ button:focus-visible,
 
 
 </style>
+<link rel="stylesheet" href="premium-refine.css">
 </head>
 <body>
 <div class="bg-layer"></div>
@@ -1266,7 +1348,10 @@ function stToggleAuto(cb) {
 
 function stFontPreview() {
   const ar = document.getElementById('st-ar-sl').value;
+  const nm = document.getElementById('st-nm-sl').value;
   document.getElementById('st-font-preview').style.fontSize = ar + 'rem';
+  document.documentElement.style.setProperty('--arabic-font-size', ar + 'rem');
+  document.documentElement.style.setProperty('--normal-font-size', nm + 'rem');
 }
 
 function stSelectLang(l, silent) {
@@ -1543,6 +1628,37 @@ function applyLang(lang) {
 }
 
 // ===== DUA CATEGORIES (multilingual, no images) =====
+function uiIcon(name) {
+  const paths = {
+    sunrise: '<path d="M12 2v6"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h20"/><path d="M4 14a8 8 0 0 1 16 0"/><path d="M20 10.93l-1.41 1.41"/>',
+    moon: '<path d="M12 3a6.5 6.5 0 0 0 8.4 8.4A8.5 8.5 0 1 1 12 3Z"/>',
+    bowl: '<path d="M4 11h16a8 8 0 0 1-16 0Z"/><path d="M7 11V7a2 2 0 0 1 2-2"/><path d="M12 11V5"/><path d="M17 11V7a2 2 0 0 0-2-2"/>',
+    building: '<path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01M15 10h.01"/>',
+    plane: '<path d="M17.8 19.2 16 11l5-5c1.5-1.5.5-3.5-1.5-2l-5 5-8.2-1.8a1 1 0 0 0-1.1 1.4l4 6-3 3a2 2 0 0 0-.5 1l-.4 2 2-.4a2 2 0 0 0 1-.5l3-3 6 4a1 1 0 0 0 1.5-1.1Z"/>',
+    droplet: '<path d="M12 22a7 7 0 0 0 7-7c0-5-7-13-7-13S5 10 5 15a7 7 0 0 0 7 7Z"/>',
+    heart: '<path d="M19 14c2-2 2-5 0-7a4.5 4.5 0 0 0-6.4 0L12 7.6l-.6-.6A4.5 4.5 0 0 0 5 7c-2 2-2 5 0 7l7 7 7-7Z"/>',
+    shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>',
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/>',
+    sparkles: '<path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14Z"/>'
+  };
+  return `<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.sparkles}</svg>`;
+}
+
+const duaCategoryIcons = {
+  morning: 'sunrise',
+  evening: 'sunrise',
+  night: 'moon',
+  food: 'bowl',
+  mosque: 'building',
+  travel: 'plane',
+  wudu: 'droplet',
+  sick: 'shield',
+  marriage: 'heart',
+  toilet: 'shield',
+  quran: 'book',
+  all: 'sparkles'
+};
+
 const duaCategories = {
   morning: {
     icon:'🌅',
@@ -1612,7 +1728,7 @@ function renderDuaCatGrid() {
   if (!grid) return;
   grid.innerHTML = Object.entries(duaCategories).map(([key, cat]) => `
     <div class="dua-cat-card" onclick="openDuaCat('${key}')">
-      <div class="dcat-emoji">${cat.icon}</div>
+      <div class="dcat-icon">${uiIcon(duaCategoryIcons[key])}</div>
       <div class="dcat-name">${cat.title[lang] || cat.title.ar}</div>
       <div class="dcat-desc">${cat.desc[lang] || cat.desc.ar}</div>
     </div>
@@ -1965,11 +2081,11 @@ function renderDuas() {
   // Cat header
   const catData = duaCategories[curCat];
   const catHtml = catData ? `
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px 14px;background:var(--dark2);border-radius:14px;border:1px solid var(--border);">
-      <span style="font-size:1.6rem">${catData.icon}</span>
+    <div class="dua-cat-head">
+      <span class="dua-cat-head-icon">${uiIcon(duaCategoryIcons[curCat])}</span>
       <div>
-        <div style="font-family:'Amiri',serif;font-size:1.1rem;color:var(--gold)">${catData.title[lang]||catData.title.ar}</div>
-        <div style="font-size:0.7rem;color:var(--text-muted)">${filtered.length} ${lang==='tr'?'dua':lang==='en'?'prayers':'دعاء'}</div>
+        <div class="dua-cat-head-title">${catData.title[lang]||catData.title.ar}</div>
+        <div class="dua-cat-head-meta">${filtered.length} ${lang==='tr'?'dua':lang==='en'?'prayers':'دعاء'}</div>
       </div>
     </div>` : '';
 
@@ -1978,7 +2094,9 @@ function renderDuas() {
       <div class="dua-label">${d.title}</div>
       <div class="dua-arabic">${d.arabic}</div>
       <div class="dua-tr">${d.tr}</div>
-      <div class="dua-mean">${meanLabel}: ${d.mean}</div>
+      <div class="dua-divider"></div>
+      <div class="dua-mean"><span>${meanLabel}</span>${d.mean}</div>
+      <div class="dua-source">${d.source || (lang === 'tr' ? 'Kaynak belirtilmedi' : lang === 'en' ? 'Source not specified' : 'المصدر غير محدد')}</div>
     </div>
   `).join('');
 }
@@ -2343,6 +2461,15 @@ window.addEventListener('load', () => {
     }
   };
 
+  const stripUiEmoji = (value) => {
+    if (!value) return value;
+    return value
+      .replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, '')
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]\uFE0F?/gu, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  };
+
   const repairText = (root = document.body) => {
     if (!root) return;
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -2358,7 +2485,7 @@ window.addEventListener('load', () => {
     const nodes = [];
     while (walker.nextNode()) nodes.push(walker.currentNode);
     nodes.forEach((node) => {
-      const fixed = decodeMojibake(node.nodeValue);
+      const fixed = stripUiEmoji(decodeMojibake(node.nodeValue));
       if (fixed !== node.nodeValue) node.nodeValue = fixed;
     });
 
@@ -2366,9 +2493,45 @@ window.addEventListener('load', () => {
       ['title', 'aria-label', 'placeholder', 'content'].forEach((attr) => {
         if (!el.hasAttribute(attr)) return;
         const current = el.getAttribute(attr);
-        const fixed = decodeMojibake(current);
+        const fixed = stripUiEmoji(decodeMojibake(current));
         if (fixed !== current) el.setAttribute(attr, fixed);
       });
+    });
+  };
+
+  const applyTurkishChrome = () => {
+    const textMap = {
+      'nav-prayer': 'Vakitler',
+      'nav-qibla': 'Kıble',
+      'nav-dua': 'Dualar',
+      'nav-names': 'İsimler',
+      'nav-dhikr': 'Zikir',
+      'next-prayer-label': 'Sıradaki vakit',
+      'find-prayer-btn': 'Konumla vakitleri bul',
+      'find-qibla-btn': 'Kıble yönünü bul',
+      'tap-dhikr-btn': 'Zikir say',
+      'undo-btn': 'Geri al',
+      'reset-btn': 'Sıfırla',
+      'sound-label': 'Ses',
+      'goal-label': 'Günlük hedef',
+      'total-label': 'Toplam zikir:',
+      'streak-val': null
+    };
+
+    Object.entries(textMap).forEach(([id, text]) => {
+      if (text === null) return;
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    });
+
+    const statLabels = document.querySelectorAll('.stat-lbl');
+    if (statLabels[0]) statLabels[0].textContent = 'Seri';
+    if (statLabels[1]) statLabels[1].textContent = 'Bugün';
+    if (statLabels[2]) statLabels[2].textContent = 'En iyi';
+
+    document.querySelectorAll('.dhikr-tab').forEach((tabEl, index) => {
+      const labels = ['Genel', 'Sabah', 'Akşam'];
+      if (labels[index]) tabEl.textContent = labels[index];
     });
   };
 
@@ -2402,7 +2565,7 @@ window.addEventListener('load', () => {
     const button = document.getElementById('mode-btn');
     if (!button) return;
     button.innerHTML = icon(document.body.classList.contains('light-mode') ? 'sun' : 'moon');
-    button.setAttribute('aria-label', document.body.classList.contains('light-mode') ? 'Light mode' : 'Dark mode');
+    button.setAttribute('aria-label', document.body.classList.contains('light-mode') ? 'Aydınlık tema' : 'Koyu tema');
   };
 
   const upgradeLucideShell = () => {
@@ -2410,7 +2573,7 @@ window.addEventListener('load', () => {
     const settingsButton = document.querySelector('.header .header-btn[onclick="openSettings()"]');
     if (settingsButton) {
       settingsButton.innerHTML = icon('settings');
-      settingsButton.setAttribute('aria-label', 'Settings');
+      settingsButton.setAttribute('aria-label', 'Ayarlar');
     }
 
     const navMap = [
@@ -2428,7 +2591,7 @@ window.addEventListener('load', () => {
     });
 
     const float = document.getElementById('float-dhikr');
-    const floatLabel = document.getElementById('nav-dhikr')?.textContent || 'Zikir';
+    const floatLabel = 'Zikir';
     if (float) {
       float.innerHTML = `${icon('target')}<span id="nav-dhikr" style="font-size:0.6rem; color:#fff; font-family:'Scheherazade New',serif;">${floatLabel}</span>`;
     }
@@ -2441,7 +2604,7 @@ window.addEventListener('load', () => {
 
     const soundButton = document.querySelector('#sound-label')?.closest('button');
     if (soundButton) {
-      const soundLabel = document.getElementById('sound-label')?.textContent || 'Ses';
+      const soundLabel = /sessiz|muted|kapal/i.test(document.getElementById('sound-label')?.textContent || '') ? 'Sessiz' : 'Ses';
       const muted = /sessiz|muted|kapal/i.test(soundLabel);
       soundButton.innerHTML = `${icon(muted ? 'volumeOff' : 'volume')}<span id="sound-label">${soundLabel}</span>`;
     }
@@ -2493,6 +2656,7 @@ window.addEventListener('load', () => {
     addProgressRing();
     enhanceTabs();
     repairText();
+    applyTurkishChrome();
     upgradeLucideShell();
 
     const originalToggleMode = window.toggleMode;
@@ -2517,7 +2681,7 @@ window.addEventListener('load', () => {
       for (const mutation of mutations) {
         mutation.addedNodes.forEach((node) => {
           if (node.nodeType === Node.TEXT_NODE) {
-            const fixed = decodeMojibake(node.nodeValue);
+            const fixed = stripUiEmoji(decodeMojibake(node.nodeValue));
             if (fixed !== node.nodeValue) node.nodeValue = fixed;
           } else if (node.nodeType === Node.ELEMENT_NODE) {
             repairText(node);
@@ -2525,7 +2689,7 @@ window.addEventListener('load', () => {
         });
       }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, characterData: true, subtree: true });
   };
 
   if (document.readyState === 'loading') {
