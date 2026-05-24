@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#080c10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ذكر ودعاء">
+<meta name="apple-mobile-web-app-title" content="Dhikr & Dua">
 <link rel="manifest" href="manifest.json">
-<title>ذكر ودعاء</title>
+<title>Dhikr & Dua</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -18,12 +18,12 @@
   --green: #1a5e38;
   --green-light: #27885a;
   --dark: #080c10;
-  --dark2: #101520;
-  --dark3: #181e2a;
+  --dark2: #101827;
+  --dark3: #172033;
   --dark4: #1e2535;
   --text: #f0e6cc;
   --text-muted: #7a6540;
-  --border: rgba(201,168,76,0.12);
+  --border: rgba(201,168,76,0.18);
   --radius: 16px;
 }
 .light-mode {
@@ -358,6 +358,320 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 /* Toast */
 .toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(16px); background:linear-gradient(135deg,var(--green),var(--gold-dark)); color:#fff; padding:10px 20px; border-radius:25px; font-family:'Amiri',serif; font-size:0.95rem; opacity:0; pointer-events:none; z-index:999; transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1); white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.4); }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ===== CODEX POLISH PASS ===== */
+:root {
+  --shadow-soft: 0 18px 45px rgba(0,0,0,0.24);
+  --shadow-card: 0 10px 28px rgba(0,0,0,0.18);
+  --focus: 0 0 0 3px rgba(232,201,122,0.28);
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(201,168,76,0.05), transparent 180px),
+    var(--dark);
+}
+
+.app {
+  width: min(100%, 520px);
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.05), var(--shadow-soft);
+}
+
+.header,
+.bottom-nav {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+.header-btn,
+.nav-item,
+.float-dhikr-btn,
+.prayer-find-btn,
+.find-btn,
+.tap-btn,
+.act-btn,
+.dhikr-tab,
+.dhikr-chip,
+.dua-cat-card,
+.dua-back-btn,
+.ob-next,
+.ob-start,
+.ob-skip {
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+.dua-cat-card:focus-visible,
+.dhikr-chip:focus-visible,
+.ob-lang-card:focus-visible,
+.ob-theme-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.content {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+.tab {
+  padding-bottom: calc(28px + env(safe-area-inset-bottom));
+}
+
+.card,
+.prayer-item,
+.dua-card,
+.stat-box,
+.daily-goal-bar,
+.name-card,
+.settings-card,
+.dua-cat-card {
+  box-shadow: var(--shadow-card);
+}
+
+.prayer-item,
+.dua-cat-card,
+.dhikr-chip,
+.name-card {
+  min-width: 0;
+}
+
+.next-prayer-banner {
+  position: relative;
+  overflow: hidden;
+}
+
+.next-prayer-banner::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(var(--gold-light), var(--green-light));
+}
+
+.p-name,
+.dcat-name,
+.dhikr-chip .dc-ar,
+.nav-item span,
+.stat-lbl,
+.goal-label {
+  overflow-wrap: anywhere;
+}
+
+.tap-btn,
+.find-btn,
+.prayer-find-btn,
+.ob-start,
+.ob-next {
+  box-shadow: 0 10px 26px rgba(26,94,56,0.28);
+}
+
+.tap-btn:hover,
+.find-btn:hover,
+.prayer-find-btn:hover,
+.ob-start:hover,
+.ob-next:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.dhikr-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dhikr-chip {
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.counter-c {
+  box-shadow:
+    inset 0 0 22px rgba(0,0,0,0.34),
+    0 16px 35px rgba(0,0,0,0.22);
+}
+
+.float-dhikr-btn {
+  box-shadow: 0 16px 32px rgba(26,94,56,0.36);
+}
+
+.bottom-nav {
+  min-height: 64px;
+}
+
+.nav-item {
+  min-height: 58px;
+}
+
+.codex-quickbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.codex-quickbar button {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--dark2);
+  color: var(--text);
+  cursor: pointer;
+  font-family: 'Scheherazade New', serif;
+  font-size: 0.78rem;
+  min-height: 42px;
+  padding: 8px;
+  box-shadow: var(--shadow-card);
+}
+
+.codex-quickbar button:active {
+  transform: scale(0.98);
+}
+
+.lucide {
+  width: 1.18em;
+  height: 1.18em;
+  display: inline-block;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.header-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-grid;
+  place-items: center;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.1);
+}
+
+.header-btn .lucide {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-item .lucide {
+  width: 23px;
+  height: 23px;
+  margin-bottom: 2px;
+  opacity: 0.78;
+  transition: transform 0.25s, opacity 0.25s;
+}
+
+.nav-item.active .lucide {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.float-dhikr-btn .lucide {
+  width: 28px;
+  height: 28px;
+  color: #fff;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.25));
+}
+
+.icon-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.act-btn,
+.codex-quickbar button,
+.prayer-find-btn,
+.find-btn,
+.tap-btn,
+.dua-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.act-btn .lucide,
+.codex-quickbar .lucide,
+.prayer-find-btn .lucide,
+.find-btn .lucide,
+.tap-btn .lucide,
+.dua-back-btn .lucide {
+  width: 17px;
+  height: 17px;
+}
+
+.codex-progress-ring {
+  position: fixed;
+  inset-inline-end: max(14px, env(safe-area-inset-right));
+  bottom: calc(82px + env(safe-area-inset-bottom));
+  z-index: 50;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(201,168,76,0.22);
+  border-radius: 50%;
+  background: conic-gradient(var(--gold) var(--scroll-progress, 0%), rgba(201,168,76,0.13) 0);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+  pointer-events: none;
+}
+
+.codex-progress-ring::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: inherit;
+  background: var(--dark2);
+}
+
+@media (min-width: 760px) {
+  body {
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+
+  .app {
+    height: min(920px, calc(100vh - 48px));
+    border-radius: 28px;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 380px) {
+  .tab {
+    padding-inline: 10px;
+  }
+
+  .prayer-grid,
+  .dua-cat-grid,
+  .dhikr-grid,
+  .codex-quickbar {
+    gap: 7px;
+  }
+
+  .p-time,
+  .npb-time {
+    font-size: 1rem;
+  }
+
+  .nav-item {
+    font-size: 0.58rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 /* Scrollable categories */
 .dua-cats { overflow-x:auto; flex-wrap:nowrap; justify-content:flex-start; padding-bottom:4px; scrollbar-width:none; }
@@ -1993,6 +2307,233 @@ window.addEventListener('load', () => {
     document.getElementById('notif-btn').textContent = '🔔';
   }
 });
+
+// ===== CODEX ENHANCEMENTS =====
+(function () {
+  const iconPaths = {
+    moon: '<path d="M12 3a6.5 6.5 0 0 0 8.4 8.4A8.5 8.5 0 1 1 12 3Z"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>',
+    settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.52a2 2 0 0 1-1 1.72l-.15.1a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.52a2 2 0 0 1 1-1.72l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    compass: '<circle cx="12" cy="12" r="9"/><path d="m16.2 7.8-2.1 6.3-6.3 2.1 2.1-6.3 6.3-2.1Z"/>',
+    heart: '<path d="M19 14c2-2 2-5 0-7a4.5 4.5 0 0 0-6.4 0L12 7.6l-.6-.6A4.5 4.5 0 0 0 5 7c-2 2-2 5 0 7l7 7 7-7Z"/>',
+    sparkles: '<path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3ZM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14ZM5 14l.8 2.2L8 17l-2.2.8L5 20l-.8-2.2L2 17l2.2-.8L5 14Z"/>',
+    rotate: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v6h6"/>',
+    undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-1"/>',
+    volume: '<path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>',
+    volumeOff: '<path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/>',
+    mapPin: '<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+    hand: '<path d="M8 11V5a2 2 0 0 1 4 0v5"/><path d="M12 10V4a2 2 0 0 1 4 0v8"/><path d="M16 12V7a2 2 0 0 1 4 0v6a8 8 0 0 1-8 8h-1a7 7 0 0 1-5-2.1L3 16a2 2 0 0 1 2.8-2.8L8 15"/>',
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/>',
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'
+  };
+
+  const icon = (name, extraClass = '') => {
+    const body = iconPaths[name] || iconPaths.sparkles;
+    return `<svg class="lucide ${extraClass}" viewBox="0 0 24 24" aria-hidden="true">${body}</svg>`;
+  };
+
+  const decodeMojibake = (value) => {
+    if (!value || !/[ÃÂØÙğâ]/.test(value)) return value;
+    try {
+      const fixed = decodeURIComponent(escape(value));
+      return fixed && fixed !== value ? fixed : value;
+    } catch (e) {
+      return value;
+    }
+  };
+
+  const repairText = (root = document.body) => {
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((node) => {
+      const fixed = decodeMojibake(node.nodeValue);
+      if (fixed !== node.nodeValue) node.nodeValue = fixed;
+    });
+
+    root.querySelectorAll?.('[title], [aria-label], [placeholder], meta[content]').forEach((el) => {
+      ['title', 'aria-label', 'placeholder', 'content'].forEach((attr) => {
+        if (!el.hasAttribute(attr)) return;
+        const current = el.getAttribute(attr);
+        const fixed = decodeMojibake(current);
+        if (fixed !== current) el.setAttribute(attr, fixed);
+      });
+    });
+  };
+
+  const addQuickbar = () => {
+    const tab = document.getElementById('tab-prayer');
+    if (!tab || document.getElementById('codex-quickbar')) return;
+    const quickbar = document.createElement('div');
+    quickbar.id = 'codex-quickbar';
+    quickbar.className = 'codex-quickbar';
+    quickbar.innerHTML = `
+      <button type="button" data-tab="prayer">${icon('clock')} Vakitler</button>
+      <button type="button" data-tab="qibla">${icon('compass')} Kıble</button>
+      <button type="button" data-tab="dhikr">${icon('target')} Zikir</button>
+    `;
+    quickbar.addEventListener('click', (event) => {
+      const target = event.target.closest('button[data-tab]');
+      if (!target) return;
+      showTab(target.dataset.tab, target.dataset.tab === 'dhikr' ? document.getElementById('float-dhikr') : null);
+    });
+    tab.insertBefore(quickbar, tab.querySelector('.next-prayer-banner'));
+  };
+
+  const setButtonIcon = (selector, iconName, labelSelector) => {
+    const button = document.querySelector(selector);
+    if (!button) return;
+    const label = labelSelector ? document.querySelector(labelSelector)?.textContent || '' : button.textContent.trim();
+    button.innerHTML = `${icon(iconName)}${label ? `<span>${label}</span>` : ''}`;
+  };
+
+  const updateModeIcon = () => {
+    const button = document.getElementById('mode-btn');
+    if (!button) return;
+    button.innerHTML = icon(document.body.classList.contains('light-mode') ? 'sun' : 'moon');
+    button.setAttribute('aria-label', document.body.classList.contains('light-mode') ? 'Light mode' : 'Dark mode');
+  };
+
+  const upgradeLucideShell = () => {
+    updateModeIcon();
+    const settingsButton = document.querySelector('.header .header-btn[onclick="openSettings()"]');
+    if (settingsButton) {
+      settingsButton.innerHTML = icon('settings');
+      settingsButton.setAttribute('aria-label', 'Settings');
+    }
+
+    const navMap = [
+      ['#nav-prayer', 'clock'],
+      ['#nav-qibla', 'compass'],
+      ['#nav-dua', 'heart'],
+      ['#nav-names', 'sparkles']
+    ];
+    navMap.forEach(([labelSelector, iconName]) => {
+      const label = document.querySelector(labelSelector);
+      const button = label?.closest('button');
+      if (!label || !button) return;
+      const text = label.textContent;
+      button.innerHTML = `${icon(iconName)}<span id="${label.id}">${text}</span>`;
+    });
+
+    const float = document.getElementById('float-dhikr');
+    const floatLabel = document.getElementById('nav-dhikr')?.textContent || 'Zikir';
+    if (float) {
+      float.innerHTML = `${icon('target')}<span id="nav-dhikr" style="font-size:0.6rem; color:#fff; font-family:'Scheherazade New',serif;">${floatLabel}</span>`;
+    }
+
+    setButtonIcon('#find-prayer-btn', 'mapPin');
+    setButtonIcon('#find-qibla-btn', 'compass');
+    setButtonIcon('#tap-dhikr-btn', 'target');
+    setButtonIcon('#undo-btn', 'undo');
+    setButtonIcon('#reset-btn', 'rotate');
+
+    const soundButton = document.querySelector('#sound-label')?.closest('button');
+    if (soundButton) {
+      const soundLabel = document.getElementById('sound-label')?.textContent || 'Ses';
+      const muted = /sessiz|muted|kapal/i.test(soundLabel);
+      soundButton.innerHTML = `${icon(muted ? 'volumeOff' : 'volume')}<span id="sound-label">${soundLabel}</span>`;
+    }
+
+    const back = document.getElementById('dua-back-btn-el');
+    const backLabel = document.getElementById('dua-back-txt')?.textContent || 'Geri';
+    if (back) {
+      back.innerHTML = `${icon('undo')}<span id="dua-back-txt">${backLabel}</span>`;
+    }
+  };
+
+  const addProgressRing = () => {
+    if (document.getElementById('codex-progress-ring')) return;
+    const ring = document.createElement('div');
+    ring.id = 'codex-progress-ring';
+    ring.className = 'codex-progress-ring';
+    ring.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(ring);
+
+    const content = document.getElementById('main-content');
+    const update = () => {
+      if (!content) return;
+      const max = content.scrollHeight - content.clientHeight;
+      const pct = max > 0 ? Math.round((content.scrollTop / max) * 100) : 0;
+      ring.style.setProperty('--scroll-progress', pct + '%');
+    };
+    content?.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  };
+
+  const enhanceTabs = () => {
+    const originalShowTab = window.showTab;
+    if (typeof originalShowTab !== 'function' || originalShowTab.__codexEnhanced) return;
+    window.showTab = function (id, btn) {
+      originalShowTab.call(this, id, btn);
+      requestAnimationFrame(() => {
+        repairText(document.getElementById('tab-' + id));
+        upgradeLucideShell();
+        document.getElementById('main-content')?.style.setProperty('--scroll-progress', '0%');
+      });
+    };
+    window.showTab.__codexEnhanced = true;
+  };
+
+  const boot = () => {
+    document.title = 'Dhikr & Dua';
+    addQuickbar();
+    addProgressRing();
+    enhanceTabs();
+    repairText();
+    upgradeLucideShell();
+
+    const originalToggleMode = window.toggleMode;
+    if (typeof originalToggleMode === 'function' && !originalToggleMode.__codexIconEnhanced) {
+      window.toggleMode = function () {
+        originalToggleMode.apply(this, arguments);
+        updateModeIcon();
+      };
+      window.toggleMode.__codexIconEnhanced = true;
+    }
+
+    const originalToggleSound = window.toggleDhikrSound;
+    if (typeof originalToggleSound === 'function' && !originalToggleSound.__codexIconEnhanced) {
+      window.toggleDhikrSound = function () {
+        originalToggleSound.apply(this, arguments);
+        upgradeLucideShell();
+      };
+      window.toggleDhikrSound.__codexIconEnhanced = true;
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const fixed = decodeMojibake(node.nodeValue);
+            if (fixed !== node.nodeValue) node.nodeValue = fixed;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            repairText(node);
+          }
+        });
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
 
 // PWA
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
