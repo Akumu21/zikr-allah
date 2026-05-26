@@ -1021,6 +1021,506 @@ button:focus-visible,
 @media (max-width: 380px) {
   .nav-item { font-size: max(.68rem, 11px); }
 }
+
+/* ===== DUA READING MODE ===== */
+:root {
+  --app-green: #1a5e38;
+  --app-gold: #c9a84c;
+  --cream-text: #f3ead3;
+  --muted-secondary: #a99873;
+  --shadow-small: 0 6px 16px rgba(0,0,0,0.16);
+  --shadow-medium: 0 18px 38px rgba(0,0,0,0.22);
+  --shadow-active: 0 0 0 1px rgba(201,168,76,0.28), 0 14px 34px rgba(26,94,56,0.22);
+  --active-glow: 0 0 0 1px rgba(201,168,76,0.28), 0 0 24px rgba(201,168,76,0.12);
+  --orn-stroke: 1.55;
+}
+
+.header,
+.bottom-nav,
+.card,
+.prayer-item,
+.stat-box,
+.daily-goal-bar,
+.name-card,
+.dhikr-chip,
+.counter-c,
+.codex-quickbar button {
+  box-shadow: var(--shadow-small);
+}
+
+.next-prayer-banner,
+.float-dhikr-btn {
+  box-shadow: var(--shadow-medium);
+}
+
+.nav-item.active,
+.dhikr-chip.active,
+.dhikr-tab.active,
+.prayer-item.active-prayer {
+  box-shadow: none;
+}
+
+body.dua-reading {
+  background:
+    radial-gradient(circle at 50% -12%, rgba(201,168,76,0.10), transparent 35%),
+    radial-gradient(circle at 16% 18%, rgba(26,94,56,0.13), transparent 34%),
+    linear-gradient(180deg, #08100d 0%, #101714 52%, #070b0a 100%);
+}
+
+body.dua-reading .bg-layer {
+  background:
+    radial-gradient(circle at 50% 2%, rgba(232,201,122,0.09), transparent 30%),
+    linear-gradient(180deg, rgba(243,234,211,0.03), transparent 45%),
+    linear-gradient(135deg, rgba(26,94,56,0.16), transparent 58%);
+}
+
+body.dua-reading .bg-layer::before {
+  opacity: 0.42;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 18px),
+    linear-gradient(30deg, rgba(201,168,76,0.022) 0 1px, transparent 1px 22px);
+}
+
+body.dua-reading .bg-layer::after {
+  opacity: 0.16;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(201,168,76,0.20) 0 1px, transparent 1.3px 28px),
+    linear-gradient(180deg, transparent 72%, rgba(0,0,0,0.28));
+  mask-image: linear-gradient(#000, transparent 78%);
+}
+
+body.dua-reading .app::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 64px;
+  height: 190px;
+  pointer-events: none;
+  opacity: 0.055;
+  background:
+    radial-gradient(ellipse at 50% 100%, transparent 0 34%, var(--app-gold) 35% 36%, transparent 37%),
+    radial-gradient(ellipse at 38% 100%, transparent 0 28%, var(--app-gold) 29% 30%, transparent 31%),
+    radial-gradient(ellipse at 62% 100%, transparent 0 28%, var(--app-gold) 29% 30%, transparent 31%);
+}
+
+body.dua-reading .header,
+body.dua-reading .bottom-nav {
+  background: rgba(8,16,13,0.84);
+  border-color: rgba(201,168,76,0.10);
+  box-shadow: none;
+}
+
+body.dua-reading .content {
+  scroll-behavior: smooth;
+}
+
+#tab-dua {
+  min-height: 100%;
+  padding: 30px 18px 92px;
+  position: relative;
+}
+
+#tab-dua.active {
+  animation: duaModeIn 420ms ease both;
+}
+
+body.dua-reading #tab-dua .sec-head {
+  margin: 8px auto 34px;
+  max-width: 34rem;
+}
+
+body.dua-reading #tab-dua .sec-title {
+  color: var(--cream-text);
+  font-size: clamp(1.85rem, 6vw, 2.55rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+  text-shadow: 0 14px 36px rgba(0,0,0,0.28);
+}
+
+body.dua-reading #tab-dua .sec-orn {
+  color: transparent;
+  font-size: 0;
+  height: 24px;
+  margin-top: 14px;
+  position: relative;
+}
+
+body.dua-reading #tab-dua .sec-orn::before {
+  content: '';
+  display: block;
+  width: 148px;
+  height: 18px;
+  margin: 0 auto;
+  opacity: 0.74;
+  background:
+    linear-gradient(90deg, transparent, rgba(201,168,76,0.48), transparent) center/100% 1px no-repeat,
+    conic-gradient(from 45deg, transparent 0 25%, rgba(201,168,76,0.55) 0 50%, transparent 0 75%, rgba(201,168,76,0.55) 0) center/13px 13px no-repeat;
+}
+
+.dua-cat-grid {
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 0 auto;
+  max-width: 34rem;
+}
+
+.dua-cat-card {
+  min-height: 112px;
+  padding: 22px 22px 20px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, rgba(201,168,76,0.05), transparent 60%);
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: 54px minmax(0,1fr);
+  column-gap: 16px;
+  row-gap: 4px;
+}
+
+.dua-cat-card::before {
+  inset-inline: 76px 22px;
+  top: auto;
+  bottom: 0;
+  height: 1px;
+  opacity: 0.32;
+  background: linear-gradient(90deg, rgba(201,168,76,0.55), transparent);
+}
+
+.dua-cat-card:hover,
+.dua-cat-card:focus-visible {
+  background: linear-gradient(90deg, rgba(201,168,76,0.085), transparent 68%);
+  box-shadow: none;
+}
+
+.dua-cat-card:active {
+  transform: translateY(1px);
+}
+
+.dcat-name {
+  align-self: end;
+  color: var(--cream-text);
+  font-size: 1.24rem;
+  line-height: 1.22;
+  font-weight: 700;
+}
+
+.dcat-desc {
+  grid-column: 2;
+  color: var(--muted-secondary);
+  font-size: max(calc(var(--normal-font-size, 1rem) * .86), 13px);
+  line-height: 1.65;
+}
+
+.dcat-icon,
+.dua-cat-head-icon {
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--app-gold);
+  opacity: 0.88;
+}
+
+.dua-motif {
+  width: 48px;
+  height: 48px;
+  stroke: currentColor;
+  stroke-width: var(--orn-stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.dua-motif .soft-fill {
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.11;
+}
+
+.dua-back-btn {
+  width: auto;
+  margin: 0 auto 28px;
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(201,168,76,0.08);
+  color: var(--cream-text);
+  box-shadow: none;
+  font-size: 0.9rem;
+}
+
+.dua-back-btn:hover {
+  background: rgba(201,168,76,0.13);
+  border-color: transparent;
+}
+
+.dua-cat-head {
+  display: grid;
+  grid-template-columns: 54px minmax(0,1fr);
+  gap: 16px;
+  max-width: 35rem;
+  margin: 0 auto 34px;
+  padding: 4px 0 28px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  background: transparent;
+  box-shadow: none;
+}
+
+.dua-cat-head-title {
+  color: var(--cream-text);
+  font-size: clamp(1.45rem, 5vw, 2rem);
+  line-height: 1.2;
+}
+
+.dua-cat-head-meta {
+  color: var(--muted-secondary);
+  font-size: max(calc(var(--normal-font-size, 1rem) * .86), 13px);
+  line-height: 1.55;
+}
+
+.dua-card {
+  max-width: 36rem;
+  margin: 0 auto 42px;
+  padding: 0 0 40px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(201,168,76,0.13) !important;
+  background: transparent;
+  box-shadow: none;
+  animation: duaCardIn 520ms ease both;
+  animation-delay: calc(min(var(--dua-index, 0), 8) * 55ms);
+}
+
+.dua-card::before {
+  display: none;
+}
+
+.dua-label {
+  justify-content: center;
+  margin: 0 auto 22px;
+  color: var(--app-gold);
+  font-size: clamp(1.25rem, 4.8vw, 1.8rem);
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.dua-label::before,
+.dua-label::after {
+  width: 28px;
+  background: rgba(201,168,76,0.42);
+}
+
+.dua-arabic {
+  color: var(--cream-text);
+  max-width: 34rem;
+  margin-bottom: 20px;
+  font-family: 'Amiri', serif;
+  font-size: clamp(1.8rem, var(--arabic-font-size, 2rem), 3rem);
+  line-height: 2.28;
+  font-weight: 700;
+}
+
+.dua-divider {
+  width: 118px;
+  height: 22px;
+  margin: 18px auto 20px;
+  background:
+    linear-gradient(90deg, transparent, rgba(201,168,76,0.42), transparent) center/100% 1px no-repeat,
+    conic-gradient(from 45deg, transparent 0 25%, rgba(201,168,76,0.52) 0 50%, transparent 0 75%, rgba(201,168,76,0.52) 0) center/12px 12px no-repeat;
+}
+
+.dua-tr {
+  color: rgba(243,234,211,0.62);
+  max-width: 32rem;
+  margin-bottom: 18px;
+  font-size: max(calc(var(--normal-font-size, 1rem) * .96), 14px);
+  line-height: 1.85;
+  letter-spacing: 0;
+}
+
+.dua-mean {
+  color: #bcdcc8;
+  max-width: 32rem;
+  margin: 0 auto;
+  font-size: max(calc(var(--normal-font-size, 1rem) * 1.02), 15px);
+  line-height: 1.85;
+}
+
+.dua-mean span {
+  color: var(--app-gold);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.dua-source {
+  margin-top: 18px;
+  color: rgba(169,152,115,0.76);
+  font-size: max(calc(var(--normal-font-size, 1rem) * .78), 12px);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.codex-progress-ring {
+  box-shadow: var(--shadow-small);
+}
+
+body.dua-reading .codex-progress-ring {
+  opacity: 0.44;
+  transform: scale(0.86);
+}
+
+@keyframes duaModeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes duaCardIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 760px) {
+  #tab-dua {
+    padding-inline: 34px;
+  }
+}
+
+@media (max-width: 380px) {
+  #tab-dua {
+    padding-inline: 14px;
+  }
+  .dua-cat-card {
+    grid-template-columns: 42px minmax(0,1fr);
+    column-gap: 12px;
+    padding-inline: 14px;
+  }
+  .dua-motif,
+  .dcat-icon,
+  .dua-cat-head-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Dua category premium minimal cards */
+body.dua-reading .dua-cat-grid {
+  gap: 18px;
+  max-width: 32rem;
+}
+
+body.dua-reading .dua-cat-card {
+  min-height: 184px;
+  padding: 32px 24px 28px;
+  border: 0;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201,168,76,0.105), transparent 44%),
+    linear-gradient(180deg, rgba(255,255,255,0.026), rgba(255,255,255,0.006)),
+    rgba(8,14,12,0.56);
+  box-shadow: var(--shadow-small);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  text-align: center;
+  isolation: isolate;
+}
+
+body.dua-reading .dua-cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 18px;
+  opacity: 0.12;
+  background:
+    linear-gradient(45deg, transparent 47%, rgba(201,168,76,0.42) 48% 52%, transparent 53%) 0 0/28px 28px,
+    linear-gradient(-45deg, transparent 47%, rgba(201,168,76,0.34) 48% 52%, transparent 53%) 0 0/28px 28px;
+  mask-image: radial-gradient(circle at 50% 38%, #000, transparent 74%);
+  z-index: -2;
+}
+
+body.dua-reading .dua-cat-card::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  width: 74px;
+  height: 74px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  opacity: 0.45;
+  background: radial-gradient(circle, rgba(201,168,76,0.18), transparent 64%);
+  filter: blur(2px);
+  z-index: -1;
+}
+
+body.dua-reading .dua-cat-card:hover,
+body.dua-reading .dua-cat-card:focus-visible {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201,168,76,0.14), transparent 45%),
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008)),
+    rgba(8,14,12,0.64);
+  box-shadow: var(--shadow-active);
+}
+
+body.dua-reading .dcat-icon,
+body.dua-reading .dua-cat-head-icon {
+  width: 58px;
+  height: 58px;
+  color: var(--app-gold);
+  opacity: 0.96;
+  filter: drop-shadow(0 0 11px rgba(201,168,76,0.22));
+}
+
+body.dua-reading .dua-motif {
+  width: 58px;
+  height: 58px;
+  stroke: url(#duaGoldGradient);
+  stroke-width: 1.18;
+}
+
+body.dua-reading .dua-motif .soft-fill {
+  fill: url(#duaGoldGradient);
+  opacity: 0.055;
+}
+
+body.dua-reading .dcat-name {
+  align-self: auto;
+  margin-top: 2px;
+  color: var(--cream-text);
+  font-size: 1.34rem;
+  line-height: 1.22;
+}
+
+body.dua-reading .dcat-desc {
+  grid-column: auto;
+  max-width: 18rem;
+  color: var(--muted-secondary);
+  font-size: max(calc(var(--normal-font-size, 1rem) * .78), 12px);
+  line-height: 1.45;
+  opacity: 0.82;
+}
+
+body.dua-reading .dcat-emoji,
+body.dua-reading .ni:not(.lucide) {
+  display: none !important;
+}
+
+@media (max-width: 380px) {
+  body.dua-reading .dua-cat-card {
+    min-height: 166px;
+    padding: 28px 18px 24px;
+  }
+}
 </style>
 </head>
 <body>
@@ -2708,6 +3208,8 @@ window.addEventListener('load', () => {
   };
 
   const applyTurkishChrome = () => {
+    const langCode = localStorage.getItem('ob-lang') || window._lang || 'ar';
+    if (langCode !== 'tr') return;
     const textMap = {
       'nav-prayer': 'Vakitler',
       'nav-qibla': 'Kıble',
@@ -2754,6 +3256,17 @@ window.addEventListener('load', () => {
       <button type="button" data-tab="qibla">${icon('compass')} Kıble</button>
       <button type="button" data-tab="dhikr">${icon('target')} Zikir</button>
     `;
+    const langCode = localStorage.getItem('ob-lang') || window._lang || 'ar';
+    const labels = {
+      ar: { prayer: 'الصلاة', qibla: 'القبلة', dhikr: 'الذكر' },
+      tr: { prayer: 'Vakitler', qibla: 'Kıble', dhikr: 'Zikir' },
+      en: { prayer: 'Times', qibla: 'Qibla', dhikr: 'Dhikr' }
+    }[langCode] || { prayer: 'Times', qibla: 'Qibla', dhikr: 'Dhikr' };
+    quickbar.innerHTML = `
+      <button type="button" data-tab="prayer">${icon('clock')} ${labels.prayer}</button>
+      <button type="button" data-tab="qibla">${icon('compass')} ${labels.qibla}</button>
+      <button type="button" data-tab="dhikr">${icon('target')} ${labels.dhikr}</button>
+    `;
     quickbar.addEventListener('click', (event) => {
       const target = event.target.closest('button[data-tab]');
       if (!target) return;
@@ -2799,7 +3312,8 @@ window.addEventListener('load', () => {
     });
 
     const float = document.getElementById('float-dhikr');
-    const floatLabel = 'Zikir';
+    const currentLang = localStorage.getItem('ob-lang') || window._lang || 'ar';
+    const floatLabel = document.getElementById('nav-dhikr')?.textContent || (i18n[currentLang]?.navDhikr || 'Dhikr');
     if (float) {
       float.innerHTML = `${icon('target')}<span id="nav-dhikr" style="font-size:0.6rem; color:#fff; font-family:'Scheherazade New',serif;">${floatLabel}</span>`;
     }
@@ -2865,6 +3379,7 @@ window.addEventListener('load', () => {
     enhanceTabs();
     repairText();
     applyTurkishChrome();
+    repairText();
     upgradeLucideShell();
 
     const originalToggleMode = window.toggleMode;
@@ -2904,6 +3419,189 @@ window.addEventListener('load', () => {
     document.addEventListener('DOMContentLoaded', boot);
   } else {
     boot();
+  }
+})();
+
+// ===== DUA READING MODE OVERRIDES =====
+(function () {
+  const motif = (variant = 'rosette') => {
+    const gradient = '<defs><linearGradient id="duaGoldGradient" x1="4" y1="3" x2="20" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#f1d98a"/><stop offset=".52" stop-color="#c9a84c"/><stop offset="1" stop-color="#8a6a1f"/></linearGradient></defs>';
+    const motifs = {
+      crescent: '<path class="soft-fill" d="M16.8 18.8A7.8 7.8 0 0 1 9.4 5.1a6.2 6.2 0 1 0 7.4 13.7Z"/><path d="M16.8 18.8A7.8 7.8 0 0 1 9.4 5.1a6.2 6.2 0 1 0 7.4 13.7Z"/><path d="M18.6 6.2l.5 1.1 1.2.2-.9.8.2 1.2-1-.6-1.1.6.2-1.2-.9-.8 1.2-.2.6-1.1Z"/>',
+      lantern: '<path class="soft-fill" d="M8 9h8l1 8-2 3H9l-2-3 1-8Z"/><path d="M8 9h8l1 8-2 3H9l-2-3 1-8Z"/><path d="M9 9V6.8C9 5.2 10.3 4 12 4s3 1.2 3 2.8V9"/><path d="M10 12h4M9.5 16h5"/><path d="M12 2.7V4M7 21h10"/>',
+      kaaba: '<path class="soft-fill" d="M6 8.5 12 5l6 3.5V19H6V8.5Z"/><path d="M6 8.5 12 5l6 3.5V19H6V8.5Z"/><path d="M6 10.8h12"/><path d="M9 14h6v5H9z"/><path d="M12 5v5.8"/>',
+      tasbih: '<path d="M6.6 8.2a7.4 7.4 0 0 0 9.7 9.8"/><circle cx="6.7" cy="8.1" r="1.2"/><circle cx="5.1" cy="11.2" r="1.1"/><circle cx="5.5" cy="14.6" r="1.1"/><circle cx="7.6" cy="17.2" r="1.1"/><circle cx="10.9" cy="18.3" r="1.1"/><circle cx="14.2" cy="17.5" r="1.1"/><path d="M15.8 6.2 19 3M17.3 7.7 20.5 4.5"/><path d="M14.6 5.4 18.6 9.4"/>',
+      star8: '<path class="soft-fill" d="M12 3.2 14.2 8.1 19.4 6.6 16.9 11.4 21 15 15.6 15.8 15 21 12 16.6 9 21 8.4 15.8 3 15 7.1 11.4 4.6 6.6 9.8 8.1 12 3.2Z"/><path d="M12 3.2 14.2 8.1 19.4 6.6 16.9 11.4 21 15 15.6 15.8 15 21 12 16.6 9 21 8.4 15.8 3 15 7.1 11.4 4.6 6.6 9.8 8.1 12 3.2Z"/><path d="M12 8.2 15.8 12 12 15.8 8.2 12 12 8.2Z"/>',
+      mihrab: '<path class="soft-fill" d="M7 20V9.8C7 6.6 9.2 4 12 4s5 2.6 5 5.8V20H7Z"/><path d="M7 20V9.8C7 6.6 9.2 4 12 4s5 2.6 5 5.8V20"/><path d="M10 20v-7.2c0-1.5.9-2.8 2-3.6 1.1.8 2 2.1 2 3.6V20"/><path d="M5 20h14"/><path d="M12 4V2.8"/>',
+      compass: '<circle class="soft-fill" cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="8.4"/><path d="m15.6 8.4-1.8 5.4-5.4 1.8 1.8-5.4 5.4-1.8Z"/><path d="M12 3.6v1.8M12 18.6v1.8M3.6 12h1.8M18.6 12h1.8"/>',
+      quran: '<path class="soft-fill" d="M5 6.5c2.7 0 5 .7 7 2.1 2-1.4 4.3-2.1 7-2.1V19c-2.7 0-5 .7-7 2.1-2-1.4-4.3-2.1-7-2.1V6.5Z"/><path d="M5 6.5c2.7 0 5 .7 7 2.1v12.5c-2-1.4-4.3-2.1-7-2.1V6.5Z"/><path d="M19 6.5c-2.7 0-5 .7-7 2.1v12.5c2-1.4 4.3-2.1 7-2.1V6.5Z"/><path d="M8 10.5h1.8M8 14h1.8M14.2 10.5H16M14.2 14H16"/>'
+    };
+    return `<svg class="dua-motif" viewBox="0 0 24 24" aria-hidden="true">${gradient}${motifs[variant] || motifs.star8}</svg>`;
+  };
+
+  const categoryMotifs = {
+    morning: 'lantern',
+    evening: 'crescent',
+    night: 'crescent',
+    food: 'star8',
+    mosque: 'kaaba',
+    travel: 'compass',
+    wudu: 'mihrab',
+    sick: 'tasbih',
+    marriage: 'star8',
+    toilet: 'mihrab',
+    quran: 'quran',
+    all: 'star8'
+  };
+
+  const sourceLabels = { ar: 'المصدر: مأثور', tr: 'Kaynak: Meşhur dua metni', en: 'Source: Traditional supplication' };
+  const categorySubtitles = {
+    ar: {
+      morning: 'أذكار الصباح',
+      evening: 'أذكار المساء',
+      night: 'قبل النوم',
+      food: 'أدعية الطعام',
+      mosque: 'أدعية المسجد',
+      travel: 'أدعية السفر',
+      wudu: 'أدعية الوضوء',
+      sick: 'أدعية الشفاء',
+      marriage: 'دعاء الزواج',
+      toilet: 'آداب يومية',
+      quran: 'أدعية قرآنية',
+      all: 'المجموعة كاملة'
+    },
+    tr: {
+      morning: 'Sabah zikirleri',
+      evening: 'Akşam zikirleri',
+      night: 'Uyku öncesi',
+      food: 'Yemek duaları',
+      mosque: 'Cami duaları',
+      travel: 'Yolculuk duaları',
+      wudu: 'Abdest duaları',
+      sick: 'Şifa duaları',
+      marriage: 'Evlilik duası',
+      toilet: 'Günlük adab',
+      quran: 'Kur’an duaları',
+      all: 'Tüm koleksiyon'
+    },
+    en: {
+      morning: 'Morning Adhkar',
+      evening: 'Evening Adhkar',
+      night: 'Before Sleep',
+      food: 'Meals & Gratitude',
+      mosque: 'Mosque Duas',
+      travel: 'Journey Duas',
+      wudu: 'Wudu Duas',
+      sick: 'Healing Duas',
+      marriage: 'Marriage Dua',
+      toilet: 'Daily Etiquette',
+      quran: 'Quranic Duas',
+      all: 'Complete Collection'
+    }
+  };
+
+  window.renderDuaCatGrid = function () {
+    const lang = window._lang || 'ar';
+    const grid = document.getElementById('dua-cat-grid');
+    if (!grid || typeof duaCategories === 'undefined') return;
+    grid.innerHTML = Object.entries(duaCategories).map(([key, cat]) => `
+      <button class="dua-cat-card" type="button" onclick="openDuaCat('${key}')">
+        <span class="dcat-icon">${motif(categoryMotifs[key])}</span>
+        <span class="dcat-name">${cat.title[lang] || cat.title.ar}</span>
+        <span class="dcat-desc">${categorySubtitles[lang]?.[key] || cat.desc[lang] || cat.desc.ar}</span>
+      </button>
+    `).join('');
+  };
+
+  window.renderDuas = function () {
+    const list = document.getElementById('dua-list');
+    if (!list || typeof duas === 'undefined') return;
+    const lang = window._lang || 'ar';
+    const filtered = curCat === 'all' ? duas : duas.filter(d => d.cat === curCat);
+    const meanLabels = { ar:'المعنى', tr:'Anlam', en:'Meaning' };
+    const meanLabel = meanLabels[lang] || meanLabels.ar;
+    const catData = duaCategories[curCat];
+    const catHtml = catData ? `
+      <div class="dua-cat-head">
+        <div class="dua-cat-head-icon">${motif(categoryMotifs[curCat])}</div>
+        <div>
+          <div class="dua-cat-head-title">${catData.title[lang] || catData.title.ar}</div>
+          <div class="dua-cat-head-meta">${filtered.length} ${lang === 'tr' ? 'dua' : lang === 'en' ? 'prayers' : 'أدعية'} · ${catData.desc[lang] || catData.desc.ar}</div>
+        </div>
+      </div>` : '';
+
+    list.innerHTML = catHtml + filtered.map((d, index) => `
+      <article class="dua-card" style="--dua-index:${index}">
+        <h3 class="dua-label">${d.title}</h3>
+        <div class="dua-arabic">${d.arabic}</div>
+        <div class="dua-divider"></div>
+        <div class="dua-tr">${d.tr}</div>
+        <div class="dua-mean"><span>${meanLabel}</span>${d.mean}</div>
+        <div class="dua-source">${d.source || sourceLabels[lang] || sourceLabels.ar}</div>
+      </article>
+    `).join('');
+  };
+
+  const setDuaMode = (id) => {
+    document.body.classList.toggle('dua-reading', id === 'dua');
+  };
+
+  const chromeIcon = (name) => {
+    const paths = {
+      clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+      compass: '<circle cx="12" cy="12" r="9"/><path d="m16.2 7.8-2.1 6.3-6.3 2.1 2.1-6.3 6.3-2.1Z"/>',
+      target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'
+    };
+    return `<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.target}</svg>`;
+  };
+
+  const syncLanguageChrome = (lang = window._lang || localStorage.getItem('ob-lang') || 'ar') => {
+    const labels = {
+      ar: { prayer: 'الصلاة', qibla: 'القبلة', dhikr: 'الذكر' },
+      tr: { prayer: 'Vakitler', qibla: 'Kıble', dhikr: 'Zikir' },
+      en: { prayer: 'Times', qibla: 'Qibla', dhikr: 'Dhikr' }
+    }[lang] || { prayer: 'Times', qibla: 'Qibla', dhikr: 'Dhikr' };
+
+    const quickbar = document.getElementById('codex-quickbar');
+    if (quickbar) {
+      quickbar.innerHTML = `
+        <button type="button" data-tab="prayer">${chromeIcon('clock')} ${labels.prayer}</button>
+        <button type="button" data-tab="qibla">${chromeIcon('compass')} ${labels.qibla}</button>
+        <button type="button" data-tab="dhikr">${chromeIcon('target')} ${labels.dhikr}</button>
+      `;
+    }
+  };
+
+  const previousShowTab = window.showTab;
+  if (typeof previousShowTab === 'function' && !previousShowTab.__duaReadingMode) {
+    window.showTab = function (id, btn) {
+      previousShowTab.call(this, id, btn);
+      setDuaMode(id);
+      if (id === 'dua') requestAnimationFrame(() => window.renderDuaCatGrid());
+    };
+    window.showTab.__duaReadingMode = true;
+  }
+
+  const previousApplyLang = window.applyLang;
+  if (typeof previousApplyLang === 'function' && !previousApplyLang.__duaLanguageMode) {
+    window.applyLang = function (lang) {
+      previousApplyLang.call(this, lang);
+      syncLanguageChrome(lang);
+      window.renderDuaCatGrid();
+    };
+    window.applyLang.__duaLanguageMode = true;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    window.renderDuaCatGrid();
+    syncLanguageChrome();
+    setDuaMode(document.querySelector('.tab.active')?.id?.replace('tab-', ''));
+  });
+
+  if (document.readyState !== 'loading') {
+    window.renderDuaCatGrid();
+    syncLanguageChrome();
+    setDuaMode(document.querySelector('.tab.active')?.id?.replace('tab-', ''));
   }
 })();
 
