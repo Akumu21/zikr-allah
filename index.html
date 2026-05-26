@@ -364,7 +364,88 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 .dua-tr { font-size:0.72rem; color:var(--text-muted); font-style:italic; text-align:center; direction:ltr; margin-bottom:8px; line-height:1.5; }
 .dua-mean { background:rgba(26,94,56,0.1); border:1px solid rgba(39,136,90,0.15); border-radius:8px; padding:7px 10px; font-size:0.78rem; color:#6dbf94; line-height:1.6; }
 
-/* ===== DHIKR STATS ===== */
+.dua-read-bar {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+}
+.dua-read-progress {
+  height: 4px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.dua-read-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.dua-read-info {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 10px;
+  direction: ltr;
+}
+.dua-read-count {
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+.dua-read-total {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.dua-read-btns {
+  display: flex;
+  gap: 8px;
+}
+.dua-read-btn {
+  flex: 1;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--green), #1a5e38);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Amiri', serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.dua-read-btn:active { transform: scale(0.96); }
+.dua-read-btn.done {
+  background: linear-gradient(135deg, #1a5e38, #0d3d24);
+  opacity: 0.7;
+}
+.dua-again-btn {
+  padding: 10px 14px;
+  background: rgba(201,168,76,0.12);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 10px;
+  font-family: 'Amiri', serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.dua-again-btn:active { background: rgba(201,168,76,0.2); }
+
+/* Font size fix - her yerde çalışsın */
+.dua-arabic {
+  font-size: clamp(1.3rem, var(--arabic-font-size, 1.8rem), 2.8rem) !important;
+  line-height: 2.1;
+}
+.dua-tr, .dua-mean {
+  font-size: max(calc(var(--normal-font-size, 1rem) * 0.85), 13px) !important;
+}
+
 .dhikr-stats-bar { display:flex; gap:10px; margin-bottom:12px; }
 .stat-box { flex:1; background:var(--dark2); border:1px solid var(--border); border-radius:14px; padding:10px; text-align:center; }
 .stat-box.stat-main { border-color:var(--gold-dark); }
@@ -1521,6 +1602,216 @@ body.dua-reading .ni:not(.lucide) {
     padding: 28px 18px 24px;
   }
 }
+
+/* Dua sketch layout: compact header, two feature cards, calm wide rows */
+body.dua-reading #tab-dua .sec-head {
+  margin: 2px auto 30px;
+  max-width: 32rem;
+  padding: 22px 54px 24px;
+  border-bottom: 1px solid rgba(201,168,76,0.20);
+  position: relative;
+}
+
+body.dua-reading #tab-dua .sec-head::before,
+body.dua-reading #tab-dua .sec-head::after {
+  content: '';
+  position: absolute;
+  top: 22px;
+  width: 34px;
+  height: 34px;
+  opacity: 0.84;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,0.18));
+}
+
+body.dua-reading #tab-dua .sec-head::before {
+  inset-inline-start: 10px;
+  border-radius: 50%;
+  box-shadow: inset 9px -2px 0 -2px var(--app-gold);
+}
+
+body.dua-reading #tab-dua .sec-head::after {
+  inset-inline-end: 10px;
+  background:
+    linear-gradient(var(--app-gold), var(--app-gold)) center/1px 24px no-repeat,
+    linear-gradient(90deg, var(--app-gold), var(--app-gold)) center/24px 1px no-repeat;
+  transform: rotate(45deg);
+}
+
+body.dua-reading .dua-cat-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 32rem;
+}
+
+body.dua-reading .dua-cat-card {
+  min-height: 156px;
+  padding: 28px 18px 24px;
+}
+
+body.dua-reading .dua-cat-card:nth-child(n + 3) {
+  grid-column: 1 / -1;
+  min-height: 138px;
+  padding-block: 26px 24px;
+}
+
+body.dua-reading .dcat-icon,
+body.dua-reading .dua-cat-head-icon,
+body.dua-reading .dua-motif {
+  width: 52px;
+  height: 52px;
+}
+
+body.dua-reading .dua-motif {
+  stroke-width: 1.08;
+}
+
+body.dua-reading .dcat-name {
+  font-size: 1.22rem;
+}
+
+body.dua-reading .dcat-desc {
+  font-size: max(calc(var(--normal-font-size, 1rem) * .74), 11px);
+}
+
+@media (max-width: 380px) {
+  body.dua-reading #tab-dua .sec-head {
+    padding-inline: 44px;
+  }
+  body.dua-reading .dua-cat-card {
+    min-height: 148px;
+    padding: 24px 14px 22px;
+  }
+}
+
+/* Dua layout tightening: shorter title, smaller top cards, thinner rows */
+body.dua-reading #tab-dua {
+  padding-top: 10px;
+}
+
+body.dua-reading #tab-dua .sec-head {
+  margin: -4px auto 18px;
+  padding: 14px 48px 16px;
+}
+
+body.dua-reading #dua-title {
+  font-size: 0;
+}
+
+body.dua-reading #dua-title::after {
+  content: 'Dua';
+  font-size: clamp(1.75rem, 5.2vw, 2.18rem);
+}
+
+html[lang="ar"] body.dua-reading #dua-title::after {
+  content: 'الأدعية';
+}
+
+html[lang="tr"] body.dua-reading #dua-title::after {
+  content: 'Dualar';
+}
+
+html[lang="en"] body.dua-reading #dua-title::after {
+  content: 'Duas';
+}
+
+body.dua-reading #tab-dua .sec-head::before,
+body.dua-reading #tab-dua .sec-head::after {
+  top: 14px;
+  width: 28px;
+  height: 28px;
+}
+
+body.dua-reading #tab-dua .sec-head::after {
+  background:
+    linear-gradient(var(--app-gold), var(--app-gold)) center/1px 20px no-repeat,
+    linear-gradient(90deg, var(--app-gold), var(--app-gold)) center/20px 1px no-repeat;
+}
+
+body.dua-reading .dua-cat-grid {
+  gap: 12px;
+  max-width: 30rem;
+}
+
+body.dua-reading .dua-cat-card {
+  min-height: 128px;
+  padding: 22px 14px 18px;
+  border-radius: 18px;
+  gap: 8px;
+}
+
+body.dua-reading .dua-cat-card::before {
+  inset: 10px;
+  border-radius: 14px;
+}
+
+body.dua-reading .dua-cat-card::after {
+  top: 16px;
+  width: 58px;
+  height: 58px;
+}
+
+body.dua-reading .dua-cat-card:nth-child(n + 3) {
+  min-height: 92px;
+  padding: 18px 18px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 2px;
+  text-align: start;
+  align-items: center;
+}
+
+body.dua-reading .dua-cat-card:nth-child(n + 3) .dcat-icon {
+  grid-row: 1 / span 2;
+}
+
+body.dua-reading .dcat-icon,
+body.dua-reading .dua-cat-head-icon,
+body.dua-reading .dua-motif {
+  width: 42px;
+  height: 42px;
+}
+
+body.dua-reading .dcat-name {
+  font-size: 1.1rem;
+}
+
+body.dua-reading .dcat-desc {
+  font-size: max(calc(var(--normal-font-size, 1rem) * .7), 10px);
+}
+
+@media (max-width: 380px) {
+  body.dua-reading #tab-dua {
+    padding-top: 6px;
+  }
+
+  body.dua-reading .dua-cat-grid {
+    gap: 10px;
+  }
+
+  body.dua-reading .dua-cat-card {
+    min-height: 120px;
+    padding: 20px 10px 16px;
+  }
+
+  body.dua-reading .dua-cat-card:nth-child(n + 3) {
+    min-height: 84px;
+    padding: 15px 14px;
+  }
+}
+
+/* Remove the Dua section title band completely */
+body.dua-reading #tab-dua .sec-head {
+  display: none !important;
+}
+
+body.dua-reading #tab-dua {
+  padding-top: 18px;
+}
+
+body.dua-reading .dua-cat-grid {
+  margin-top: 0;
+}
 </style>
 </head>
 <body>
@@ -1600,7 +1891,7 @@ body.dua-reading .ni:not(.lucide) {
     <!-- DUA -->
     <div class="tab" id="tab-dua">
       <div class="sec-head">
-        <div class="sec-title" id="dua-title">الأدعية المأثورة</div>
+        <div class="sec-title" id="dua-title">الأدعية</div>
         <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
       </div>
       <div id="dua-cat-cards">
@@ -2105,7 +2396,7 @@ const i18n = {
     appSub: 'ذكر ودعاء وقبلة',
     prayerTitle: 'مواقيت الصلاة',
     qiblaTitle: 'اتجاه القبلة',
-    duaTitle: 'الأدعية المأثورة',
+    duaTitle: 'الأدعية',
     dhikrTitle: 'عداد الذكر',
     namesTitle: 'أسماء الله الحسنى',
     navPrayer: 'الصلاة',
@@ -2766,6 +3057,55 @@ const duas = [
   { cat:'quran', title:'رَبَّنَا آتِنَا', arabic:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', tr:'Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina \'adhab an-nar', mean:'ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار' },
 ];
 
+const morningDhikr = (title, arabic, count, benefit = '') => ({
+  cat: 'morning',
+  title,
+  arabic,
+  tr: count,
+  mean: benefit || ' ',
+  source: 'أذكار الصباح'
+});
+
+const morningAdhkarFull = [
+  morningDhikr('الاستعاذة وآية الكرسي', `أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
+اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255].`, 'مرة واحدة', 'من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح.'),
+  morningDhikr('سورة الإخلاص', `بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+قُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.`, 'ثلاث مرات', 'من قالها حين يصبح وحين يمسى كفته من كل شىء.'),
+  morningDhikr('سورة الفلق', `بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ.`, 'ثلاث مرات'),
+  morningDhikr('سورة الناس', `بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ.`, 'ثلاث مرات'),
+  morningDhikr('أصبحنا وأصبح الملك لله', `أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.`, 'مرة واحدة'),
+  morningDhikr('سيد الاستغفار', `اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ، خَلَقْتَنـي وَأَنا عَبْـدُك، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ.`, 'مرة واحدة', 'من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح.'),
+  morningDhikr('رضيت بالله ربا', `رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً.`, 'ثلاث مرات', 'من قالها حين يصبح وحين يمسى كان حقا على الله أن يرضيه يوم القيامة.'),
+  morningDhikr('الشهادة لله', `اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك، وَمَلَائِكَتَكَ، وَجَمـيعَ خَلْـقِك، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك، وَأَنَّ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك.`, 'مرة واحدة', 'من قالها أعتقه الله من النار.'),
+  morningDhikr('شكر النعمة', `اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.`, 'مرة واحدة', 'من قالها حين يصبح أدى شكر يومه.'),
+  morningDhikr('حسبي الله', `حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم.`, 'سبع مرات', 'من قالها كفاه الله ما أهمه من أمر الدنيا والأخرة.'),
+  morningDhikr('بسم الله الذي لا يضر', `بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم.`, 'ثلاث مرات', 'لم يضره من الله شيء.'),
+  morningDhikr('اللهم بك أصبحنا', `اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور.`, 'مرة واحدة'),
+  morningDhikr('على فطرة الإسلام', `أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.`, 'مرة واحدة'),
+  morningDhikr('سبحان الله وبحمده عدد خلقه', `سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه، وَرِضـا نَفْسِـه، وَزِنَـةَ عَـرْشِـه، وَمِـدادَ كَلِمـاتِـه.`, 'ثلاث مرات'),
+  morningDhikr('العافية في البدن', `اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْـعي، اللّهُـمَّ عافِـني في بَصَـري، لا إلهَ إلاّ أَنْـتَ.`, 'ثلاث مرات'),
+  morningDhikr('الاستعاذة من الكفر والفقر', `اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر، وَالفَـقْر، وَأَعـوذُ بِكَ مِنْ عَذابِ القَـبْر، لا إلهَ إلاّ أَنْـتَ.`, 'ثلاث مرات'),
+  morningDhikr('العفو والعافية', `اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في الدُّنْـيا وَالآخِـرَة، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في ديني وَدُنْـيايَ وَأهْـلي وَمالـي، اللّهُـمَّ اسْتُـرْ عـوْراتي وَآمِـنْ رَوْعاتـي، اللّهُـمَّ احْفَظْـني مِن بَـينِ يَدَيَّ وَمِن خَلْفـي وَعَن يَمـيني وَعَن شِمـالي، وَمِن فَوْقـي، وَأَعـوذُ بِعَظَمَـتِكَ أَن أُغْـتالَ مِن تَحْتـي.`, 'مرة واحدة'),
+  morningDhikr('يا حي يا قيوم', `يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ أصْلِحْ لِي شَأنِي كُلَّهُ وَلاَ تَكِلْنِي إلَى نَفْسِي طَـرْفَةَ عَيْنٍ.`, 'ثلاث مرات'),
+  morningDhikr('خير هذا اليوم', `أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ خَـيْرَ هـذا الـيَوْم، فَـتْحَهُ، وَنَصْـرَهُ، وَنـورَهُ وَبَـرَكَتَـهُ، وَهُـداهُ، وَأَعـوذُ بِـكَ مِـنْ شَـرِّ ما فـيهِ وَشَـرِّ ما بَعْـدَه.`, 'مرة واحدة'),
+  morningDhikr('عالم الغيب والشهادة', `اللّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ فاطِـرَ السّماواتِ وَالأرْضِ رَبَّ كـلِّ شَـيءٍ وَمَليـكَه، أَشْهَـدُ أَنْ لا إِلـهَ إِلاّ أَنْت، أَعـوذُ بِكَ مِن شَـرِّ نَفْسـي وَمِن شَـرِّ الشَّيْـطانِ وَشِرْكِهِ، وَأَنْ أَقْتَـرِفَ عَلـى نَفْسـي سوءاً أَوْ أَجُـرَّهُ إِلـى مُسْـلِم.`, 'مرة واحدة'),
+  morningDhikr('كلمات الله التامات', `أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَـرِّ ما خَلَـق.`, 'ثلاث مرات'),
+  morningDhikr('الصلاة على النبي', `اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد.`, 'عشر مرات', 'من صلى على حين يصبح وحين يمسى أدركته شفاعتى يوم القيامة.'),
+  morningDhikr('الاستغفار من الشرك', `اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ.`, 'ثلاث مرات'),
+  morningDhikr('الهم والحزن', `اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنْ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنْ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَقَهْرِ الرِّجَالِ.`, 'ثلاث مرات'),
+  morningDhikr('أستغفر الله العظيم', `أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لاَ إلَهَ إلاَّ هُوَ، الحَيُّ القَيُّومُ، وَأتُوبُ إلَيهِ.`, 'ثلاث مرات'),
+  morningDhikr('لك الحمد', `يَا رَبِّ، لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ، وَلِعَظِيمِ سُلْطَانِكَ.`, 'ثلاث مرات'),
+  morningDhikr('علم نافع ورزق طيب', `اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا.`, 'مرة واحدة'),
+  morningDhikr('التوكل على الله', `اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، عَلَيْكَ تَوَكَّلْتُ، وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيمِ، مَا شَاءَ اللَّهُ كَانَ، وَمَا لَمْ يَشَأْ لَمْ يَكُنْ، وَلا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ، أَعْلَمُ أَنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، وَأَنَّ اللَّهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا، إِنَّ رَبِّي عَلَى صِرَاطٍ مُسْتَقِيمٍ.`, 'مرة واحدة', 'ذكر طيب.'),
+  morningDhikr('لا إله إلا الله وحده', `لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ.`, 'مائة مرة', 'كانت له عدل عشر رقاب، وكتبت له مئة حسنة، ومحيت عنه مئة سيئة، وكانت له حرزا من الشيطان.'),
+  morningDhikr('سبحان الله وبحمده', `سُبْحـانَ اللهِ وَبِحَمْـدِهِ.`, 'مائة مرة', 'حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ.'),
+  morningDhikr('أستغفر الله وأتوب إليه', `أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ`, 'مائة مرة', 'مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.')
+];
+
+duas.unshift(...morningAdhkarFull);
+
 let curCat = 'all';
 
 function openDuaCat(cat) {
@@ -2791,7 +3131,12 @@ function renderDuas() {
   const lang = window._lang || 'ar';
   const filtered = curCat === 'all' ? duas : duas.filter(d => d.cat === curCat);
   const meanLabels = { ar:'المعنى', tr:'Anlamı', en:'Meaning' };
+  const timesLabels = { ar:'مرة', tr:'kez', en:'times' };
+  const readLabels = { ar:'اقرأ', tr:'Oku', en:'Read' };
+  const doneLabels = { ar:'✓ تم', tr:'✓ Tamam', en:'✓ Done' };
+  const againLabels = { ar:'↺ مرة أخرى', tr:'↺ Tekrar', en:'↺ Again' };
   const meanLabel = meanLabels[lang] || 'المعنى';
+  const timesLabel = timesLabels[lang] || 'kez';
   const catData = duaCategories[curCat];
   const catHtml = catData ? `
     <div class="dua-cat-head">
@@ -2801,18 +3146,76 @@ function renderDuas() {
         <div class="dua-cat-head-meta">${filtered.length} ${lang==='tr'?'dua':lang==='en'?'prayers':'أدعية'} · ${catData.desc[lang]||catData.desc.ar}</div>
       </div>
     </div>` : '';
-  list.innerHTML = catHtml + filtered.map(d => `
-    <div class="dua-card">
+  list.innerHTML = catHtml + filtered.map((d, i) => {
+    const target = d.target || 1;
+    return `
+    <div class="dua-card" id="dua-card-${i}">
       <div class="dua-label">${d.title}</div>
       <div class="dua-arabic">${d.arabic}</div>
       <div class="dua-divider"></div>
       <div class="dua-tr">${d.tr}</div>
       <div class="dua-mean"><span>${meanLabel}</span>${d.mean}</div>
+      <div class="dua-read-bar">
+        <div class="dua-read-progress">
+          <div class="dua-read-fill" id="dua-fill-${i}" style="width:0%"></div>
+        </div>
+        <div class="dua-read-info">
+          <span class="dua-read-count" id="dua-count-${i}">0</span>
+          <span class="dua-read-total"> / ${target} ${timesLabel}</span>
+        </div>
+        <div class="dua-read-btns">
+          <button class="dua-read-btn" id="dua-btn-${i}" onclick="duaRead(${i}, ${target})">
+            ${readLabels[lang] || 'Oku'} (${target}x)
+          </button>
+          <button class="dua-again-btn" id="dua-again-${i}" onclick="duaReset(${i}, ${target})" style="display:none">
+            ${againLabels[lang] || '↺ Tekrar'}
+          </button>
+        </div>
+      </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
-function filterDua(cat) { curCat = cat; renderDuas(); }
+// Dua sayaç sistemi
+const duaCounts = {};
+function duaRead(i, target) {
+  if (!duaCounts[i]) duaCounts[i] = 0;
+  if (duaCounts[i] >= target) return;
+  duaCounts[i]++;
+  const fill = document.getElementById(`dua-fill-${i}`);
+  const count = document.getElementById(`dua-count-${i}`);
+  const btn = document.getElementById(`dua-btn-${i}`);
+  const again = document.getElementById(`dua-again-${i}`);
+  const pct = (duaCounts[i] / target) * 100;
+  if (fill) fill.style.width = pct + '%';
+  if (count) count.textContent = duaCounts[i];
+  // Titreşim
+  if (navigator.vibrate) navigator.vibrate(20);
+  if (duaCounts[i] >= target) {
+    if (btn) { btn.textContent = '✓'; btn.classList.add('done'); btn.disabled = true; }
+    if (again) again.style.display = 'inline-flex';
+    if (navigator.vibrate) navigator.vibrate([50,30,80]);
+    const lang = window._lang || 'ar';
+    const toastMsgs = { ar:'أحسنت! اكتملت القراءة ✓', tr:'Tamamlandı! ✓', en:'Completed! ✓' };
+    toast(toastMsgs[lang] || 'Tamamlandı! ✓');
+  }
+}
+function duaReset(i, target) {
+  duaCounts[i] = 0;
+  const fill = document.getElementById(`dua-fill-${i}`);
+  const count = document.getElementById(`dua-count-${i}`);
+  const btn = document.getElementById(`dua-btn-${i}`);
+  const again = document.getElementById(`dua-again-${i}`);
+  if (fill) fill.style.width = '0%';
+  if (count) count.textContent = '0';
+  if (btn) {
+    btn.disabled = false; btn.classList.remove('done');
+    const lang = window._lang || 'ar';
+    const readLabels = { ar:'اقرأ', tr:'Oku', en:'Read' };
+    btn.textContent = `${readLabels[lang] || 'Oku'} (${target}x)`;
+  }
+  if (again) again.style.display = 'none';
+}
 renderDuaCatGrid();
 
 // ===== DHIKR =====
@@ -3427,9 +3830,17 @@ window.addEventListener('load', () => {
   const motif = (variant = 'rosette') => {
     const gradient = '<defs><linearGradient id="duaGoldGradient" x1="4" y1="3" x2="20" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#f1d98a"/><stop offset=".52" stop-color="#c9a84c"/><stop offset="1" stop-color="#8a6a1f"/></linearGradient></defs>';
     const motifs = {
+      sun: '<circle class="soft-fill" cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.7 4.7l1.7 1.7M17.6 17.6l1.7 1.7M2.8 12h2.4M18.8 12h2.4M4.7 19.3l1.7-1.7M17.6 6.4l1.7-1.7"/><path d="M7.2 20.6h9.6"/>',
+      sleep: '<path class="soft-fill" d="M5 12.4h14v5.4H5v-5.4Z"/><path d="M5 8.4v10.2"/><path d="M19 12.4v6.2"/><path d="M5 12.4h14"/><path d="M7.2 10.4h4.2c.8 0 1.4.6 1.4 1.4v.6H7.2v-2Z"/><path d="M5 18.6h14"/><path d="M7 18.6v1.6M17 18.6v1.6"/>',
       crescent: '<path class="soft-fill" d="M16.8 18.8A7.8 7.8 0 0 1 9.4 5.1a6.2 6.2 0 1 0 7.4 13.7Z"/><path d="M16.8 18.8A7.8 7.8 0 0 1 9.4 5.1a6.2 6.2 0 1 0 7.4 13.7Z"/><path d="M18.6 6.2l.5 1.1 1.2.2-.9.8.2 1.2-1-.6-1.1.6.2-1.2-.9-.8 1.2-.2.6-1.1Z"/>',
       lantern: '<path class="soft-fill" d="M8 9h8l1 8-2 3H9l-2-3 1-8Z"/><path d="M8 9h8l1 8-2 3H9l-2-3 1-8Z"/><path d="M9 9V6.8C9 5.2 10.3 4 12 4s3 1.2 3 2.8V9"/><path d="M10 12h4M9.5 16h5"/><path d="M12 2.7V4M7 21h10"/>',
-      kaaba: '<path class="soft-fill" d="M6 8.5 12 5l6 3.5V19H6V8.5Z"/><path d="M6 8.5 12 5l6 3.5V19H6V8.5Z"/><path d="M6 10.8h12"/><path d="M9 14h6v5H9z"/><path d="M12 5v5.8"/>',
+      mosque: '<path class="soft-fill" d="M6.2 19V12.2A5.8 5.8 0 0 1 12 6.4a5.8 5.8 0 0 1 5.8 5.8V19H6.2Z"/><path d="M4.5 19.2h15"/><path d="M6.2 19V12.2A5.8 5.8 0 0 1 12 6.4a5.8 5.8 0 0 1 5.8 5.8V19"/><path d="M9.7 19v-4.9a2.3 2.3 0 0 1 4.6 0V19"/><path d="M12 6.4V3.4"/><path d="M18.4 19V7.4h2.1V19"/><path d="M18.4 7.4c0-.9.5-1.7 1.1-2.3.6.6 1.1 1.4 1.1 2.3"/>',
+      food: '<circle class="soft-fill" cx="10.7" cy="12.5" r="5"/><circle cx="10.7" cy="12.5" r="5"/><path d="M18.2 5.2v14.6"/><path d="M20.2 5.2v5.2a2 2 0 0 1-4 0V5.2"/><path d="M7.8 12.5h5.8"/>',
+      travel: '<path class="soft-fill" d="M7 8h10v11H7V8Z"/><path d="M7 8h10v11H7V8Z"/><path d="M9.5 8V6.6c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6V8"/><path d="M7 12h10"/><path d="M9 19v1.5M15 19v1.5"/><path d="M4.5 5.5c1.2-1.1 2.5-1.7 4-1.8M19.5 20.2c-1.1.7-2.4 1.1-3.8 1.1"/><path d="m19.2 16.8 1.6 3.1-3.4-.3"/>',
+      wudu: '<path class="soft-fill" d="M12 21a5.5 5.5 0 0 0 5.5-5.5C17.5 11.4 12 5 12 5s-5.5 6.4-5.5 10.5A5.5 5.5 0 0 0 12 21Z"/><path d="M12 21a5.5 5.5 0 0 0 5.5-5.5C17.5 11.4 12 5 12 5s-5.5 6.4-5.5 10.5A5.5 5.5 0 0 0 12 21Z"/><path d="M9.2 16.2c.6 1 1.5 1.5 2.8 1.5"/><path d="M6.3 6.3c-.7.5-1.4 1.4-1.8 2.5"/><path d="M4.1 11.1h2.3"/><path d="M17.7 6.3c.7.5 1.4 1.4 1.8 2.5"/><path d="M17.6 11.1h2.3"/>',
+      healing: '<path class="soft-fill" d="M12 20.2s6.5-3.6 6.5-9.2V6.3L12 3.8 5.5 6.3V11c0 5.6 6.5 9.2 6.5 9.2Z"/><path d="M12 20.2s6.5-3.6 6.5-9.2V6.3L12 3.8 5.5 6.3V11c0 5.6 6.5 9.2 6.5 9.2Z"/><path d="M12 8.2v6.6M8.7 11.5h6.6"/>',
+      rings: '<circle class="soft-fill" cx="9.2" cy="13.2" r="4.2"/><circle cx="9.2" cy="13.2" r="4.2"/><circle cx="14.8" cy="13.2" r="4.2"/><path d="M12 7.2l1.5-2.1h-3L12 7.2Z"/><path d="M10.5 5.1h3"/><path d="M7.2 18.6h9.6"/>',
+      toilet: '<path class="soft-fill" d="M8 5.2h7.8v5.3H8V5.2Z"/><path d="M8 5.2h7.8v5.3H8V5.2Z"/><path d="M8.8 10.5h8.4c0 3.9-2.1 6.7-5.2 6.7s-5.2-2.8-5.2-6.7h2"/><path d="M10.1 17.2h3.8"/><path d="M11 17.2v2.5h2v-2.5"/><path d="M15.8 7.2h1.8"/><path d="M17.6 7.2v3.2"/><path d="M7.2 20h9.6"/>',
       tasbih: '<path d="M6.6 8.2a7.4 7.4 0 0 0 9.7 9.8"/><circle cx="6.7" cy="8.1" r="1.2"/><circle cx="5.1" cy="11.2" r="1.1"/><circle cx="5.5" cy="14.6" r="1.1"/><circle cx="7.6" cy="17.2" r="1.1"/><circle cx="10.9" cy="18.3" r="1.1"/><circle cx="14.2" cy="17.5" r="1.1"/><path d="M15.8 6.2 19 3M17.3 7.7 20.5 4.5"/><path d="M14.6 5.4 18.6 9.4"/>',
       star8: '<path class="soft-fill" d="M12 3.2 14.2 8.1 19.4 6.6 16.9 11.4 21 15 15.6 15.8 15 21 12 16.6 9 21 8.4 15.8 3 15 7.1 11.4 4.6 6.6 9.8 8.1 12 3.2Z"/><path d="M12 3.2 14.2 8.1 19.4 6.6 16.9 11.4 21 15 15.6 15.8 15 21 12 16.6 9 21 8.4 15.8 3 15 7.1 11.4 4.6 6.6 9.8 8.1 12 3.2Z"/><path d="M12 8.2 15.8 12 12 15.8 8.2 12 12 8.2Z"/>',
       mihrab: '<path class="soft-fill" d="M7 20V9.8C7 6.6 9.2 4 12 4s5 2.6 5 5.8V20H7Z"/><path d="M7 20V9.8C7 6.6 9.2 4 12 4s5 2.6 5 5.8V20"/><path d="M10 20v-7.2c0-1.5.9-2.8 2-3.6 1.1.8 2 2.1 2 3.6V20"/><path d="M5 20h14"/><path d="M12 4V2.8"/>',
@@ -3440,16 +3851,16 @@ window.addEventListener('load', () => {
   };
 
   const categoryMotifs = {
-    morning: 'lantern',
+    morning: 'sun',
     evening: 'crescent',
-    night: 'crescent',
-    food: 'star8',
-    mosque: 'kaaba',
-    travel: 'compass',
-    wudu: 'mihrab',
-    sick: 'tasbih',
-    marriage: 'star8',
-    toilet: 'mihrab',
+    night: 'sleep',
+    food: 'food',
+    mosque: 'mosque',
+    travel: 'travel',
+    wudu: 'wudu',
+    sick: 'healing',
+    marriage: 'rings',
+    toilet: 'toilet',
     quran: 'quran',
     all: 'star8'
   };
