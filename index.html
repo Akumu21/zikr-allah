@@ -364,78 +364,19 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 .dua-tr { font-size:0.72rem; color:var(--text-muted); font-style:italic; text-align:center; direction:ltr; margin-bottom:8px; line-height:1.5; }
 .dua-mean { background:rgba(26,94,56,0.1); border:1px solid rgba(39,136,90,0.15); border-radius:8px; padding:7px 10px; font-size:0.78rem; color:#6dbf94; line-height:1.6; }
 
-.dua-read-bar {
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(201,168,76,0.1);
-}
-.dua-read-progress {
-  height: 3px;
-  background: rgba(255,255,255,0.07);
-  border-radius: 4px;
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-.dua-read-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--green), var(--gold));
-  border-radius: 4px;
-  transition: width 0.3s ease;
-}
-.dua-read-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  direction: ltr;
-}
-.dua-read-count {
-  font-family: 'Amiri', serif;
-  font-size: 1.1rem;
-  color: var(--gold);
-  font-weight: 700;
-  min-width: 20px;
-}
-.dua-read-sep { color: var(--text-muted); font-size: 0.8rem; }
-.dua-read-total { color: var(--text-muted); font-size: 0.82rem; margin-right: auto; }
-.dua-read-btn {
-  padding: 8px 16px;
-  background: linear-gradient(135deg, var(--green), #1a5e38);
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  font-family: 'Amiri', serif;
-  font-size: 0.88rem;
-  cursor: pointer;
-  transition: transform 0.15s, opacity 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.dua-read-btn:active { transform: scale(0.94); }
-.dua-read-btn.done {
-  background: rgba(26,94,56,0.4);
-  opacity: 0.7;
-  cursor: default;
-}
-.dua-again-btn {
-  width: 34px; height: 34px;
-  background: rgba(201,168,76,0.1);
-  color: var(--gold);
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 50%;
-  font-size: 1rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
-}
-.dua-again-btn:active { background: rgba(201,168,76,0.2); }
+.dua-read-bar { margin-top:14px; padding-top:12px; border-top:1px solid rgba(201,168,76,0.1); }
+.dua-read-progress { height:3px; background:rgba(255,255,255,0.07); border-radius:4px; margin-bottom:10px; overflow:hidden; }
+.dua-read-fill { height:100%; background:linear-gradient(90deg,var(--green),var(--gold)); border-radius:4px; transition:width 0.3s ease; }
+.dua-read-row { display:flex; align-items:center; gap:6px; direction:ltr; }
+.dua-read-count { font-family:'Amiri',serif; font-size:1.1rem; color:var(--gold); font-weight:700; min-width:18px; }
+.dua-read-sep { color:var(--text-muted); font-size:0.8rem; }
+.dua-read-total { color:var(--text-muted); font-size:0.82rem; margin-right:auto; }
+.dua-read-btn { padding:8px 16px; background:linear-gradient(135deg,var(--green),#1a5e38); color:#fff; border:none; border-radius:20px; font-family:'Amiri',serif; font-size:0.88rem; cursor:pointer; transition:transform 0.15s; -webkit-tap-highlight-color:transparent; }
+.dua-read-btn:active { transform:scale(0.94); }
+.dua-read-btn.done { background:rgba(26,94,56,0.4); opacity:0.7; cursor:default; }
+.dua-again-btn { width:34px; height:34px; background:rgba(201,168,76,0.1); color:var(--gold); border:1px solid rgba(201,168,76,0.2); border-radius:50%; font-size:1rem; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent; }
 
-/* Font size - her yerde çalışsın */
-.dua-arabic {
-  font-size: clamp(1.3rem, var(--arabic-font-size, 1.8rem), 2.8rem) !important;
-  line-height: 2.1;
-}
-
+/* ===== DHIKR STATS ===== */
 .dhikr-stats-bar { display:flex; gap:10px; margin-bottom:12px; }
 .stat-box { flex:1; background:var(--dark2); border:1px solid var(--border); border-radius:14px; padding:10px; text-align:center; }
 .stat-box.stat-main { border-color:var(--gold-dark); }
@@ -3121,12 +3062,7 @@ function renderDuas() {
   const lang = window._lang || 'ar';
   const filtered = curCat === 'all' ? duas : duas.filter(d => d.cat === curCat);
   const meanLabels = { ar:'المعنى', tr:'Anlamı', en:'Meaning' };
-  const timesLabels = { ar:'مرة', tr:'kez', en:'times' };
-  const readLabels = { ar:'اقرأ', tr:'Oku', en:'Read' };
-  const doneLabels = { ar:'✓ تم', tr:'✓ Tamam', en:'✓ Done' };
-  const againLabels = { ar:'↺ مرة أخرى', tr:'↺ Tekrar', en:'↺ Again' };
   const meanLabel = meanLabels[lang] || 'المعنى';
-  const timesLabel = timesLabels[lang] || 'kez';
   const catData = duaCategories[curCat];
   const catHtml = catData ? `
     <div class="dua-cat-head">
@@ -3136,74 +3072,58 @@ function renderDuas() {
         <div class="dua-cat-head-meta">${filtered.length} ${lang==='tr'?'dua':lang==='en'?'prayers':'أدعية'} · ${catData.desc[lang]||catData.desc.ar}</div>
       </div>
     </div>` : '';
-  list.innerHTML = catHtml + filtered.map((d, i) => {
-    const target = d.target || 1;
-    const lang = window._lang || 'ar';
-    const timesLabels = { ar:'×', tr:'×', en:'×' };
-    const readLabels = { ar:`اقرأ ${target}×`, tr:`${target}× Oku`, en:`Read ${target}×` };
-    const againLabels = { ar:'↺', tr:'↺', en:'↺' };
-    return `
-    <div class="dua-card" id="dua-card-${i}">
+  list.innerHTML = catHtml + filtered.map(d => `
+    <div class="dua-card">
       <div class="dua-label">${d.title}</div>
       <div class="dua-arabic">${d.arabic}</div>
-      <div class="dua-read-bar">
-        <div class="dua-read-progress">
-          <div class="dua-read-fill" id="dua-fill-${i}" style="width:0%"></div>
-        </div>
-        <div class="dua-read-row">
-          <span class="dua-read-count" id="dua-count-${i}">0</span>
-          <span class="dua-read-sep">/</span>
-          <span class="dua-read-total">${target}</span>
-          <button class="dua-read-btn" id="dua-btn-${i}" onclick="duaRead(${i}, ${target})">${readLabels[lang]}</button>
-          <button class="dua-again-btn" id="dua-again-${i}" onclick="duaReset(${i}, ${target}, '${lang}')" style="display:none">↺</button>
-        </div>
-      </div>
+      <div class="dua-divider"></div>
+      <div class="dua-tr">${d.tr}</div>
+      <div class="dua-mean"><span>${meanLabel}</span>${d.mean}</div>
     </div>
-  `}).join('');
+  `).join('');
 }
 
-// Dua sayaç sistemi
+function filterDua(cat) { curCat = cat; renderDuas(); }
+renderDuaCatGrid();
+
+// ===== DUA SAYAÇ =====
 const duaCounts = {};
 function duaRead(i, target) {
   if (!duaCounts[i]) duaCounts[i] = 0;
   if (duaCounts[i] >= target) return;
   duaCounts[i]++;
-  const fill = document.getElementById(`dua-fill-${i}`);
-  const count = document.getElementById(`dua-count-${i}`);
-  const btn = document.getElementById(`dua-btn-${i}`);
-  const again = document.getElementById(`dua-again-${i}`);
-  const pct = (duaCounts[i] / target) * 100;
-  if (fill) fill.style.width = pct + '%';
+  const fill = document.getElementById(`drf-${i}`);
+  const count = document.getElementById(`drc-${i}`);
+  const btn = document.getElementById(`drb-${i}`);
+  const again = document.getElementById(`dra-${i}`);
+  if (fill) fill.style.width = (duaCounts[i] / target * 100) + '%';
   if (count) count.textContent = duaCounts[i];
-  // Titreşim
   if (navigator.vibrate) navigator.vibrate(20);
   if (duaCounts[i] >= target) {
     if (btn) { btn.textContent = '✓'; btn.classList.add('done'); btn.disabled = true; }
     if (again) again.style.display = 'inline-flex';
     if (navigator.vibrate) navigator.vibrate([50,30,80]);
     const lang = window._lang || 'ar';
-    const toastMsgs = { ar:'أحسنت! اكتملت القراءة ✓', tr:'Tamamlandı! ✓', en:'Completed! ✓' };
-    toast(toastMsgs[lang] || 'Tamamlandı! ✓');
+    const msgs = { ar:'أحسنت! ✓', tr:'Tamamlandı! ✓', en:'Done! ✓' };
+    toast(msgs[lang] || '✓');
   }
 }
-function duaReset(i, target, lang) {
+function duaReset(i, target) {
   duaCounts[i] = 0;
-  const fill = document.getElementById(`dua-fill-${i}`);
-  const count = document.getElementById(`dua-count-${i}`);
-  const btn = document.getElementById(`dua-btn-${i}`);
-  const again = document.getElementById(`dua-again-${i}`);
+  const fill = document.getElementById(`drf-${i}`);
+  const count = document.getElementById(`drc-${i}`);
+  const btn = document.getElementById(`drb-${i}`);
+  const again = document.getElementById(`dra-${i}`);
   if (fill) fill.style.width = '0%';
   if (count) count.textContent = '0';
   if (btn) {
-    btn.disabled = false;
-    btn.classList.remove('done');
-    const l = lang || window._lang || 'ar';
-    const readLabels = { ar:`اقرأ ${target}×`, tr:`${target}× Oku`, en:`Read ${target}×` };
-    btn.textContent = readLabels[l] || `${target}×`;
+    btn.disabled = false; btn.classList.remove('done');
+    const lang = window._lang || 'ar';
+    const labels = { ar:`اقرأ ${target}×`, tr:`${target}× Oku`, en:`Read ${target}×` };
+    btn.textContent = labels[lang] || `${target}×`;
   }
   if (again) again.style.display = 'none';
 }
-renderDuaCatGrid();
 
 // ===== DHIKR =====
 const dhikrSets = {
@@ -3928,16 +3848,25 @@ window.addEventListener('load', () => {
         </div>
       </div>` : '';
 
-    list.innerHTML = catHtml + filtered.map((d, index) => `
-      <article class="dua-card" style="--dua-index:${index}">
+    list.innerHTML = catHtml + filtered.map((d, index) => {
+      const target = d.target || 1;
+      const readLabel = lang === 'tr' ? `${target}× Oku` : lang === 'en' ? `Read ${target}×` : `اقرأ ${target}×`;
+      return `
+      <article class="dua-card" style="--dua-index:${index}" id="dua-card-${index}">
         <h3 class="dua-label">${d.title}</h3>
         <div class="dua-arabic">${d.arabic}</div>
-        <div class="dua-divider"></div>
-        <div class="dua-tr">${d.tr}</div>
-        <div class="dua-mean"><span>${meanLabel}</span>${d.mean}</div>
-        <div class="dua-source">${d.source || sourceLabels[lang] || sourceLabels.ar}</div>
+        <div class="dua-read-bar">
+          <div class="dua-read-progress"><div class="dua-read-fill" id="drf-${index}" style="width:0%"></div></div>
+          <div class="dua-read-row">
+            <span class="dua-read-count" id="drc-${index}">0</span>
+            <span class="dua-read-sep">/</span>
+            <span class="dua-read-total">${target}</span>
+            <button class="dua-read-btn" id="drb-${index}" onclick="duaRead(${index},${target})">${readLabel}</button>
+            <button class="dua-again-btn" id="dra-${index}" onclick="duaReset(${index},${target})" style="display:none">↺</button>
+          </div>
+        </div>
       </article>
-    `).join('');
+    `}).join('');
   };
 
   const setDuaMode = (id) => {
