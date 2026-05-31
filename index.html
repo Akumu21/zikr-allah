@@ -286,9 +286,9 @@ body { background:var(--dark); color:var(--text); transition:background 0.3s,col
 .ob-slider-row input[type=range] { width:100%; accent-color:var(--gold); }
 
 /* Lang cards */
-.ob-langs { display:flex; gap:12px; width:100%; justify-content:center; }
+.ob-langs { display:flex; gap:10px; width:100%; justify-content:center; flex-wrap:wrap; }
 .ob-lang-card {
-  flex:1; padding:16px 8px; border-radius:14px; cursor:pointer;
+  flex:1; min-width:80px; max-width:110px; padding:16px 8px; border-radius:14px; cursor:pointer;
   border:2px solid var(--border); background:var(--dark2);
   text-align:center; transition:all 0.3s;
 }
@@ -1378,6 +1378,16 @@ body.dua-reading #tab-dua .sec-orn::before {
   text-align: center;
 }
 
+.dua-tr-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  opacity: 0.82;
+  margin-bottom: 3px;
+}
+
 .codex-progress-ring {
   box-shadow: var(--shadow-small);
 }
@@ -1827,6 +1837,26 @@ body.dua-reading .dua-cat-grid {
 }
 .azkar-card.done .azkar-card-body { text-decoration: none; }
 
+/* Okunuş (Transliteration) Styles */
+.azkar-trans-wrap {
+  margin: 6px 0 12px;
+  padding: 8px 12px;
+  background: rgba(201,168,76,0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(201,168,76,0.1);
+}
+.azkar-transliteration {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  direction: ltr;
+  text-align: left;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.azkar-transliteration:last-child { margin-bottom: 0; }
+.azkar-en-text { color: rgba(108,191,148,0.75); font-style: normal; }
+
 .azkar-card-count-badge {
   font-size: 0.68rem;
   color: var(--text-muted);
@@ -2163,7 +2193,19 @@ body.dua-reading .dua-cat-grid {
 <!-- ONBOARDING -->
 <div id="onboarding" style="display:none">
   <div class="ob-wrap">
+    <!-- Adım 1: Dil Seçimi -->
     <div class="ob-step" id="ob-step-1">
+      <div class="ob-icon">🌍</div>
+      <div class="ob-title" style="font-size:1.5rem; text-align:center;">Dil / Language / اللغة</div>
+      <div class="ob-sub">Dilinizi seçin / Choose your language / اختر لغتك</div>
+      <div class="ob-langs">
+        <div class="ob-lang-card" id="lang-tr" onclick="selectLang('tr')"><div class="ob-lang-flag">🇹🇷</div><div class="ob-lang-name">Türkçe</div></div>
+        <div class="ob-lang-card" id="lang-en" onclick="selectLang('en')"><div class="ob-lang-flag">🇬🇧</div><div class="ob-lang-name">English</div></div>
+        <div class="ob-lang-card selected" id="lang-ar" onclick="selectLang('ar')"><div class="ob-lang-flag">🇸🇦</div><div class="ob-lang-name">العربية</div></div>
+      </div>
+    </div>
+    <!-- Adım 2: Tema -->
+    <div class="ob-step" id="ob-step-2" style="display:none">
       <div class="ob-icon">🎨</div>
       <div class="ob-title">اختر السمة</div>
       <div class="ob-themes">
@@ -2181,7 +2223,8 @@ body.dua-reading .dua-cat-grid {
         <label class="ob-toggle"><input type="checkbox" id="auto-theme-cb" onchange="toggleAutoTheme(this)"><span class="ob-slider-sw"></span></label>
       </div>
     </div>
-    <div class="ob-step" id="ob-step-2" style="display:none">
+    <!-- Adım 3: Font boyutu -->
+    <div class="ob-step" id="ob-step-3" style="display:none">
       <div class="ob-icon">🔤</div>
       <div class="ob-title">حجم النص</div>
       <div class="ob-preview-box">
@@ -2190,15 +2233,6 @@ body.dua-reading .dua-cat-grid {
       </div>
       <div class="ob-slider-row"><span>حجم الخط العربي</span><input type="range" min="1.4" max="2.8" step="0.1" value="2.0" id="arabic-size-sl" oninput="updateFontPreview()"><span id="arabic-size-val">2.0rem</span></div>
       <div class="ob-slider-row"><span>حجم النص العادي</span><input type="range" min="0.8" max="1.4" step="0.05" value="1.0" id="normal-size-sl" oninput="updateFontPreview()"><span id="normal-size-val">1.0rem</span></div>
-    </div>
-    <div class="ob-step" id="ob-step-3" style="display:none">
-      <div class="ob-icon">🌍</div>
-      <div class="ob-title">اللغة</div>
-      <div class="ob-langs">
-        <div class="ob-lang-card selected" id="lang-ar" onclick="selectLang('ar')"><div class="ob-lang-flag">🇸🇦</div><div class="ob-lang-name">العربية</div></div>
-        <div class="ob-lang-card" id="lang-tr" onclick="selectLang('tr')"><div class="ob-lang-flag">🇹🇷</div><div class="ob-lang-name">Türkçe</div></div>
-        <div class="ob-lang-card" id="lang-en" onclick="selectLang('en')"><div class="ob-lang-flag">🇬🇧</div><div class="ob-lang-name">English</div></div>
-      </div>
     </div>
     <div class="ob-dots"><span class="ob-dot active" id="dot-1"></span><span class="ob-dot" id="dot-2"></span><span class="ob-dot" id="dot-3"></span></div>
     <div class="ob-btns">
@@ -2872,10 +2906,29 @@ function selectLang(l) {
   obLang = l;
   document.querySelectorAll('.ob-lang-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('lang-' + l).classList.add('selected');
+  // HTML dir ve lang attribute'unu hemen güncelle (preview için)
+  document.documentElement.lang = l === 'ar' ? 'ar' : l === 'tr' ? 'tr' : 'en';
+  document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
 }
 
 function obNext() {
   if (obStep < 3) {
+    // Adım 1'den geçerken dili hemen uygula
+    if (obStep === 1) {
+      window._lang = obLang;
+      // Tema adımını seçilen dile göre güncelle
+      const themeLabels = { tr: 'Tema Seçin', en: 'Choose Theme', ar: 'اختر السمة' };
+      const autoLabels = { tr: 'Saate göre otomatik', en: 'Auto by time', ar: 'تلقائي حسب الوقت' };
+      const darkLabels = { tr: '🌙 Gece', en: '🌙 Dark', ar: '🌙 ليلي' };
+      const lightLabels = { tr: '☀️ Gündüz', en: '☀️ Light', ar: '☀️ نهاري' };
+      const fontLabels = { tr: 'Yazı Boyutu', en: 'Font Size', ar: 'حجم النص' };
+      const skipLabels = { tr: 'Geç', en: 'Skip', ar: 'تخطي' };
+      const nextLabels = { tr: 'İleri →', en: 'Next →', ar: 'التالي ←' };
+      const startLabels = { tr: '✨ Uygulamayı Başlat', en: '✨ Start App', ar: 'ابدأ التطبيق ✨' };
+      document.querySelector('.ob-skip').textContent = skipLabels[obLang] || skipLabels.ar;
+      document.getElementById('ob-next-btn').textContent = nextLabels[obLang] || nextLabels.ar;
+      document.getElementById('ob-start-btn').textContent = startLabels[obLang] || startLabels.ar;
+    }
     document.getElementById('ob-step-' + obStep).style.display = 'none';
     obStep++;
     document.getElementById('ob-step-' + obStep).style.display = 'flex';
@@ -3371,6 +3424,13 @@ function duaRead(i, target) {
     const lang = window._lang || 'ar';
     const msgs = { ar:'أحسنت! ✓', tr:'Tamamlandı! ✓', en:'Done! ✓' };
     toast(msgs[lang] || '✓');
+    // Bir sonraki duaya geç
+    const nextCard = document.getElementById(`dua-card-${i + 1}`);
+    if (nextCard) {
+      setTimeout(() => {
+        nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 600);
+    }
   }
 }
 function duaReset(i, target) {
@@ -3449,6 +3509,64 @@ const azkarData = {
   ],
 };
 
+// ===== AZKAR TRANSLITERATIONS =====
+const azkarTrans = {
+  morning: [
+    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm...', en: 'I seek refuge in Allah from Satan the outcast. Allah, there is no deity except Him, the Ever-Living, the Sustainer...' },
+    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled ve lem yekün lehû küfüven ehad.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One, Allah, the Eternal Refuge, He neither begets nor is born, nor is there to Him any equivalent.' },
+    { tr: 'Asbahnâ ve asbahal mülkü lillâh, velhamdülillâh, lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamd ve hüve alâ külli şey\'in kadîr.', en: 'We have reached the morning and at this very time the sovereignty belongs to Allah. All praise is due to Allah. None has the right to be worshipped except Allah, alone.' },
+    { tr: 'Allâhümme ente rabbî lâ ilâhe illâ ente, halaktenî ve ene abdük, ve ene alâ ahdike ve va\'dike mestatâtü, eûzü bike min şerri mâ sanâtü, ebûu leke bini\'metike aleyye ve ebûu bizenbî fağfirlî.', en: 'O Allah, You are my Lord, there is none worthy of worship except You. You created me and I am your slave. I keep Your covenant, and my pledge to You so far as I am able.' },
+    { tr: 'Allâhümme innî esbahtu üşhidük ve üşhidü hamelete arşike ve melâiketeke ve cemî\'a halkık, enneke entallâhü lâ ilâhe illâ ente vahdeke lâ şerîke leke.', en: 'O Allah, I have reached the morning and call on You, the bearers of Your Throne, Your angels and all of Your creation, to witness that You are Allah, there is none worthy of worship except You, alone, without partner.' },
+    { tr: 'Allâhümme mâ esbaha bî min ni\'metin ev biehadin min halkıke feminkü vahdeke lâ şerîke leke felakel hamdü ve lekeşşükr.', en: 'O Allah, whatever blessing I or any of Your creation have risen upon, is from You alone, without partner, so for You is all praise and unto You all thanks.' },
+    { tr: 'Radîtü billâhi rabben ve bil\'islâmi dînen ve bi Muhammedin sallallâhü aleyhi ve selleme nebiyyen.', en: 'I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.' },
+    { tr: 'Hasbiyallâhü lâ ilâhe illâ hüve aleyhi tevekkeltü ve hüve rabbül arşil azîm.', en: 'Allah is sufficient for me, there is none worthy of worship except Him, upon Him I rely and He is the Lord of the Mighty Throne.' },
+    { tr: 'Bismillâhillezî lâ yedurru mea\'smihî şey\'ün fil ardı ve lâ fissemâi ve hüvessemîul alîm.', en: 'In the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is the All-Seeing, All-Knowing.' },
+    { tr: 'Allâhümme bike asbahnâ ve bike emseynâ ve bike nahyâ ve bike nemûtü ve ileyken nüşûr.', en: 'O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening, by Your leave we live and die and unto You is our resurrection.' },
+    { tr: 'Allâhümme âfinî fî bedenî, Allâhümme âfinî fî sem\'î, Allâhümme âfinî fî basarî, lâ ilâhe illâ ente.', en: 'O Allah, grant my body health, O Allah, grant my hearing health, O Allah, grant my sight health. None has the right to be worshipped except You.' },
+    { tr: 'Allâhümme innî eûzü bike minel küfri vel fakr, ve eûzü bike min azâbil kabr, lâ ilâhe illâ ente.', en: 'O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave. None has the right to be worshipped except You.' },
+    { tr: 'Allâhümme innî es\'elükel afve vel âfiyete fiddünyâ vel âhirah...', en: 'O Allah, I ask You for pardon and well-being in this life and the next. O Allah, I ask You for pardon and well-being in my religious and worldly affairs...' },
+    { tr: 'Yâ hayyu yâ kayyûmü birahmetike estağîs, aslih lî şe\'nî küllehu ve lâ tekilnî ilâ nefsî tarfete ayn.', en: 'O Ever Living, O Self-Sustaining and Supporter of all, by Your mercy I seek assistance, rectify for me all of my affairs and do not leave me to depend on myself, even for the blink of an eye.' },
+    { tr: 'Sübhânallâhi ve bihamdihî adede halkıhî ve rıdâ nefsihî ve zinete arşihî ve midâde kelimâtih.', en: 'Glory is to Allah and praise is to Him, by the multitude of His creation, by His Pleasure, by the weight of His Throne, and by the extent of His Words.' },
+    { tr: 'Allâhümme salli ve sellim ve bârik alâ nebiyyinâ Muhammed.', en: 'O Allah, send Your prayers, peace and blessings upon our Prophet Muhammad.' },
+    { tr: 'Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamdü ve hüve alâ külli şey\'in kadîr.', en: 'None has the right to be worshipped except Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.' },
+    { tr: 'Sübhânallâhi ve bihamdih.', en: 'Glory be to Allah and all praise is due to Him.' },
+    { tr: 'Allâhümme innî es\'elüke ilmen nâfi\'an ve rızkan tayyiben ve amelen mütekabbelen.', en: 'O Allah, I ask You for beneficial knowledge, wholesome provision, and deeds that will be accepted.' },
+  ],
+  evening: [
+    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm...', en: 'I seek refuge in Allah from Satan the outcast. Allah, there is no deity except Him, the Ever-Living, the Sustainer...' },
+    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled ve lem yekün lehû küfüven ehad.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One...' },
+    { tr: 'Emseynâ ve emsel mülkü lillâhi velhamdülillâh, lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamd.', en: 'We have reached the evening and at this very time the sovereignty belongs to Allah. All praise is due to Allah...' },
+    { tr: 'Allâhümme ente rabbî lâ ilâhe illâ ente, halaktenî ve ene abdük, ve ene alâ ahdike ve va\'dike mestatâtü...', en: 'O Allah, You are my Lord, there is none worthy of worship except You. You created me and I am your slave...' },
+    { tr: 'Allâhümme innî emseytü üşhidük ve üşhidü hamelete arşike ve melâiketeke ve cemî\'a halkık...', en: 'O Allah, I have reached the evening and call on You, the bearers of Your Throne, Your angels and all of Your creation to witness...' },
+    { tr: 'Allâhümme mâ emse bî min ni\'metin ev biehadin min halkıke feminkü vahdeke lâ şerîke leke...', en: 'O Allah, whatever blessing I or any of Your creation have entered upon, is from You alone, without partner...' },
+    { tr: 'Radîtü billâhi rabben ve bil\'islâmi dînen ve bi Muhammedin sallallâhü aleyhi ve selleme nebiyyen.', en: 'I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.' },
+    { tr: 'Hasbiyallâhü lâ ilâhe illâ hüve aleyhi tevekkeltü ve hüve rabbül arşil azîm.', en: 'Allah is sufficient for me, there is none worthy of worship except Him, upon Him I rely and He is the Lord of the Mighty Throne.' },
+    { tr: 'Bismillâhillezî lâ yedurru mea\'smihî şey\'ün fil ardı ve lâ fissemâi ve hüvessemîul alîm.', en: 'In the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is the All-Seeing, All-Knowing.' },
+    { tr: 'Allâhümme bike emseynâ ve bike asbahnâ ve bike nahyâ ve bike nemûtü ve ileykel masîr.', en: 'O Allah, by Your leave we have reached the evening and by Your leave we have reached the morning, by Your leave we live and die and unto You is our return.' },
+    { tr: 'Allâhümme âfinî fî bedenî, Allâhümme âfinî fî sem\'î, Allâhümme âfinî fî basarî, lâ ilâhe illâ ente.', en: 'O Allah, grant my body health, O Allah, grant my hearing health, O Allah, grant my sight health. None has the right to be worshipped except You.' },
+    { tr: 'Allâhümme innî eûzü bike minel küfri vel fakr, ve eûzü bike min azâbil kabr, lâ ilâhe illâ ente.', en: 'O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave.' },
+    { tr: 'Allâhümme innî es\'elükel afve vel âfiyete fiddünyâ vel âhirah...', en: 'O Allah, I ask You for pardon and well-being in this life and the next...' },
+    { tr: 'Yâ hayyu yâ kayyûmü birahmetike estağîs, aslih lî şe\'nî küllehu ve lâ tekilnî ilâ nefsî tarfete ayn.', en: 'O Ever Living, O Self-Sustaining and Supporter of all, by Your mercy I seek assistance...' },
+    { tr: 'Sübhânallâhi ve bihamdihî adede halkıhî ve rıdâ nefsihî ve zinete arşihî ve midâde kelimâtih.', en: 'Glory is to Allah and praise is to Him, by the multitude of His creation, by His Pleasure, by the weight of His Throne, and by the extent of His Words.' },
+    { tr: 'Allâhümme salli ve sellim ve bârik alâ nebiyyinâ Muhammed.', en: 'O Allah, send Your prayers, peace and blessings upon our Prophet Muhammad.' },
+    { tr: 'Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamdü ve hüve alâ külli şey\'in kadîr.', en: 'None has the right to be worshipped except Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.' },
+    { tr: 'Sübhânallâhi ve bihamdih.', en: 'Glory be to Allah and all praise is due to Him.' },
+    { tr: 'Eûzü bi kelimâtillâhit tâmmâti min şerri mâ halak.', en: 'I seek refuge in Allah\'s perfect words from the evil He has created.' },
+  ],
+  night: [
+    { tr: 'Bismikellâhümme emûtü ve ahyâ.', en: 'In Your name O Allah, I die and I live.' },
+    { tr: 'Allâhümme kınî azâbeke yevme teb\'asü ibâdek.', en: 'O Allah, protect me from Your punishment on the day Your servants are resurrected.' },
+    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad... Kul eûzü birabbil felak... Kul eûzü birabbin nâs...', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One... Say: I seek refuge in the Lord of the daybreak... Say: I seek refuge in the Lord of mankind...' },
+    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm...', en: 'I seek refuge in Allah from Satan the outcast. Allah, there is no deity except Him, the Ever-Living, the Sustainer...' },
+    { tr: 'Allâhümme eslemtü nefsî ileyke, ve fevvedtü emrî ileyke, ve veccehtü vechî ileyke, ve elce\'tü zahrî ileyke, rağbeten ve rahbeten ileyke, lâ melce\'e ve lâ mencâ minke illâ ileyke, âmentü bikitâbikel lezî enzelte ve nebiyyikel lezî erselte.', en: 'O Allah, I submit my soul unto You, and I entrust my affair unto You and I turn my face towards You, and I totally rely on You, in hope and fear of You. There is no refuge nor safe haven from You except with You. I believe in Your Book that You have revealed and in Your Prophet whom You have sent.' },
+    { tr: 'Sübhâneke Allâhümme rabbî bike vada\'tü cenbî ve bike erfeuhu, fein emeskete nefsî fağfir lehâ, ve in erseltehâ fahfazhâ bimâ tahfezu bihî ibâdekessâlihîn.', en: 'Glory be to You O Allah, my Lord, I have placed my side down (to sleep) and with Your help I raise it. If You withhold my soul (cause me to die in my sleep), then have mercy on it. If You release my soul, then protect it with that which You protect Your righteous servants.' },
+    { tr: 'Sübhânallâh.', en: 'Glory be to Allah.' },
+    { tr: 'Elhamdülillâh.', en: 'All praise is due to Allah.' },
+    { tr: 'Allâhü ekber.', en: 'Allah is the Greatest.' },
+    { tr: 'Allâhümme rabbe\'ssemâvâtisseb\'i ve rabbe\'l ardılazîme, rabbenâ ve rabbe külli şey\'in, fâlikal habbi vennevâ, münezzilet tevrati vel incîli vel kur\'ân...', en: 'O Allah, Lord of the seven heavens and Lord of the tremendous Throne, our Lord and Lord of all things, Splitter of the seed grain and the date stone, Revealer of the Torah, the Gospel and the Criterion...' },
+  ],
+};
+
 // Track per-card counts: { tab: [count, count, ...] }
 const azkarCounts = { morning: null, evening: null, night: null };
 let curAzkarTab = 'morning';
@@ -3487,6 +3605,7 @@ function renderAzkarList() {
   }
   doneMsg.style.display = 'none';
 
+  const lang = window._lang || localStorage.getItem('ob-lang') || 'ar';
   list.innerHTML = items.map((item, i) => {
     const c = counts[i];
     const isDone = c >= item.target;
@@ -3494,10 +3613,21 @@ function renderAzkarList() {
       ? 'مرة واحدة'
       : `${item.target} مرات`;
     const btnLabel = isDone ? '✓ تمّ' : (item.target === 1 ? 'اضغط للذكر' : `${c} / ${item.target}`);
+    // Okunuş bilgisi - sadece TR ve EN'de göster
+    const transData = azkarTrans[curAzkarTab] && azkarTrans[curAzkarTab][i];
+    let transBlock = '';
+    if (transData && lang !== 'ar') {
+      if (lang === 'tr') {
+        transBlock = `<div class="azkar-trans-wrap"><div class="azkar-transliteration">🇹🇷 ${transData.tr}</div></div>`;
+      } else if (lang === 'en') {
+        transBlock = `<div class="azkar-trans-wrap"><div class="azkar-transliteration azkar-en-text">🇬🇧 ${transData.en}</div></div>`;
+      }
+    }
     return `
     <div class="azkar-card ${isDone ? 'done' : ''}" id="azkar-card-${i}">
       <div class="azkar-card-count-badge">${countLabel} · ${item.label}</div>
       <div class="azkar-card-body">${item.text.replace(/\n/g, '<br>')}</div>
+      ${transBlock}
       <div class="azkar-card-footer">
         <div class="azkar-counter-display" id="azkar-cnt-${i}">${c} / ${item.target}</div>
         <button class="azkar-tap-btn ${isDone ? 'done-btn' : ''}" id="azkar-btn-${i}" onclick="tapAzkar(${i})">${btnLabel}</button>
@@ -4053,10 +4183,26 @@ window.addEventListener('load', () => {
     list.innerHTML = catHtml + filtered.map((d, index) => {
       const target = d.target || 1;
       const readLabel = lang === 'tr' ? `${target} kez oku` : lang === 'en' ? `Read ${target}×` : target === 1 ? 'اقرأ مرة' : `اقرأ ${target} مرات`;
+      // Okunuş ve anlam - sadece TR ve EN'de göster
+      const meanLabel2 = meanLabels[lang] || meanLabels.ar;
+      let transBlock = '';
+      if (d.tr && lang !== 'ar') {
+        const trText = d.tr;
+        const meanText = d.mean && d.mean.trim() && d.mean !== ' ' ? d.mean : '';
+        if (lang === 'tr') {
+          transBlock = `
+            <div class="dua-divider"></div>
+            ${trText ? `<p class="dua-tr" dir="ltr"><span class="dua-tr-badge">🇹🇷 Okunuş</span> ${trText}</p>` : ''}
+            ${meanText ? `<div class="dua-mean"><span>${meanLabel2}</span><br>${meanText}</div>` : ''}`;
+        } else if (lang === 'en') {
+          transBlock = meanText ? `<div class="dua-divider"></div><div class="dua-mean"><span>${meanLabel2}</span><br>${meanText}</div>` : '';
+        }
+      }
       return `
       <article class="dua-card" style="--dua-index:${index}" id="dua-card-${index}">
         <h3 class="dua-label">${d.title}</h3>
         <div class="dua-arabic">${d.arabic}</div>
+        ${transBlock}
         <div class="dua-read-bar">
           <div class="dua-read-progress"><div class="dua-read-fill" id="drf-${index}" style="width:0%"></div></div>
           <div class="dua-read-row">
