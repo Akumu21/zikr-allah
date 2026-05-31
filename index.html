@@ -1873,6 +1873,7 @@ body.dua-reading .dua-cat-grid {
         <div class="dhikr-tab active" onclick="switchDhikrTab('general',this)">عام</div>
         <div class="dhikr-tab" onclick="switchDhikrTab('morning',this)">أذكار الصباح</div>
         <div class="dhikr-tab" onclick="switchDhikrTab('evening',this)">أذكار المساء</div>
+        <div class="dhikr-tab" onclick="switchDhikrTab('wakeup',this)">الاستيقاظ</div>
       </div>
       <div class="dhikr-grid" id="dhikr-grid"></div>
       <div class="dhikr-text" id="dhikr-text">سُبْحَانَ اللَّهِ</div>
@@ -2599,6 +2600,11 @@ const duaCategoryIcons = {
 };
 
 const duaCategories = {
+  wakeup: {
+    icon:'🌄',
+    title:{ ar:'أذكار الاستيقاظ', tr:'Uyanış Zikirleri', en:'Waking Up Adhkar' },
+    desc:{ ar:'أذكار الاستيقاظ من النوم', tr:'Uyanırken okunacak dualar', en:'Adhkar upon waking' }
+  },
   morning: {
     icon:'🌅',
     title:{ ar:'أذكار الصباح', tr:'Sabah Duaları', en:'Morning Duas' },
@@ -2964,6 +2970,9 @@ function findQibla() {
 
 // ===== DUA DATA =====
 const duas = [
+  { cat:'wakeup', title:'الحمد لله الذي أحيانا', arabic:'الحَمْـدُ لِلّهِ الّذي أَحْـيانا بَعْـدَ ما أَماتَـنا وَإليه النُّـشور', tr:'Alhamdu lillahil-ladhi ahyana ba\'da ma amatana wa ilayhin-nushur', mean:'الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور', target:1 },
+  { cat:'wakeup', title:'الحمد لله الذي عافاني', arabic:'الحمدُ للهِ الذي عافاني في جَسَدي وَرَدّ عَليّ روحي وَأَذِنَ لي بِذِكْرِه', tr:'Alhamdu lillahil-ladhi afani fi jasadi wa radda alayya ruhi wa adhina li bidhikrih', mean:'الحمد لله الذي عافاني في جسدي ورد علي روحي وأذن لي بذكره', target:1 },
+  { cat:'wakeup', title:'لا إله إلا الله وحده', arabic:'لا إلهَ إلاّ اللّهُ وَحْـدَهُ لا شَـريكَ له، لهُ المُلـكُ ولهُ الحَمـد، وهوَ على كلّ شيءٍ قدير، سُـبْحانَ اللهِ، والحمْـدُ لله، ولا إلهَ إلاّ اللهُ واللهُ أكبَر، وَلا حَولَ وَلا قوّة إلاّ باللّهِ العليّ العظيم. رَبِّ اغْفرْ لي', tr:'La ilaha illallah wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadir, subhanallah, walhamdu lillah, wa la ilaha illallah wallahu akbar, wa la hawla wa la quwwata illa billahil-aliyyil-azim. Rabbighfir li', mean:'لا إله إلا الله وحده لا شريك له له الملك وله الحمد وهو على كل شيء قدير', target:1 },
   { cat:'morning', title:'دعاء الصباح', arabic:'اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ', tr:'Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilayk al-nushur', mean:'اللهم بك أصبحنا وبك أمسينا وبك نحيا وبك نموت وإليك النشور' },
   { cat:'morning', title:'دعاء الاستيقاظ', arabic:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ', tr:'Alhamdu lillahil-ladhi ahyana ba\'da ma amatana wa ilayhin-nushur', mean:'الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور' },
   { cat:'morning', title:'حفظ من كل شر', arabic:'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ', tr:'Bismillahil-ladhi la yadurru ma\'as-mihi shay\'un fil-ardi wa la fis-sama\'i wa huwas-sami\'ul-alim', mean:'بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم' },
@@ -3259,6 +3268,11 @@ const dhikrSets = {
     { text:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ', label:'لا إله إلا الله', target:10 },
     { text:'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ', label:'الصلاة على النبي', target:10 },
     { text:'أَسْتَغْفِرُ اللَّهَ', label:'أستغفر الله', target:100 },
+  ],
+  wakeup: [
+    { text:'الحَمْـدُ لِلّهِ الّذي أَحْـيانا بَعْـدَ ما أَماتَـنا وَإليه النُّـشور', label:'الحمد لله الذي أحيانا', target:1 },
+    { text:'الحمدُ للهِ الذي عافاني في جَسَدي وَرَدّ عَليّ روحي وَأَذِنَ لي بِذِكْرِه', label:'الحمد لله الذي عافاني', target:1 },
+    { text:'لا إلهَ إلاّ اللّهُ وَحْـدَهُ لا شَـريكَ له، لهُ المُلـكُ ولهُ الحَمـد، وهوَ على كلّ شيءٍ قدير، سُـبْحانَ اللهِ، والحمْـدُ لله، ولا إلهَ إلاّ اللهُ واللهُ أكبَر، وَلا حَولَ وَلا قوّة إلاّ باللّهِ العليّ العظيم. رَبِّ اغْفرْ لي', label:'لا إله إلا الله وحده', target:1 },
   ],
 };
 
@@ -3867,6 +3881,7 @@ window.addEventListener('load', () => {
   };
 
   const categoryMotifs = {
+    wakeup: 'sun',
     morning: 'sun',
     evening: 'crescent',
     night: 'sleep',
@@ -3884,6 +3899,7 @@ window.addEventListener('load', () => {
   const sourceLabels = { ar: 'المصدر: مأثور', tr: 'Kaynak: Meşhur dua metni', en: 'Source: Traditional supplication' };
   const categorySubtitles = {
     ar: {
+      wakeup: 'أذكار الاستيقاظ من النوم',
       morning: 'أذكار الصباح',
       evening: 'أذكار المساء',
       night: 'قبل النوم',
@@ -3898,6 +3914,7 @@ window.addEventListener('load', () => {
       all: 'المجموعة كاملة'
     },
     tr: {
+      wakeup: 'Uyanış zikirleri',
       morning: 'Sabah zikirleri',
       evening: 'Akşam zikirleri',
       night: 'Uyku öncesi',
@@ -3912,6 +3929,7 @@ window.addEventListener('load', () => {
       all: 'Tüm koleksiyon'
     },
     en: {
+      wakeup: 'Waking Up Adhkar',
       morning: 'Morning Adhkar',
       evening: 'Evening Adhkar',
       night: 'Before Sleep',
