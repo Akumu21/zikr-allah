@@ -1743,6 +1743,186 @@ body.dua-reading #tab-dua {
 body.dua-reading .dua-cat-grid {
   margin-top: 0;
 }
+
+/* ===== NEW AZKAR CARD SYSTEM ===== */
+.azkar-tabs-wrap {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.azkar-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text-muted);
+  font-family: 'Scheherazade New', serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.22s;
+  -webkit-tap-highlight-color: transparent;
+}
+.azkar-tab.active {
+  background: linear-gradient(135deg, rgba(26,94,56,0.3), rgba(201,168,76,0.12));
+  border-color: rgba(201,168,76,0.5);
+  color: var(--gold);
+}
+.azkar-tab-icon { font-size: 1.4rem; line-height: 1; }
+
+.azkar-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.azkar-progress-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.azkar-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.azkar-progress-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 42px;
+  text-align: left;
+  direction: ltr;
+}
+
+/* Azkar card */
+.azkar-card {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 14px 14px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s, opacity 0.3s;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+.azkar-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+}
+.azkar-card.done {
+  opacity: 0.55;
+  border-color: rgba(39,136,90,0.35);
+}
+.azkar-card.done .azkar-card-body { text-decoration: none; }
+
+.azkar-card-count-badge {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 20px;
+  padding: 2px 9px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.azkar-card-body {
+  font-family: 'Amiri', serif;
+  font-size: 1.28rem;
+  line-height: 2;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 14px;
+}
+.azkar-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+}
+.azkar-counter-display {
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-weight: 700;
+  min-width: 52px;
+  direction: ltr;
+}
+.azkar-tap-btn {
+  flex: 1;
+  padding: 11px 10px;
+  background: linear-gradient(135deg, var(--green), #1a5e38);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Amiri', serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.12s, filter 0.12s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.azkar-tap-btn:active { transform: scale(0.96); }
+.azkar-tap-btn.done-btn {
+  background: linear-gradient(135deg, rgba(39,136,90,0.4), rgba(201,168,76,0.25));
+  color: var(--gold);
+  pointer-events: none;
+}
+.azkar-undo-btn {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.azkar-undo-btn:hover { color: var(--gold); }
+
+/* Completion message */
+.azkar-done-msg {
+  text-align: center;
+  padding: 32px 20px 24px;
+  animation: fadeIn 0.4s ease;
+}
+.azkar-done-icon { font-size: 3rem; margin-bottom: 10px; }
+.azkar-done-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.azkar-done-sub {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.azkar-reset-btn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--green), var(--gold-dark));
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Amiri', serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -1836,73 +2016,40 @@ body.dua-reading .dua-cat-grid {
 
     <!-- DHIKR -->
     <div class="tab" id="tab-dhikr">
-      <div class="sec-head">
-        <div class="sec-title" id="dhikr-title">عداد الذكر</div>
-        <div class="sec-orn">✦ ✦ ✦ ✦ ✦</div>
+      <!-- Azkar Tabs -->
+      <div class="azkar-tabs-wrap">
+        <button class="azkar-tab active" onclick="switchAzkarTab('morning',this)">
+          <span class="azkar-tab-icon">🌅</span>
+          <span>الصباح</span>
+        </button>
+        <button class="azkar-tab" onclick="switchAzkarTab('evening',this)">
+          <span class="azkar-tab-icon">🌇</span>
+          <span>المساء</span>
+        </button>
+        <button class="azkar-tab" onclick="switchAzkarTab('night',this)">
+          <span class="azkar-tab-icon">🌙</span>
+          <span>النوم</span>
+        </button>
       </div>
 
-      <!-- Streak & Stats Bar -->
-      <div class="dhikr-stats-bar">
-        <div class="stat-box">
-          <div class="stat-val" id="streak-val">0</div>
-          <div class="stat-lbl">🔥 Streak</div>
+      <!-- Progress bar -->
+      <div class="azkar-progress-wrap">
+        <div class="azkar-progress-bar">
+          <div class="azkar-progress-fill" id="azkar-progress-fill" style="width:0%"></div>
         </div>
-        <div class="stat-box stat-main">
-          <div class="stat-val" id="today-total-val">0</div>
-          <div class="stat-lbl">📊 Bugün</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="best-streak-val">0</div>
-          <div class="stat-lbl">🏆 En İyi</div>
-        </div>
+        <div class="azkar-progress-label" id="azkar-progress-label">0 / 0</div>
       </div>
 
-      <!-- Günlük Hedef -->
-      <div class="daily-goal-bar">
-        <div class="goal-row">
-          <span class="goal-label" id="goal-label">🎯 Günlük Hedef</span>
-          <span class="goal-nums"><span id="goal-done">0</span> / <span id="goal-target">100</span></span>
-        </div>
-        <div class="goal-track">
-          <div class="goal-fill" id="goal-fill" style="width:0%"></div>
-        </div>
-      </div>
+      <!-- Azkar cards list -->
+      <div id="azkar-list"></div>
 
-      <!-- Zikir Seçimi -->
-      <div class="dhikr-tabs">
-        <div class="dhikr-tab active" onclick="switchDhikrTab('general',this)">عام</div>
-        <div class="dhikr-tab" onclick="switchDhikrTab('morning',this)">أذكار الصباح</div>
-        <div class="dhikr-tab" onclick="switchDhikrTab('evening',this)">أذكار المساء</div>
-        <div class="dhikr-tab" onclick="switchDhikrTab('wakeup',this)">الاستيقاظ</div>
+      <!-- Completion message -->
+      <div class="azkar-done-msg" id="azkar-done-msg" style="display:none">
+        <div class="azkar-done-icon">✨</div>
+        <div class="azkar-done-title">ما شاء الله!</div>
+        <div class="azkar-done-sub">أتممت أذكارك، جعلها الله في ميزان حسناتك</div>
+        <button class="azkar-reset-btn" onclick="resetAzkarTab()">↺ إعادة الأذكار</button>
       </div>
-      <div class="dhikr-grid" id="dhikr-grid"></div>
-      <div class="dhikr-text" id="dhikr-text">سُبْحَانَ اللَّهِ</div>
-
-      <!-- Sayaç -->
-      <div class="counter-area">
-        <div class="counter-c" id="counter-c">
-          <svg class="c-svg" viewBox="0 0 158 158">
-            <defs>
-              <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#27885a"/>
-                <stop offset="100%" style="stop-color:#c9a84c"/>
-              </linearGradient>
-            </defs>
-            <circle class="c-track" cx="79" cy="79" r="75"/>
-            <circle class="c-fill" id="c-fill" cx="79" cy="79" r="75" stroke-dasharray="471.24" stroke-dashoffset="471.24"/>
-          </svg>
-          <div class="c-num" id="c-num">0</div>
-          <div class="c-of" id="c-of">من 33</div>
-        </div>
-      </div>
-
-      <button class="tap-btn" id="tap-dhikr-btn" onclick="tapDhikr()">اضغط للذكر</button>
-      <div class="dhikr-acts">
-        <button class="act-btn" id="undo-btn" onclick="undoDhikr()">↩ تراجع</button>
-        <button class="act-btn" id="reset-btn" onclick="resetDhikr()">↺ إعادة</button>
-        <button class="act-btn" onclick="toggleDhikrSound()">🔊 <span id="sound-label">Ses</span></button>
-      </div>
-      <div class="total-box"><span id="total-label">مجموع الذكر:</span> <span id="total-num">0</span></div>
     </div>
 
     <!-- 99 NAMES -->
@@ -3243,223 +3390,151 @@ function duaReset(i, target) {
   if (again) again.style.display = 'none';
 }
 
-// ===== DHIKR =====
-const dhikrSets = {
-  general: [
-    { text:'سُبْحَانَ اللَّهِ', label:'سبحان الله', target:33 },
-    { text:'الْحَمْدُ لِلَّهِ', label:'الحمد لله', target:33 },
-    { text:'اللَّهُ أَكْبَرُ', label:'الله أكبر', target:33 },
-    { text:'لَا إِلَهَ إِلَّا اللَّهُ', label:'لا إله إلا الله', target:100 },
-    { text:'أَسْتَغْفِرُ اللَّهَ', label:'أستغفر الله', target:100 },
-    { text:'صَلِّ عَلَى النَّبِيِّ ﷺ', label:'الصلاة على النبي', target:100 },
-  ],
+// ===== AZKAR CARD SYSTEM =====
+
+const azkarData = {
   morning: [
-    { text:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', label:'سبحان الله وبحمده', target:100 },
-    { text:'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ', label:'أعوذ بالله', target:3 },
-    { text:'آيَةُ الْكُرْسِيِّ', label:'آية الكرسي', target:1 },
-    { text:'سُبْحَانَ اللَّهِ', label:'سبحان الله', target:33 },
-    { text:'الْحَمْدُ لِلَّهِ', label:'الحمد لله', target:33 },
-    { text:'اللَّهُ أَكْبَرُ', label:'الله أكبر', target:34 },
+    { text: `أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nاللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ`, label: 'آية الكرسي', target: 1 },
+    { text: `بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ\n\nبِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nبِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ`, label: 'المعوذات', target: 3 },
+    { text: `أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُ بِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر`, label: 'أصبحنا وأصبح الملك لله', target: 1 },
+    { text: `اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ، خَلَقْتَنـي وَأَنا عَبْـدُك، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت، أَعـوذُ بِكَ مِنْ شَـرِّ ما صَنَـعْت، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ`, label: 'سيد الاستغفار', target: 1 },
+    { text: `اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك، وَمَلَائِكَتَكَ، وَجَمـيعَ خَلْـقِك، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك، وَأَنَّ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك`, label: 'الشهادة لله', target: 4 },
+    { text: `اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر`, label: 'شكر النعمة', target: 1 },
+    { text: `رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً`, label: 'رضيت بالله رباً', target: 3 },
+    { text: `حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم`, label: 'حسبي الله', target: 7 },
+    { text: `بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم`, label: 'بسم الله الذي لا يضر', target: 3 },
+    { text: `اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور`, label: 'اللهم بك أصبحنا', target: 1 },
+    { text: `اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْـعي، اللّهُـمَّ عافِـني في بَصَـري، لا إلهَ إلاّ أَنْـتَ`, label: 'العافية في البدن', target: 3 },
+    { text: `اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر، وَالفَـقْر، وَأَعـوذُ بِكَ مِنْ عَذابِ القَـبْر، لا إلهَ إلاّ أَنْـتَ`, label: 'الاستعاذة من الكفر والفقر', target: 3 },
+    { text: `اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في الدُّنْـيا وَالآخِـرَة، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في ديني وَدُنْـيايَ وَأهْـلي وَمالـي، اللّهُـمَّ اسْتُـرْ عـوْراتي وَآمِـنْ رَوْعاتـي، اللّهُـمَّ احْفَظْـني مِن بَـينِ يَدَيَّ وَمِن خَلْفـي وَعَن يَمـيني وَعَن شِمـالي، وَمِن فَوْقـي، وَأَعـوذُ بِعَظَمَـتِكَ أَن أُغْـتالَ مِن تَحْتـي`, label: 'العفو والعافية', target: 1 },
+    { text: `يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ أصْلِحْ لِي شَأنِي كُلَّهُ وَلاَ تَكِلْنِي إلَى نَفْسِي طَـرْفَةَ عَيْنٍ`, label: 'يا حي يا قيوم', target: 3 },
+    { text: `سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه، وَرِضـا نَفْسِـه، وَزِنَـةَ عَـرْشِـه، وَمِـدادَ كَلِمـاتِـه`, label: 'سبحان الله وبحمده عدد خلقه', target: 3 },
+    { text: `اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد`, label: 'الصلاة على النبي ﷺ', target: 10 },
+    { text: `لا إلهَ إلاّ اللّهُ وَحْـدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمد، وهوَ على كلّ شيءٍ قدير`, label: 'لا إله إلا الله وحده', target: 100 },
+    { text: `سُبْحـانَ اللهِ وَبِحَمْـدِهِ`, label: 'سبحان الله وبحمده', target: 100 },
+    { text: `اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا`, label: 'علم نافع ورزق طيب', target: 1 },
   ],
   evening: [
-    { text:'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ', label:'أمسينا', target:1 },
-    { text:'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ', label:'أعوذ بكلمات الله', target:3 },
-    { text:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', label:'سبحان الله وبحمده', target:100 },
-    { text:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ', label:'لا إله إلا الله', target:10 },
-    { text:'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ', label:'الصلاة على النبي', target:10 },
-    { text:'أَسْتَغْفِرُ اللَّهَ', label:'أستغفر الله', target:100 },
+    { text: `أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nاللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ`, label: 'آية الكرسي', target: 1 },
+    { text: `بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ\n\nبِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nبِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ`, label: 'المعوذات', target: 3 },
+    { text: `أَمْسَيْنا وَأَمْسَى المُـلْكُ لله وَالحَمدُ لله، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذِهِ اللَّيْلَةِ وَخَـيرَ ما بَعْـدَها، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذِهِ اللَّيلَةِ وَشَرِّ ما بَعْـدَها، رَبِّ أَعـوذُ بِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر`, label: 'أمسينا وأمسى الملك لله', target: 1 },
+    { text: `اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ، خَلَقْتَنـي وَأَنا عَبْـدُك، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت، أَعـوذُ بِكَ مِنْ شَـرِّ ما صَنَـعْت، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ`, label: 'سيد الاستغفار', target: 1 },
+    { text: `اللّهُـمَّ إِنِّـي أَمْسَـيْتُ أُشْـهِدُك، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك، وَمَلَائِكَتَكَ، وَجَمـيعَ خَلْـقِك، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك، وَأَنَّ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك`, label: 'الشهادة لله', target: 4 },
+    { text: `اللّهُـمَّ ما أَمْسَى بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر`, label: 'شكر النعمة', target: 1 },
+    { text: `رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً`, label: 'رضيت بالله رباً', target: 3 },
+    { text: `حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم`, label: 'حسبي الله', target: 7 },
+    { text: `بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم`, label: 'بسم الله الذي لا يضر', target: 3 },
+    { text: `اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْـبَحنا، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ المَصِير`, label: 'اللهم بك أمسينا', target: 1 },
+    { text: `اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْـعي، اللّهُـمَّ عافِـني في بَصَـري، لا إلهَ إلاّ أَنْـتَ`, label: 'العافية في البدن', target: 3 },
+    { text: `اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر، وَالفَـقْر، وَأَعـوذُ بِكَ مِنْ عَذابِ القَـبْر، لا إلهَ إلاّ أَنْـتَ`, label: 'الاستعاذة من الكفر والفقر', target: 3 },
+    { text: `اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في الدُّنْـيا وَالآخِـرَة، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في ديني وَدُنْـيايَ وَأهْـلي وَمالـي، اللّهُـمَّ اسْتُـرْ عـوْراتي وَآمِـنْ رَوْعاتـي، اللّهُـمَّ احْفَظْـني مِن بَـينِ يَدَيَّ وَمِن خَلْفـي وَعَن يَمـيني وَعَن شِمـالي، وَمِن فَوْقـي، وَأَعـوذُ بِعَظَمَـتِكَ أَن أُغْـتالَ مِن تَحْتـي`, label: 'العفو والعافية', target: 1 },
+    { text: `يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ أصْلِحْ لِي شَأنِي كُلَّهُ وَلاَ تَكِلْنِي إلَى نَفْسِي طَـرْفَةَ عَيْنٍ`, label: 'يا حي يا قيوم', target: 3 },
+    { text: `سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه، وَرِضـا نَفْسِـه، وَزِنَـةَ عَـرْشِـه، وَمِـدادَ كَلِمـاتِـه`, label: 'سبحان الله وبحمده عدد خلقه', target: 3 },
+    { text: `اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد`, label: 'الصلاة على النبي ﷺ', target: 10 },
+    { text: `لا إلهَ إلاّ اللّهُ وَحْـدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمد، وهوَ على كلّ شيءٍ قدير`, label: 'لا إله إلا الله وحده', target: 100 },
+    { text: `سُبْحـانَ اللهِ وَبِحَمْـدِهِ`, label: 'سبحان الله وبحمده', target: 100 },
+    { text: `أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ`, label: 'أعوذ بكلمات الله التامات', target: 3 },
   ],
-  wakeup: [
-    { text:'الحَمْـدُ لِلّهِ الّذي أَحْـيانا بَعْـدَ ما أَماتَـنا وَإليه النُّـشور', label:'الحمد لله الذي أحيانا', target:1 },
-    { text:'الحمدُ للهِ الذي عافاني في جَسَدي وَرَدّ عَليّ روحي وَأَذِنَ لي بِذِكْرِه', label:'الحمد لله الذي عافاني', target:1 },
-    { text:'لا إلهَ إلاّ اللّهُ وَحْـدَهُ لا شَـريكَ له، لهُ المُلـكُ ولهُ الحَمـد، وهوَ على كلّ شيءٍ قدير، سُـبْحانَ اللهِ، والحمْـدُ لله، ولا إلهَ إلاّ اللهُ واللهُ أكبَر، وَلا حَولَ وَلا قوّة إلاّ باللّهِ العليّ العظيم. رَبِّ اغْفرْ لي', label:'لا إله إلا الله وحده', target:1 },
+  night: [
+    { text: `بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا`, label: 'باسمك اللهم أموت وأحيا', target: 1 },
+    { text: `اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ`, label: 'اللهم قني عذابك', target: 3 },
+    { text: `بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ\n\nبِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nبِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ`, label: 'المعوذات', target: 3 },
+    { text: `أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nاللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ`, label: 'آية الكرسي', target: 1 },
+    { text: `اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لا مَلْجَأَ وَلا مَنْجَا مِنْكَ إِلاَّ إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ`, label: 'دعاء النوم', target: 1 },
+    { text: `سُبْحَانَكَ اللَّهُمَّ رَبِّي بِكَ وَضَعْتُ جَنْبِي وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَاغْفِرْ لَهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ`, label: 'سبحانك اللهم ربي', target: 1 },
+    { text: `سُبْحَانَ اللَّهِ`, label: 'سبحان الله', target: 33 },
+    { text: `الْحَمْدُ لِلَّهِ`, label: 'الحمد لله', target: 33 },
+    { text: `اللَّهُ أَكْبَرُ`, label: 'الله أكبر', target: 34 },
+    { text: `اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ وَرَبَّ الأَرْضِ الْعَظِيمَةِ، رَبَّنَا وَرَبَّ كُلِّ شَيْءٍ، فَالِقَ الْحَبِّ وَالنَّوَى، مُنَزِّلَ التَّوْرَاةِ وَالإِنْجِيلِ وَالْقُرْآنِ، أَعُوذُ بِكَ مِنْ شَرِّ كُلِّ شَيْءٍ أَنْتَ آخِذٌ بِنَاصِيَتِهِ، أَنْتَ الأَوَّلُ فَلَيْسَ قَبْلَكَ شَيْءٌ، وَأَنْتَ الآخِرُ فَلَيْسَ بَعْدَكَ شَيْءٌ، وَأَنْتَ الظَّاهِرُ فَلَيْسَ فَوْقَكَ شَيْءٌ، وَأَنْتَ الْبَاطِنُ فَلَيْسَ دُونَكَ شَيْءٌ، اقْضِ عَنَّا الدَّيْنَ وَأَغْنِنَا مِنَ الْفَقْرِ`, label: 'اللهم رب السماوات', target: 1 },
   ],
 };
 
-let curDhikrTab = 'general', selDhikr = 0, dhikrCount = 0, totalCount = 0;
-let dhikrSoundOn = true;
-const CIRC = 471.24;
+// Track per-card counts: { tab: [count, count, ...] }
+const azkarCounts = { morning: null, evening: null, night: null };
+let curAzkarTab = 'morning';
 
-// ===== STREAK & STATS =====
-function getDhikrStats() {
-  const today = new Date().toDateString();
-  const stats = JSON.parse(localStorage.getItem('dhikr-stats') || '{}');
-  if (!stats.lastDate) stats.lastDate = '';
-  if (!stats.streak) stats.streak = 0;
-  if (!stats.bestStreak) stats.bestStreak = 0;
-  if (!stats.todayTotal) stats.todayTotal = 0;
-  if (!stats.dailyGoal) stats.dailyGoal = 100;
-  if (stats.lastDate !== today) {
-    const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-    if (stats.lastDate === yesterday.toDateString()) {
-      stats.streak++;
-    } else if (stats.lastDate !== today) {
-      stats.streak = stats.lastDate ? 0 : stats.streak;
-    }
-    stats.todayTotal = 0;
-    stats.lastDate = today;
-    if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+function getAzkarCounts(tab) {
+  if (!azkarCounts[tab]) {
+    azkarCounts[tab] = azkarData[tab].map(() => 0);
   }
-  return stats;
+  return azkarCounts[tab];
 }
 
-function saveDhikrStats(stats) {
-  localStorage.setItem('dhikr-stats', JSON.stringify(stats));
-}
-
-function updateStatsUI() {
-  const stats = getDhikrStats();
-  document.getElementById('streak-val').textContent = stats.streak;
-  document.getElementById('today-total-val').textContent = stats.todayTotal;
-  document.getElementById('best-streak-val').textContent = stats.bestStreak;
-  document.getElementById('goal-done').textContent = stats.todayTotal;
-  document.getElementById('goal-target').textContent = stats.dailyGoal;
-  const pct = Math.min((stats.todayTotal / stats.dailyGoal) * 100, 100);
-  document.getElementById('goal-fill').style.width = pct + '%';
-}
-
-// ===== SES =====
-let audioCtx = null;
-function getDhikrAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
-
-function playDhikrClick() {
-  if (!dhikrSoundOn) return;
-  try {
-    const ctx = getDhikrAudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.08);
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-    osc.start(); osc.stop(ctx.currentTime + 0.12);
-  } catch(e) {}
-}
-
-function playDhikrComplete() {
-  if (!dhikrSoundOn) return;
-  try {
-    const ctx = getDhikrAudioCtx();
-    [523, 659, 784].forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.15, ctx.currentTime + i*0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i*0.1 + 0.3);
-      osc.start(ctx.currentTime + i*0.1);
-      osc.stop(ctx.currentTime + i*0.1 + 0.3);
-    });
-  } catch(e) {}
-}
-
-function toggleDhikrSound() {
-  dhikrSoundOn = !dhikrSoundOn;
-  document.getElementById('sound-label').textContent = dhikrSoundOn ? 'Ses' : 'Sessiz';
-  toast(dhikrSoundOn ? '🔊 Ses açık' : '🔇 Ses kapalı');
-}
-
-// ===== TİTREŞİM =====
-function vibrateDhikr(complete) {
-  if (!navigator.vibrate) return;
-  if (complete) navigator.vibrate([50, 30, 50, 30, 100]);
-  else navigator.vibrate(30);
-}
-
-// ===== ANİMASYONLU SAYI =====
-function animateNum(el, newVal) {
-  el.classList.remove('pop');
-  void el.offsetWidth;
-  el.textContent = newVal;
-  el.classList.add('pop');
-  setTimeout(() => el.classList.remove('pop'), 300);
-}
-
-function switchDhikrTab(tab, btn) {
-  curDhikrTab = tab; selDhikr = 0; dhikrCount = 0;
-  document.querySelectorAll('.dhikr-tab').forEach(b => b.classList.remove('active'));
+function switchAzkarTab(tab, btn) {
+  curAzkarTab = tab;
+  document.querySelectorAll('.azkar-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  renderDhikrGrid(); updateDhikrUI();
+  renderAzkarList();
 }
 
-function renderDhikrGrid() {
-  const items = dhikrSets[curDhikrTab];
-  document.getElementById('dhikr-grid').innerHTML = items.map((d,i) => `
-    <div class="dhikr-chip ${i===selDhikr?'active':''}" onclick="selDhikrItem(${i})">
-      <span class="dc-ar">${d.label}</span>
-      <span class="dc-n">${d.target} مرة</span>
-    </div>
-  `).join('');
-}
+function renderAzkarList() {
+  const items = azkarData[curAzkarTab];
+  const counts = getAzkarCounts(curAzkarTab);
+  const total = items.length;
+  const done = counts.filter((c, i) => c >= items[i].target).length;
 
-function selDhikrItem(i) {
-  selDhikr = i; dhikrCount = 0; renderDhikrGrid(); updateDhikrUI();
-}
+  // Progress
+  document.getElementById('azkar-progress-fill').style.width = (total ? (done/total*100) : 0) + '%';
+  document.getElementById('azkar-progress-label').textContent = done + ' / ' + total;
 
-function updateDhikrUI() {
-  const d = dhikrSets[curDhikrTab][selDhikr];
-  document.getElementById('dhikr-text').textContent = d.text;
-  animateNum(document.getElementById('c-num'), dhikrCount);
-  document.getElementById('c-of').textContent = `من ${d.target}`;
-  const pct = Math.min(dhikrCount/d.target, 1);
-  document.getElementById('c-fill').style.strokeDashoffset = CIRC * (1-pct);
-}
+  const list = document.getElementById('azkar-list');
+  const doneMsg = document.getElementById('azkar-done-msg');
 
-function tapDhikr() {
-  const d = dhikrSets[curDhikrTab][selDhikr];
-  dhikrCount++; totalCount++;
-  document.getElementById('total-num').textContent = totalCount;
-
-  // Stats güncelle
-  const stats = getDhikrStats();
-  stats.todayTotal++;
-  if (stats.todayTotal === 1 && stats.streak === 0) stats.streak = 1;
-  if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
-  saveDhikrStats(stats);
-  updateStatsUI();
-
-  // Tamamlandı mı?
-  const complete = dhikrCount === d.target;
-  if (complete) {
-    playDhikrComplete();
-    vibrateDhikr(true);
-    const c = document.getElementById('counter-c');
-    c.classList.add('complete');
-    setTimeout(() => c.classList.remove('complete'), 600);
-    toast('🌟 أحسنت! أتممت ' + d.target + ' مرة');
-  } else {
-    playDhikrClick();
-    vibrateDhikr(false);
-    const c = document.getElementById('counter-c');
-    c.classList.add('flash'); setTimeout(()=>c.classList.remove('flash'), 250);
+  if (done === total && total > 0) {
+    list.innerHTML = '';
+    doneMsg.style.display = '';
+    return;
   }
+  doneMsg.style.display = 'none';
 
-  // Hedef tamamlandı mı?
-  if (stats.todayTotal === stats.dailyGoal) {
-    setTimeout(() => toast('🏆 Günlük hedefe ulaştın!'), 600);
+  list.innerHTML = items.map((item, i) => {
+    const c = counts[i];
+    const isDone = c >= item.target;
+    const countLabel = item.target === 1
+      ? 'مرة واحدة'
+      : `${item.target} مرات`;
+    const btnLabel = isDone ? '✓ تمّ' : (item.target === 1 ? 'اضغط للذكر' : `${c} / ${item.target}`);
+    return `
+    <div class="azkar-card ${isDone ? 'done' : ''}" id="azkar-card-${i}">
+      <div class="azkar-card-count-badge">${countLabel} · ${item.label}</div>
+      <div class="azkar-card-body">${item.text.replace(/\n/g, '<br>')}</div>
+      <div class="azkar-card-footer">
+        <div class="azkar-counter-display" id="azkar-cnt-${i}">${c} / ${item.target}</div>
+        <button class="azkar-tap-btn ${isDone ? 'done-btn' : ''}" id="azkar-btn-${i}" onclick="tapAzkar(${i})">${btnLabel}</button>
+        ${c > 0 && !isDone ? `<button class="azkar-undo-btn" onclick="undoAzkar(${i})" title="تراجع">↩</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function tapAzkar(i) {
+  const items = azkarData[curAzkarTab];
+  const counts = getAzkarCounts(curAzkarTab);
+  if (counts[i] >= items[i].target) return;
+  counts[i]++;
+  // Vibrate
+  if (navigator.vibrate) navigator.vibrate(counts[i] >= items[i].target ? [40,20,80] : 20);
+  renderAzkarList();
+  // Scroll card into view if just completed
+  if (counts[i] >= items[i].target) {
+    const next = document.getElementById('azkar-card-' + (i + 1));
+    if (next) setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
   }
-
-  if (dhikrCount > d.target) dhikrCount = 1;
-  updateDhikrUI();
 }
 
-function resetDhikr() { dhikrCount = 0; updateDhikrUI(); }
-
-function undoDhikr() {
-  if (dhikrCount > 0) { dhikrCount--; totalCount = Math.max(0, totalCount-1); }
-  document.getElementById('total-num').textContent = totalCount;
-  const stats = getDhikrStats();
-  stats.todayTotal = Math.max(0, stats.todayTotal-1);
-  saveDhikrStats(stats);
-  updateStatsUI();
-  updateDhikrUI();
+function undoAzkar(i) {
+  const counts = getAzkarCounts(curAzkarTab);
+  if (counts[i] > 0) counts[i]--;
+  renderAzkarList();
 }
 
-renderDhikrGrid(); updateDhikrUI(); updateStatsUI();
+function resetAzkarTab() {
+  azkarCounts[curAzkarTab] = azkarData[curAzkarTab].map(() => 0);
+  renderAzkarList();
+}
+
+renderAzkarList();
+
 
 // ===== 99 NAMES =====
 const names99 = [
