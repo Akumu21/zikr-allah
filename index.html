@@ -2994,6 +2994,7 @@ function showTab(id, btn) {
   document.getElementById('tab-' + id).classList.add('active');
   if (id === 'dhikr') {
     document.getElementById('float-dhikr').classList.add('active');
+    if (typeof renderAzkarList === 'function') renderAzkarList();
   } else if (btn && btn.classList && btn.classList.contains('nav-item')) {
     btn.classList.add('active');
   }
@@ -3512,19 +3513,19 @@ const azkarData = {
 // ===== AZKAR TRANSLITERATIONS =====
 const azkarTrans = {
   morning: [
-    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm...', en: 'I seek refuge in Allah from Satan the outcast. Allah, there is no deity except Him, the Ever-Living, the Sustainer...' },
-    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled ve lem yekün lehû küfüven ehad.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One, Allah, the Eternal Refuge, He neither begets nor is born, nor is there to Him any equivalent.' },
-    { tr: 'Asbahnâ ve asbahal mülkü lillâh, velhamdülillâh, lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamd ve hüve alâ külli şey\'in kadîr.', en: 'We have reached the morning and at this very time the sovereignty belongs to Allah. All praise is due to Allah. None has the right to be worshipped except Allah, alone.' },
-    { tr: 'Allâhümme ente rabbî lâ ilâhe illâ ente, halaktenî ve ene abdük, ve ene alâ ahdike ve va\'dike mestatâtü, eûzü bike min şerri mâ sanâtü, ebûu leke bini\'metike aleyye ve ebûu bizenbî fağfirlî.', en: 'O Allah, You are my Lord, there is none worthy of worship except You. You created me and I am your slave. I keep Your covenant, and my pledge to You so far as I am able.' },
-    { tr: 'Allâhümme innî esbahtu üşhidük ve üşhidü hamelete arşike ve melâiketeke ve cemî\'a halkık, enneke entallâhü lâ ilâhe illâ ente vahdeke lâ şerîke leke.', en: 'O Allah, I have reached the morning and call on You, the bearers of Your Throne, Your angels and all of Your creation, to witness that You are Allah, there is none worthy of worship except You, alone, without partner.' },
-    { tr: 'Allâhümme mâ esbaha bî min ni\'metin ev biehadin min halkıke feminkü vahdeke lâ şerîke leke felakel hamdü ve lekeşşükr.', en: 'O Allah, whatever blessing I or any of Your creation have risen upon, is from You alone, without partner, so for You is all praise and unto You all thanks.' },
+    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm. Lâ te\'huzühû sinetün ve lâ nevm. Lehû mâ fissemâvâti ve mâ fil ard. Men zellezî yeşfe\'u indehû illâ bi iznih. Ya\'lemü mâ beyne eydîhim ve mâ halfehüm. Ve lâ yühîtûne bi şey\'in min ilmihî illâ bimâ şâe. Vesi\'a kürsiyyühüssemâvâti vel ard. Ve lâ yeûdühû hıfzuhumâ ve hüvel aliyyül azîm.', en: 'I seek refuge in Allah from Satan the outcast. Allah — there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.' },
+    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled, ve lem yekün lehû küfüven ehad. — Kul eûzü birabbil felak, min şerri mâ halak, ve min şerri ğâsikın izâ vekab, ve min şerrinneffâsâti fil ukad, ve min şerri hâsidin izâ hased. — Kul eûzü birabbin nâs, melikin nâs, ilâhin nâs, min şerril vesvâsil hannâs, ellezî yüvesvisü fî sudûrin nâs, minel cinneti ven nâs.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One, Allah the Eternal Refuge. He neither begets nor was born, nor is there to Him any equivalent. — Say: I seek refuge in the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies. — Say: I seek refuge in the Lord of mankind, the Sovereign of mankind, the God of mankind, from the evil of the retreating whisperer — who whispers in the breasts of mankind — from among jinn and mankind.' },
+    { tr: 'Asbahnâ ve asbahal mülkü lillâh, velhamdülillâh, lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamd ve hüve alâ külli şey\'in kadîr. Rabbi es\'elüke hayra mâ fî hâzal yevmi ve hayra mâ ba\'deh, ve eûzü bike min şerri mâ fî hâzal yevmi ve şerri mâ ba\'deh. Rabbi eûzü bike minel kesel ve sûil kiber. Rabbi eûzü bike min azâbin finnâri ve azâbin fil kabr.', en: 'We have reached the morning and at this very time unto Allah belongs all sovereignty, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without partner, to Him belongs all sovereignty and praise and He is over all things omnipotent. My Lord, I ask You for the good of this day and the good of what follows it and I take refuge in You from the evil of this day and the evil of what follows it. My Lord, I take refuge in You from laziness and senility. My Lord, I take refuge in You from torment in the Fire and punishment in the grave.' },
+    { tr: 'Allâhümme ente rabbî lâ ilâhe illâ ente, halaktenî ve ene abdük, ve ene alâ ahdike ve va\'dike mestatâtü, eûzü bike min şerri mâ sanâtü, ebûu leke bini\'metike aleyye ve ebûu bizenbî fağfirlî fe innehû lâ yağfiruzdünûbe illâ ente.', en: 'O Allah, You are my Lord, there is none worthy of worship except You. You created me and I am your slave. I keep Your covenant, and my pledge to You so far as I am able. I seek refuge in You from the evil of what I have done. I admit to Your blessings upon me, and I admit to my misdeeds. Forgive me, for there is none who may forgive sins except You.' },
+    { tr: 'Allâhümme innî esbahtu üşhidük, ve üşhidü hamelete arşike, ve melâiketeke, ve cemî\'a halkık, enneke entallâhü lâ ilâhe illâ ente vahdeke lâ şerîke leke, ve enne Muhammeden abdüke ve rasûlük.', en: 'O Allah, I have reached the morning and call on You, the bearers of Your Throne, Your angels and all of Your creation to witness that You are Allah, none has the right to be worshipped except You, alone, without partner, and that Muhammad is Your slave and Your Messenger.' },
+    { tr: 'Allâhümme mâ esbaha bî min ni\'metin ev biehadin min halkıke, feminkü vahdeke lâ şerîke leke, felakel hamdü ve lekeşşükr.', en: 'O Allah, whatever blessing I or any of Your creation have risen upon is from You alone, without partner, so for You is all praise and unto You all thanks.' },
     { tr: 'Radîtü billâhi rabben ve bil\'islâmi dînen ve bi Muhammedin sallallâhü aleyhi ve selleme nebiyyen.', en: 'I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.' },
     { tr: 'Hasbiyallâhü lâ ilâhe illâ hüve aleyhi tevekkeltü ve hüve rabbül arşil azîm.', en: 'Allah is sufficient for me, there is none worthy of worship except Him, upon Him I rely and He is the Lord of the Mighty Throne.' },
-    { tr: 'Bismillâhillezî lâ yedurru mea\'smihî şey\'ün fil ardı ve lâ fissemâi ve hüvessemîul alîm.', en: 'In the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is the All-Seeing, All-Knowing.' },
+    { tr: 'Bismillâhillezî lâ yedurru mea\'smihî şey\'ün fil ardı ve lâ fissemâi ve hüvessemîul alîm.', en: 'In the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is the All-Hearing, All-Knowing.' },
     { tr: 'Allâhümme bike asbahnâ ve bike emseynâ ve bike nahyâ ve bike nemûtü ve ileyken nüşûr.', en: 'O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening, by Your leave we live and die and unto You is our resurrection.' },
     { tr: 'Allâhümme âfinî fî bedenî, Allâhümme âfinî fî sem\'î, Allâhümme âfinî fî basarî, lâ ilâhe illâ ente.', en: 'O Allah, grant my body health, O Allah, grant my hearing health, O Allah, grant my sight health. None has the right to be worshipped except You.' },
     { tr: 'Allâhümme innî eûzü bike minel küfri vel fakr, ve eûzü bike min azâbil kabr, lâ ilâhe illâ ente.', en: 'O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave. None has the right to be worshipped except You.' },
-    { tr: 'Allâhümme innî es\'elükel afve vel âfiyete fiddünyâ vel âhirah...', en: 'O Allah, I ask You for pardon and well-being in this life and the next. O Allah, I ask You for pardon and well-being in my religious and worldly affairs...' },
+    { tr: 'Allâhümme innî es\'elükel afve vel âfiyete fiddünyâ vel âhirah. Allâhümme innî es\'elükel afve vel âfiyete fî dînî ve dünyâye ve ehlî ve mâlî. Allâhümmestür avrâtî ve âmin rev\'âtî. Allâhümmahfaznî min beyni yedeyye ve min halfî ve an yemînî ve an şimâlî ve min fevkî, ve eûzü biazametike en uğtâle min tahtî.', en: 'O Allah, I ask You for pardon and well-being in this life and the next. O Allah, I ask You for pardon and well-being in my religious and worldly affairs, and my family and my wealth. O Allah, veil my weaknesses and set at ease my dismay. O Allah, preserve me from the front and from behind, and on my right and on my left, and from above, and I take refuge in Your greatness from receiving unexpected harm from below me.' },
     { tr: 'Yâ hayyu yâ kayyûmü birahmetike estağîs, aslih lî şe\'nî küllehu ve lâ tekilnî ilâ nefsî tarfete ayn.', en: 'O Ever Living, O Self-Sustaining and Supporter of all, by Your mercy I seek assistance, rectify for me all of my affairs and do not leave me to depend on myself, even for the blink of an eye.' },
     { tr: 'Sübhânallâhi ve bihamdihî adede halkıhî ve rıdâ nefsihî ve zinete arşihî ve midâde kelimâtih.', en: 'Glory is to Allah and praise is to Him, by the multitude of His creation, by His Pleasure, by the weight of His Throne, and by the extent of His Words.' },
     { tr: 'Allâhümme salli ve sellim ve bârik alâ nebiyyinâ Muhammed.', en: 'O Allah, send Your prayers, peace and blessings upon our Prophet Muhammad.' },
@@ -3533,20 +3534,20 @@ const azkarTrans = {
     { tr: 'Allâhümme innî es\'elüke ilmen nâfi\'an ve rızkan tayyiben ve amelen mütekabbelen.', en: 'O Allah, I ask You for beneficial knowledge, wholesome provision, and deeds that will be accepted.' },
   ],
   evening: [
-    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm...', en: 'I seek refuge in Allah from Satan the outcast. Allah, there is no deity except Him, the Ever-Living, the Sustainer...' },
-    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled ve lem yekün lehû küfüven ehad.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One...' },
-    { tr: 'Emseynâ ve emsel mülkü lillâhi velhamdülillâh, lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamd.', en: 'We have reached the evening and at this very time the sovereignty belongs to Allah. All praise is due to Allah...' },
-    { tr: 'Allâhümme ente rabbî lâ ilâhe illâ ente, halaktenî ve ene abdük, ve ene alâ ahdike ve va\'dike mestatâtü...', en: 'O Allah, You are my Lord, there is none worthy of worship except You. You created me and I am your slave...' },
-    { tr: 'Allâhümme innî emseytü üşhidük ve üşhidü hamelete arşike ve melâiketeke ve cemî\'a halkık...', en: 'O Allah, I have reached the evening and call on You, the bearers of Your Throne, Your angels and all of Your creation to witness...' },
-    { tr: 'Allâhümme mâ emse bî min ni\'metin ev biehadin min halkıke feminkü vahdeke lâ şerîke leke...', en: 'O Allah, whatever blessing I or any of Your creation have entered upon, is from You alone, without partner...' },
+    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm. Lâ te\'huzühû sinetün ve lâ nevm. Lehû mâ fissemâvâti ve mâ fil ard. Men zellezî yeşfe\'u indehû illâ bi iznih. Ya\'lemü mâ beyne eydîhim ve mâ halfehüm. Ve lâ yühîtûne bi şey\'in min ilmihî illâ bimâ şâe. Vesi\'a kürsiyyühüssemâvâti vel ard. Ve lâ yeûdühû hıfzuhumâ ve hüvel aliyyül azîm.', en: 'I seek refuge in Allah from Satan the outcast. Allah — there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.' },
+    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled, ve lem yekün lehû küfüven ehad. — Kul eûzü birabbil felak, min şerri mâ halak, ve min şerri ğâsikın izâ vekab, ve min şerrinneffâsâti fil ukad, ve min şerri hâsidin izâ hased. — Kul eûzü birabbin nâs, melikin nâs, ilâhin nâs, min şerril vesvâsil hannâs, ellezî yüvesvisü fî sudûrin nâs, minel cinneti ven nâs.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One, Allah the Eternal Refuge. He neither begets nor was born, nor is there to Him any equivalent. — Say: I seek refuge in the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies. — Say: I seek refuge in the Lord of mankind, the Sovereign of mankind, the God of mankind, from the evil of the retreating whisperer — who whispers in the breasts of mankind — from among jinn and mankind.' },
+    { tr: 'Emseynâ ve emsel mülkü lillâh, velhamdülillâh, lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamd ve hüve alâ külli şey\'in kadîr. Rabbi es\'elüke hayra mâ fî hâzihil leyleti ve hayra mâ ba\'dehâ, ve eûzü bike min şerri mâ fî hâzihil leyleti ve şerri mâ ba\'dehâ. Rabbi eûzü bike minel kesel ve sûil kiber. Rabbi eûzü bike min azâbin finnâri ve azâbin fil kabr.', en: 'We have reached the evening and at this very time unto Allah belongs all sovereignty, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without partner, to Him belongs all sovereignty and praise and He is over all things omnipotent. My Lord, I ask You for the good of this night and the good of what follows it, and I take refuge in You from the evil of this night and the evil of what follows it. My Lord, I take refuge in You from laziness and senility. My Lord, I take refuge in You from torment in the Fire and punishment in the grave.' },
+    { tr: 'Allâhümme ente rabbî lâ ilâhe illâ ente, halaktenî ve ene abdük, ve ene alâ ahdike ve va\'dike mestatâtü, eûzü bike min şerri mâ sanâtü, ebûu leke bini\'metike aleyye ve ebûu bizenbî fağfirlî fe innehû lâ yağfiruzdünûbe illâ ente.', en: 'O Allah, You are my Lord, there is none worthy of worship except You. You created me and I am your slave. I keep Your covenant, and my pledge to You so far as I am able. I seek refuge in You from the evil of what I have done. I admit to Your blessings upon me, and I admit to my misdeeds. Forgive me, for there is none who may forgive sins except You.' },
+    { tr: 'Allâhümme innî emseytü üşhidük, ve üşhidü hamelete arşike, ve melâiketeke, ve cemî\'a halkık, enneke entallâhü lâ ilâhe illâ ente vahdeke lâ şerîke leke, ve enne Muhammeden abdüke ve rasûlük.', en: 'O Allah, I have reached the evening and call on You, the bearers of Your Throne, Your angels and all of Your creation to witness that You are Allah, none has the right to be worshipped except You, alone, without partner, and that Muhammad is Your slave and Your Messenger.' },
+    { tr: 'Allâhümme mâ emse bî min ni\'metin ev biehadin min halkıke, feminkü vahdeke lâ şerîke leke, felakel hamdü ve lekeşşükr.', en: 'O Allah, whatever blessing I or any of Your creation have entered upon evening with is from You alone, without partner, so for You is all praise and unto You all thanks.' },
     { tr: 'Radîtü billâhi rabben ve bil\'islâmi dînen ve bi Muhammedin sallallâhü aleyhi ve selleme nebiyyen.', en: 'I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.' },
     { tr: 'Hasbiyallâhü lâ ilâhe illâ hüve aleyhi tevekkeltü ve hüve rabbül arşil azîm.', en: 'Allah is sufficient for me, there is none worthy of worship except Him, upon Him I rely and He is the Lord of the Mighty Throne.' },
-    { tr: 'Bismillâhillezî lâ yedurru mea\'smihî şey\'ün fil ardı ve lâ fissemâi ve hüvessemîul alîm.', en: 'In the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is the All-Seeing, All-Knowing.' },
+    { tr: 'Bismillâhillezî lâ yedurru mea\'smihî şey\'ün fil ardı ve lâ fissemâi ve hüvessemîul alîm.', en: 'In the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is the All-Hearing, All-Knowing.' },
     { tr: 'Allâhümme bike emseynâ ve bike asbahnâ ve bike nahyâ ve bike nemûtü ve ileykel masîr.', en: 'O Allah, by Your leave we have reached the evening and by Your leave we have reached the morning, by Your leave we live and die and unto You is our return.' },
     { tr: 'Allâhümme âfinî fî bedenî, Allâhümme âfinî fî sem\'î, Allâhümme âfinî fî basarî, lâ ilâhe illâ ente.', en: 'O Allah, grant my body health, O Allah, grant my hearing health, O Allah, grant my sight health. None has the right to be worshipped except You.' },
-    { tr: 'Allâhümme innî eûzü bike minel küfri vel fakr, ve eûzü bike min azâbil kabr, lâ ilâhe illâ ente.', en: 'O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave.' },
-    { tr: 'Allâhümme innî es\'elükel afve vel âfiyete fiddünyâ vel âhirah...', en: 'O Allah, I ask You for pardon and well-being in this life and the next...' },
-    { tr: 'Yâ hayyu yâ kayyûmü birahmetike estağîs, aslih lî şe\'nî küllehu ve lâ tekilnî ilâ nefsî tarfete ayn.', en: 'O Ever Living, O Self-Sustaining and Supporter of all, by Your mercy I seek assistance...' },
+    { tr: 'Allâhümme innî eûzü bike minel küfri vel fakr, ve eûzü bike min azâbil kabr, lâ ilâhe illâ ente.', en: 'O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave. None has the right to be worshipped except You.' },
+    { tr: 'Allâhümme innî es\'elükel afve vel âfiyete fiddünyâ vel âhirah. Allâhümme innî es\'elükel afve vel âfiyete fî dînî ve dünyâye ve ehlî ve mâlî. Allâhümmestür avrâtî ve âmin rev\'âtî. Allâhümmahfaznî min beyni yedeyye ve min halfî ve an yemînî ve an şimâlî ve min fevkî, ve eûzü biazametike en uğtâle min tahtî.', en: 'O Allah, I ask You for pardon and well-being in this life and the next. O Allah, I ask You for pardon and well-being in my religious and worldly affairs, and my family and my wealth. O Allah, veil my weaknesses and set at ease my dismay. O Allah, preserve me from the front and from behind, and on my right and on my left, and from above, and I take refuge in Your greatness from receiving unexpected harm from below me.' },
+    { tr: 'Yâ hayyu yâ kayyûmü birahmetike estağîs, aslih lî şe\'nî küllehu ve lâ tekilnî ilâ nefsî tarfete ayn.', en: 'O Ever Living, O Self-Sustaining and Supporter of all, by Your mercy I seek assistance, rectify for me all of my affairs and do not leave me to depend on myself, even for the blink of an eye.' },
     { tr: 'Sübhânallâhi ve bihamdihî adede halkıhî ve rıdâ nefsihî ve zinete arşihî ve midâde kelimâtih.', en: 'Glory is to Allah and praise is to Him, by the multitude of His creation, by His Pleasure, by the weight of His Throne, and by the extent of His Words.' },
     { tr: 'Allâhümme salli ve sellim ve bârik alâ nebiyyinâ Muhammed.', en: 'O Allah, send Your prayers, peace and blessings upon our Prophet Muhammad.' },
     { tr: 'Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehül mülkü ve lehül hamdü ve hüve alâ külli şey\'in kadîr.', en: 'None has the right to be worshipped except Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.' },
@@ -3556,14 +3557,14 @@ const azkarTrans = {
   night: [
     { tr: 'Bismikellâhümme emûtü ve ahyâ.', en: 'In Your name O Allah, I die and I live.' },
     { tr: 'Allâhümme kınî azâbeke yevme teb\'asü ibâdek.', en: 'O Allah, protect me from Your punishment on the day Your servants are resurrected.' },
-    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad... Kul eûzü birabbil felak... Kul eûzü birabbin nâs...', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One... Say: I seek refuge in the Lord of the daybreak... Say: I seek refuge in the Lord of mankind...' },
-    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm...', en: 'I seek refuge in Allah from Satan the outcast. Allah, there is no deity except Him, the Ever-Living, the Sustainer...' },
+    { tr: 'Bismillâhirrahmânirrahîm. Kul hüvallâhü ehad, Allâhüssamed, lem yelid ve lem yûled, ve lem yekün lehû küfüven ehad. — Kul eûzü birabbil felak, min şerri mâ halak, ve min şerri ğâsikın izâ vekab, ve min şerrinneffâsâti fil ukad, ve min şerri hâsidin izâ hased. — Kul eûzü birabbin nâs, melikin nâs, ilâhin nâs, min şerril vesvâsil hannâs, ellezî yüvesvisü fî sudûrin nâs, minel cinneti ven nâs.', en: 'In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, [Who is] One, Allah the Eternal Refuge. He neither begets nor was born, nor is there to Him any equivalent. — Say: I seek refuge in the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies. — Say: I seek refuge in the Lord of mankind, the Sovereign of mankind, the God of mankind, from the evil of the retreating whisperer — who whispers in the breasts of mankind — from among jinn and mankind.' },
+    { tr: 'Eûzü billâhi mineşşeytânirracîm. Allâhü lâ ilâhe illâ hüvel hayyül kayyûm. Lâ te\'huzühû sinetün ve lâ nevm. Lehû mâ fissemâvâti ve mâ fil ard. Men zellezî yeşfe\'u indehû illâ bi iznih. Ya\'lemü mâ beyne eydîhim ve mâ halfehüm. Ve lâ yühîtûne bi şey\'in min ilmihî illâ bimâ şâe. Vesi\'a kürsiyyühüssemâvâti vel ard. Ve lâ yeûdühû hıfzuhumâ ve hüvel aliyyül azîm.', en: 'I seek refuge in Allah from Satan the outcast. Allah — there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.' },
     { tr: 'Allâhümme eslemtü nefsî ileyke, ve fevvedtü emrî ileyke, ve veccehtü vechî ileyke, ve elce\'tü zahrî ileyke, rağbeten ve rahbeten ileyke, lâ melce\'e ve lâ mencâ minke illâ ileyke, âmentü bikitâbikel lezî enzelte ve nebiyyikel lezî erselte.', en: 'O Allah, I submit my soul unto You, and I entrust my affair unto You and I turn my face towards You, and I totally rely on You, in hope and fear of You. There is no refuge nor safe haven from You except with You. I believe in Your Book that You have revealed and in Your Prophet whom You have sent.' },
     { tr: 'Sübhâneke Allâhümme rabbî bike vada\'tü cenbî ve bike erfeuhu, fein emeskete nefsî fağfir lehâ, ve in erseltehâ fahfazhâ bimâ tahfezu bihî ibâdekessâlihîn.', en: 'Glory be to You O Allah, my Lord, I have placed my side down (to sleep) and with Your help I raise it. If You withhold my soul (cause me to die in my sleep), then have mercy on it. If You release my soul, then protect it with that which You protect Your righteous servants.' },
     { tr: 'Sübhânallâh.', en: 'Glory be to Allah.' },
     { tr: 'Elhamdülillâh.', en: 'All praise is due to Allah.' },
     { tr: 'Allâhü ekber.', en: 'Allah is the Greatest.' },
-    { tr: 'Allâhümme rabbe\'ssemâvâtisseb\'i ve rabbe\'l ardılazîme, rabbenâ ve rabbe külli şey\'in, fâlikal habbi vennevâ, münezzilet tevrati vel incîli vel kur\'ân...', en: 'O Allah, Lord of the seven heavens and Lord of the tremendous Throne, our Lord and Lord of all things, Splitter of the seed grain and the date stone, Revealer of the Torah, the Gospel and the Criterion...' },
+    { tr: 'Allâhümme rabbe\'ssemâvâtisseb\'i ve rabbe\'l ardılazîme, rabbenâ ve rabbe külli şey\'in, fâlikal habbi vennevâ, münezzilet tevrati vel incîli vel kur\'ân, eûzü bike min şerri külli şey\'in ente âhizün binâsıyetih, entel evvelü feleyse kableke şey\'ün, ve entel âhiru feleyse ba\'deke şey\'ün, ve entez zâhiru feleyse fevkake şey\'ün, ve entel bâtınu feleyse dûneke şey\'ün, ikdı anneddeyne ve ağninâ minel fakr.', en: 'O Allah, Lord of the seven heavens and Lord of the tremendous Throne, our Lord and Lord of all things, Splitter of the seed grain and the date stone, Revealer of the Torah, the Gospel and the Criterion, I seek refuge in You from the evil of all things You shall seize by the forelock. O Allah, You are the First and nothing is before You. You are the Last and nothing is after You. You are the Outward and nothing is above You. You are the Inward and nothing is beyond You. Pay off our debt for us and spare us from poverty.' },
   ],
 };
 
@@ -3586,33 +3587,58 @@ function switchAzkarTab(tab, btn) {
 }
 
 function renderAzkarList() {
+  // Guard: elements may not exist if dhikr tab is not yet visible
+  const progressFill = document.getElementById('azkar-progress-fill');
+  const progressLabel = document.getElementById('azkar-progress-label');
+  const list = document.getElementById('azkar-list');
+  const doneMsg = document.getElementById('azkar-done-msg');
+  if (!progressFill || !list || !doneMsg) return;
+
   const items = azkarData[curAzkarTab];
   const counts = getAzkarCounts(curAzkarTab);
   const total = items.length;
   const done = counts.filter((c, i) => c >= items[i].target).length;
+  const lang = window._lang || localStorage.getItem('ob-lang') || 'ar';
 
-  // Progress
-  document.getElementById('azkar-progress-fill').style.width = (total ? (done/total*100) : 0) + '%';
-  document.getElementById('azkar-progress-label').textContent = done + ' / ' + total;
+  // Labels per language
+  const onceLabels  = { ar: 'مرة واحدة', tr: '1 kez', en: 'Once' };
+  const timesLabels = { ar: n => `${n} مرات`, tr: n => `${n} kez`, en: n => `${n} times` };
+  const tapLabels   = { ar: 'اضغط للذكر', tr: 'Zikret', en: 'Tap to Recite' };
+  const doneLabels  = { ar: '✓ تمّ', tr: '✓ Tamam', en: '✓ Done' };
 
-  const list = document.getElementById('azkar-list');
-  const doneMsg = document.getElementById('azkar-done-msg');
+  // Progress bar
+  progressFill.style.width = (total ? (done / total * 100) : 0) + '%';
+  progressLabel.textContent = done + ' / ' + total;
 
   if (done === total && total > 0) {
     list.innerHTML = '';
+    const doneTitles = { ar: 'ما شاء الله!', tr: 'MaşaAllah!', en: 'MashaAllah!' };
+    const doneSubs = {
+      ar: 'أتممت أذكارك، جعلها الله في ميزان حسناتك',
+      tr: 'Zikirlerinizi tamamladınız. Allah kabul etsin!',
+      en: 'You completed all your dhikr. May Allah accept!'
+    };
+    const resetLabels = { ar: '↺ إعادة الأذكار', tr: '↺ Yeniden Başla', en: '↺ Start Again' };
+    const t = doneMsg.querySelector('.azkar-done-title');
+    const s = doneMsg.querySelector('.azkar-done-sub');
+    const r = doneMsg.querySelector('.azkar-reset-btn');
+    if (t) t.textContent = doneTitles[lang] || doneTitles.ar;
+    if (s) s.textContent = doneSubs[lang] || doneSubs.ar;
+    if (r) r.textContent = resetLabels[lang] || resetLabels.ar;
     doneMsg.style.display = '';
     return;
   }
   doneMsg.style.display = 'none';
 
-  const lang = window._lang || localStorage.getItem('ob-lang') || 'ar';
   list.innerHTML = items.map((item, i) => {
     const c = counts[i];
     const isDone = c >= item.target;
     const countLabel = item.target === 1
-      ? 'مرة واحدة'
-      : `${item.target} مرات`;
-    const btnLabel = isDone ? '✓ تمّ' : (item.target === 1 ? 'اضغط للذكر' : `${c} / ${item.target}`);
+      ? (onceLabels[lang] || onceLabels.ar)
+      : (timesLabels[lang] || timesLabels.ar)(item.target);
+    const btnLabel = isDone
+      ? (doneLabels[lang] || doneLabels.ar)
+      : (item.target === 1 ? (tapLabels[lang] || tapLabels.ar) : `${c} / ${item.target}`);
     // Okunuş bilgisi - sadece TR ve EN'de göster
     const transData = azkarTrans[curAzkarTab] && azkarTrans[curAzkarTab][i];
     let transBlock = '';
